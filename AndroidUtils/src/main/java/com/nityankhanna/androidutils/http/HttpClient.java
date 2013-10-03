@@ -44,17 +44,13 @@ public class HttpClient extends DefaultHttpClient {
 	 * @param url         The URL.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 * @throws URISyntaxException
 	 */
-	public HttpClient(String url, RequestType requestType, OnHttpResponseListener response) {
+	public HttpClient(String url, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
 		super();
-
-		try {
-			this.url = new URI(url);
-			this.requestType = requestType;
-			this.response = response;
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		this.url = new URI(url);
+		this.requestType = requestType;
+		this.response = response;
 	}
 
 	/**
@@ -64,18 +60,14 @@ public class HttpClient extends DefaultHttpClient {
 	 * @param params      The parameters for the request.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 * @throws URISyntaxException
 	 */
-	public HttpClient(String url, JSONObject params, RequestType requestType, OnHttpResponseListener response) {
+	public HttpClient(String url, JSONObject params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
 		super();
-
-		try {
-			this.url = new URI(url);
-			this.requestType = requestType;
-			this.params = params;
-			this.response = response;
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		this.url = new URI(url);
+		this.requestType = requestType;
+		this.params = params;
+		this.response = response;
 	}
 
 	/**
@@ -112,6 +104,14 @@ public class HttpClient extends DefaultHttpClient {
 				httpResponse = client.execute(post);
 
 				break;
+
+
+			case PUT:
+				break;
+
+			case DELETE:
+				break;
+
 
 			default:
 				break;

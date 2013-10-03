@@ -79,7 +79,7 @@ public class ConnectivityServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if GPS is enabled.
 	 */
-	public boolean isGPSEnabled(){
+	public boolean isGPSEnabled() {
 		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
@@ -89,7 +89,7 @@ public class ConnectivityServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if Network Provider is available.
 	 */
-	public boolean isNetworkProviderAvailable(){
+	public boolean isNetworkProviderAvailable() {
 		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
