@@ -112,7 +112,6 @@ public class HttpClient extends DefaultHttpClient {
 			case DELETE:
 				break;
 
-
 			default:
 				break;
 		}
