@@ -73,6 +73,22 @@ public class SecurityServiceManager {
 	}
 
 	/**
+	 * Returns the public key.
+	 * @return Returns the public key.
+	 */
+	public PublicKey getPublicKey() {
+		return publicKey;
+	}
+
+	/**
+	 * Returns the private key.
+	 * @return Returns the private key.
+	 */
+	public PrivateKey getPrivateKey() {
+		return privateKey;
+	}
+
+	/**
 	 * Sets the encryption listener.
 	 *
 	 * @param encryptionListener The encryption listener to set.

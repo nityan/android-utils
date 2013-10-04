@@ -1,5 +1,7 @@
 package com.nityankhanna.androidutils.http;
 
+import com.nityankhanna.androidutils.models.ErrorResponse;
+
 import org.json.JSONArray;
 
 /**
@@ -21,5 +23,5 @@ public interface OnHttpResponseListener {
 	/**
 	 * A delegate method to handle an error response.
 	 */
-	void onCompletedWithError();
+	void onCompletedWithError(ErrorResponse errorResponse);
 }

@@ -6,6 +6,8 @@ import android.util.Log;
 import com.nityankhanna.androidutils.defines.Constants;
 import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -116,14 +118,8 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 * Queues a worker item to be run on a background thread pool.
 	 *
 	 * @param runnable The runnable to run in the background.
-	 * @throws InvalidArgumentException
 	 */
-	public void queueWorkerItem(Runnable runnable) throws InvalidArgumentException {
-
-		if (runnable == null) {
-			throw new InvalidArgumentException("Parameter runnable cannot be null.");
-		}
-
+	public void queueWorkerItem(@NotNull Runnable runnable) {
 		service.submit(runnable);
 	}
 }

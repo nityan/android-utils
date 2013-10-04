@@ -1,7 +1,6 @@
 package com.nityankhanna.androidutils.gcm;
 
 import android.app.Activity;
-import android.support.v7.appcompat.R;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -16,12 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class GooglePushService {
 
-
 	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-	private Activity activity;
-
 	GoogleCloudMessaging gcm;
 	AtomicInteger messageId = new AtomicInteger();
+	private Activity activity;
 
 	public GooglePushService(Activity activity) {
 		this.activity = activity;
