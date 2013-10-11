@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.net;
+package com.nityankhanna.androidutils.system;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
@@ -18,30 +18,30 @@ import com.nityankhanna.androidutils.exceptions.ServiceUnavailableException;
  */
 
 /**
- * A ConnectivityService providing methods to determine certain service connectivity.
+ * A ServiceManager providing methods to determine certain service connectivity.
  */
-public class ConnectivityServiceManager extends ContextWrapper {
+public class ServiceManager extends ContextWrapper {
 
-	private static ConnectivityServiceManager sharedInstance;
+	private static ServiceManager sharedInstance;
 	private Context context;
 
-	private ConnectivityServiceManager(Context context) {
+	private ServiceManager(Context context) {
 		super(context);
 		this.context = context;
 	}
 
 	/**
-	 * Returns a shared instance of the ConnectivityServiceManager class.
+	 * Returns a shared instance of the ServiceManager class.
 	 *
 	 * @param context The application context.
-	 * @return Returns a shared instance of the ConnectivityServiceManager class.
+	 * @return Returns a shared instance of the ServiceManager class.
 	 */
-	public static ConnectivityServiceManager getInstance(Context context) {
+	public static ServiceManager getInstance(Context context) {
 
-		synchronized (ConnectivityServiceManager.class) {
+		synchronized (ServiceManager.class) {
 
 			if (sharedInstance == null) {
-				sharedInstance = new ConnectivityServiceManager(context);
+				sharedInstance = new ServiceManager(context);
 			}
 		}
 
