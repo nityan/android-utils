@@ -1,20 +1,23 @@
 package com.nityankhanna.androidutils.http;
 
+import android.util.Log;
+
 import com.nityankhanna.androidutils.async.ThreadPool;
+import com.nityankhanna.androidutils.defines.Constants;
 import com.nityankhanna.androidutils.enums.RequestType;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 import com.nityankhanna.androidutils.models.ErrorResponse;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,9 +27,11 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Nityan Khanna Khanna Khanna on 01/07/13.
+ * Created by Nityan Khanna on 01/07/13.
  */
 
 /**
@@ -35,15 +40,12 @@ import java.net.URISyntaxException;
 public class HttpClientService extends DefaultHttpClient {
 
 	private static ThreadPool threadPool = ThreadPool.getInstance();
-	private final String ACCEPT = "Accept";
-	private final String ACCEPT_VALUE = "application/json";
-	private final String CONTENT_TYPE = "Content-Type";
-	private final String CONTENT_TYPE_VALUE = "application/json;charset=UTF-8";
 	private final String UTF8 = "UTF-8";
 	private URI url;
 	private RequestType requestType;
 	private JSONObject params;
 	private OnHttpResponseListener response;
+	private List<Header> headers;
 
 	/**
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
@@ -58,6 +60,7 @@ public class HttpClientService extends DefaultHttpClient {
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.response = response;
+		headers = new ArrayList<Header>();
 	}
 
 	/**
@@ -75,61 +78,106 @@ public class HttpClientService extends DefaultHttpClient {
 		this.requestType = requestType;
 		this.params = params;
 		this.response = response;
+		headers = new ArrayList<Header>();
+	}
+
+	public void addHeader(@NotNull String key, @NotNull String value) {
+		headers.add(new BasicHeader(key, value));
 	}
 
 	/**
 	 * Executes an HTTP request.
-	 *
-	 * @throws IOException
-	 * @throws InvalidArgumentException
+	 * <p/>
+	 * This method is not run in the background and will need
+	 * to threaded properly if used.
 	 */
-	public void executeRequest() throws IOException, InvalidArgumentException {
+	public void executeRequest() {
+
+		HttpResponse httpResponse = null;
+
+		switch (requestType) {
+
+			case GET:
+				httpResponse = executeGetRequest();
+				break;
+
+			case POST:
+				httpResponse = executePostRequest();
+				break;
+
+			case PUT:
+				// TODO: add functionality for HTTP Put
+				Log.e(Constants.DEBUG, "Put requests have not been implemented yet.");
+				break;
+
+			case DELETE:
+				// TODO: add functionality for HTTP Delete
+				Log.e(Constants.DEBUG, "Delete requests have not been implemented yet.");
+				break;
+
+			default:
+				break;
+		}
+
+		parseResponse(httpResponse);
+	}
+
+	/**
+	 * Executes an HTTP request on a background thread.
+	 */
+	public void executeRequestAsync() {
 
 		threadPool.queueWorkerItem(new Runnable() {
 
 			@Override
 			public void run() {
-				HttpClient client = new DefaultHttpClient();
 				HttpResponse httpResponse = null;
 
 				switch (requestType) {
 
 					case GET:
-						httpResponse = executeGetRequest(client);
+						httpResponse = executeGetRequest();
 						break;
 
 					case POST:
-						httpResponse = executePostRequest(client);
+						httpResponse = executePostRequest();
 						break;
 
 					case PUT:
-						httpResponse = executePutRequest(client);
+						// TODO: add functionality for HTTP Put
+						Log.e(Constants.DEBUG, "Put requests have not been implemented yet.");
 						break;
 
 					case DELETE:
 						// TODO: add functionality for HTTP Delete
+						Log.e(Constants.DEBUG, "Delete requests have not been implemented yet.");
 						break;
 
 					default:
 						break;
 				}
 
+
 				parseResponse(httpResponse);
 			}
+
 		});
 	}
 
-	private HttpResponse executeGetRequest(HttpClient client) {
+	public void removeHeader(int index) {
+		headers.remove(index);
+	}
+
+	private HttpResponse executeGetRequest() {
 
 		HttpGet get = new HttpGet(url);
-		get.addHeader(ACCEPT, ACCEPT_VALUE);
-		get.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE);
+		get.setHeaders(headers.toArray(new Header[headers.size()]));
 
 		HttpResponse httpResponse = null;
 
 		try {
 
-			httpResponse = client.execute(get);
+			httpResponse = this.execute(get);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -137,17 +185,16 @@ public class HttpClientService extends DefaultHttpClient {
 		return httpResponse;
 	}
 
-	private HttpResponse executePostRequest(HttpClient client) {
+	private HttpResponse executePostRequest() {
 
 		HttpPost post = new HttpPost(url);
-		post.addHeader(ACCEPT, ACCEPT_VALUE);
-		post.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE);
+		post.setHeaders(headers.toArray(new Header[headers.size()]));
 
 		HttpResponse httpResponse = null;
 
 		try {
 			post.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = client.execute(post);
+			httpResponse = this.execute(post);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -159,17 +206,16 @@ public class HttpClientService extends DefaultHttpClient {
 		return httpResponse;
 	}
 
-	private HttpResponse executePutRequest(HttpClient client) {
+	private HttpResponse executePutRequest() {
 
 		HttpPut put = new HttpPut(url);
-		put.addHeader(ACCEPT, ACCEPT_VALUE);
-		put.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE);
+		put.setHeaders(headers.toArray(new Header[headers.size()]));
 
 		HttpResponse httpResponse = null;
 
 		try {
 			put.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = client.execute(put);
+			httpResponse = this.execute(put);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -202,25 +248,37 @@ public class HttpClientService extends DefaultHttpClient {
 				ErrorResponse error = new ErrorResponse();
 
 				error.setMessage(statusCode + " " + reasonPhrase);
-				response.onCompletedWithError(error);
+				response.onServerError(error);
 			} else if (statusCode >= 400) {
-				ErrorResponse error = new ErrorResponse();
-				JSONObject content = new JSONObject(builder.toString());
 
-				error.setMessage(reasonPhrase);
-				error.setContent(content);
-				response.onCompletedWithError(error);
 			} else {
-				JSONArray array;
-				JSONObject object = new JSONObject(builder.toString());
 
-				array = new JSONArray();
-				array.put(object);
+				HttpEntity entity = httpResponse.getEntity();
+
+				switch (requestType) {
+
+					case GET:
+						response.onGetCompleted(entity);
+						break;
+
+					case POST:
+						response.onPostCompleted(entity);
+						break;
+
+					case PUT:
+						response.onPutCompleted(entity);
+						break;
+
+					case DELETE:
+						response.onDeleteCompleted(entity);
+						break;
+
+					default:
+						break;
+				}
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {
 			try {

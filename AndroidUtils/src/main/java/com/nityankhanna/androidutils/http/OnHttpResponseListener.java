@@ -2,7 +2,7 @@ package com.nityankhanna.androidutils.http;
 
 import com.nityankhanna.androidutils.models.ErrorResponse;
 
-import org.json.JSONArray;
+import org.apache.http.HttpEntity;
 
 /**
  * Created by Nityan Khanna on 01/07/13.
@@ -14,14 +14,42 @@ import org.json.JSONArray;
 public interface OnHttpResponseListener {
 
 	/**
-	 * A delegate method to handle a JSONArray response.
+	 * A delegate method called when a get request is completed.
 	 *
-	 * @param response The JSONArray response to be handled.
+	 * @param response The response.
 	 */
-	void onCompleted(JSONArray response);
+	void onGetCompleted(HttpEntity response);
 
 	/**
-	 * A delegate method to handle an error response.
+	 * A delegate method called when a post request is completed.
+	 *
+	 * @param response The response.
 	 */
-	void onCompletedWithError(ErrorResponse errorResponse);
+	void onPostCompleted(HttpEntity response);
+
+	/**
+	 * A delegate method called when a put request is completed.
+	 *
+	 * @param response The response.
+	 */
+	void onPutCompleted(HttpEntity response);
+
+	/**
+	 * A delegate method called when a delete request is completed.
+	 *
+	 * @param response The response.
+	 */
+	void onDeleteCompleted(HttpEntity response);
+
+	/**
+	 * A delegate method called when an error occurs due to the client.
+	 */
+	void onClientError();
+
+	/**
+	 * A delegate method called when an error occurs on the server.
+	 *
+	 * @param response The error response.
+	 */
+	void onServerError(ErrorResponse response);
 }

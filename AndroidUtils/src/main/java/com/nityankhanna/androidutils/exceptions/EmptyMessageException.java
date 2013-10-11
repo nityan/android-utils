@@ -15,7 +15,7 @@ public class EmptyMessageException extends Exception {
 	private String message;
 
 	/**
-	 * Initialzes a new EmptyMessageException with a null message.
+	 * Initializes a new EmptyMessageException with a null message.
 	 */
 	public EmptyMessageException() {
 		super();

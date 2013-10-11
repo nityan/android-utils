@@ -34,6 +34,4 @@ public class Toast {
 	private static void displayToast(Context context, String text, int duration) {
 		android.widget.Toast.makeText(context, text, duration).show();
 	}
-
-
 }

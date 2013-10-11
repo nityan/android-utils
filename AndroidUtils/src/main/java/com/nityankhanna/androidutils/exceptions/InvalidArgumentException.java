@@ -15,7 +15,7 @@ public class InvalidArgumentException extends Exception {
 	private String message;
 
 	/**
-	 * Initialzes a new InvalidArgumentException with a null message.
+	 * Initializes a new InvalidArgumentException with a null message.
 	 */
 	public InvalidArgumentException() {
 		super();
