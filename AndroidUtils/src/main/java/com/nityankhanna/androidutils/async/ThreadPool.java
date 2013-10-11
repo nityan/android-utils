@@ -1,20 +1,16 @@
 package com.nityankhanna.androidutils.async;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 import com.nityankhanna.androidutils.defines.Constants;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -121,5 +117,19 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 */
 	public void queueWorkerItem(@NotNull Runnable runnable) {
 		service.submit(runnable);
+	}
+
+	/**
+	 * Runs an item on the UI thread.
+	 *
+	 * @param runnable The runnable to run on the UI thread.
+	 */
+	public void runOnUiThread(@NotNull Runnable runnable) {
+
+		Handler handler = new Handler(Looper.getMainLooper());
+
+		if (isCurrentThreadMain()) {
+			handler.post(runnable);
+		}
 	}
 }

@@ -2,34 +2,25 @@ package com.nityankhanna.androidutils;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-import com.nityankhanna.androidutils.async.ThreadPool;
-import com.nityankhanna.androidutils.defines.Constants;
 import com.nityankhanna.androidutils.enums.RequestType;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 import com.nityankhanna.androidutils.http.HttpClientService;
 import com.nityankhanna.androidutils.http.OnHttpResponseListener;
 import com.nityankhanna.androidutils.models.ErrorResponse;
 
-import org.json.JSONArray;
+import org.apache.http.HttpEntity;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class MainActivity extends Activity implements View.OnClickListener, OnHttpResponseListener {
-
-	private static ThreadPool threadPool;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		threadPool = ThreadPool.getInstance();
 
 		Button button = (Button) findViewById(R.id.button_execute_request);
 		button.setOnClickListener(this);
@@ -52,13 +43,9 @@ public class MainActivity extends Activity implements View.OnClickListener, OnHt
 				try {
 
 					HttpClientService clientService = new HttpClientService("https://thefeed.azurewebsites.net/api/facebook/friends?accessToken=", RequestType.GET, this);
-					clientService.executeRequest();
+					clientService.executeRequestAsync();
 
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				} catch (InvalidArgumentException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
@@ -71,13 +58,32 @@ public class MainActivity extends Activity implements View.OnClickListener, OnHt
 	}
 
 	@Override
-	public void onCompleted(JSONArray response) {
+	public void onGetCompleted(HttpEntity response) {
 
 	}
 
 	@Override
-	public void onCompletedWithError(ErrorResponse errorResponse) {
-		Log.d(Constants.DEBUG, errorResponse.getMessage());
-		Log.d(Constants.DEBUG, String.valueOf(errorResponse.getContent()));
+	public void onPostCompleted(HttpEntity response) {
+
+	}
+
+	@Override
+	public void onPutCompleted(HttpEntity response) {
+
+	}
+
+	@Override
+	public void onDeleteCompleted(HttpEntity response) {
+
+	}
+
+	@Override
+	public void onClientError() {
+
+	}
+
+	@Override
+	public void onServerError(ErrorResponse response) {
+
 	}
 }

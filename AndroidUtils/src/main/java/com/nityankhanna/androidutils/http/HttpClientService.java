@@ -11,6 +11,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -18,7 +19,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * A utility class to execute and handle HTTP requests and responses.
  */
-public class HttpClientService extends DefaultHttpClient {
+public class HttpClientService {
 
 	private static ThreadPool threadPool = ThreadPool.getInstance();
 	private final String UTF8 = "UTF-8";
@@ -81,6 +81,12 @@ public class HttpClientService extends DefaultHttpClient {
 		headers = new ArrayList<Header>();
 	}
 
+	/**
+	 * Adds an HTTP Header to the request.
+	 *
+	 * @param key   The header key.
+	 * @param value The header value.
+	 */
 	public void addHeader(@NotNull String key, @NotNull String value) {
 		headers.add(new BasicHeader(key, value));
 	}
@@ -89,20 +95,21 @@ public class HttpClientService extends DefaultHttpClient {
 	 * Executes an HTTP request.
 	 * <p/>
 	 * This method is not run in the background and will need
-	 * to threaded properly if used.
+	 * to threaded properly.
 	 */
 	public void executeRequest() {
 
+		HttpClient client = new DefaultHttpClient();
 		HttpResponse httpResponse = null;
 
 		switch (requestType) {
 
 			case GET:
-				httpResponse = executeGetRequest();
+				httpResponse = executeGetRequest(client);
 				break;
 
 			case POST:
-				httpResponse = executePostRequest();
+				httpResponse = executePostRequest(client);
 				break;
 
 			case PUT:
@@ -131,16 +138,17 @@ public class HttpClientService extends DefaultHttpClient {
 
 			@Override
 			public void run() {
+				HttpClient client = new DefaultHttpClient();
 				HttpResponse httpResponse = null;
 
 				switch (requestType) {
 
 					case GET:
-						httpResponse = executeGetRequest();
+						httpResponse = executeGetRequest(client);
 						break;
 
 					case POST:
-						httpResponse = executePostRequest();
+						httpResponse = executePostRequest(client);
 						break;
 
 					case PUT:
@@ -164,11 +172,16 @@ public class HttpClientService extends DefaultHttpClient {
 		});
 	}
 
+	/**
+	 * Removes an Http Header.
+	 *
+	 * @param index The index of the header to remove.
+	 */
 	public void removeHeader(int index) {
 		headers.remove(index);
 	}
 
-	private HttpResponse executeGetRequest() {
+	private HttpResponse executeGetRequest(HttpClient client) {
 
 		HttpGet get = new HttpGet(url);
 		get.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -177,7 +190,7 @@ public class HttpClientService extends DefaultHttpClient {
 
 		try {
 
-			httpResponse = this.execute(get);
+			httpResponse = client.execute(get);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -185,7 +198,7 @@ public class HttpClientService extends DefaultHttpClient {
 		return httpResponse;
 	}
 
-	private HttpResponse executePostRequest() {
+	private HttpResponse executePostRequest(HttpClient client) {
 
 		HttpPost post = new HttpPost(url);
 		post.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -194,7 +207,7 @@ public class HttpClientService extends DefaultHttpClient {
 
 		try {
 			post.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = this.execute(post);
+			httpResponse = client.execute(post);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -206,7 +219,7 @@ public class HttpClientService extends DefaultHttpClient {
 		return httpResponse;
 	}
 
-	private HttpResponse executePutRequest() {
+	private HttpResponse executePutRequest(HttpClient client) {
 
 		HttpPut put = new HttpPut(url);
 		put.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -215,7 +228,7 @@ public class HttpClientService extends DefaultHttpClient {
 
 		try {
 			put.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = this.execute(put);
+			httpResponse = client.execute(put);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
