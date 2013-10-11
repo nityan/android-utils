@@ -5,6 +5,7 @@ import android.util.Log;
 import com.nityankhanna.androidutils.async.ThreadPool;
 import com.nityankhanna.androidutils.defines.Constants;
 import com.nityankhanna.androidutils.enums.RequestType;
+import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 import com.nityankhanna.androidutils.models.ErrorResponse;
 
 import org.apache.http.Header;
@@ -17,7 +18,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -84,11 +84,15 @@ public class HttpClientService {
 	/**
 	 * Adds an HTTP Header to the request.
 	 *
-	 * @param key   The header key.
-	 * @param value The header value.
+	 * @param header The HTTP header to add to the collection.
 	 */
-	public void addHeader(@NotNull String key, @NotNull String value) {
-		headers.add(new BasicHeader(key, value));
+	public void addHeader(HttpHeader header) throws InvalidArgumentException {
+
+		if (header == null) {
+			throw new InvalidArgumentException("The header object cannot be null");
+		}
+
+		headers.add(header);
 	}
 
 	/**
@@ -165,7 +169,6 @@ public class HttpClientService {
 						break;
 				}
 
-
 				parseResponse(httpResponse);
 			}
 
@@ -173,7 +176,24 @@ public class HttpClientService {
 	}
 
 	/**
-	 * Removes an Http Header.
+	 * Returns a list of HTTP Headers.
+	 *
+	 * @return Returns a list of HTTP Headers.
+	 */
+	public List<Header> getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * Removes all of the current HTTP headers.
+	 */
+	public void removeAllHeaders() {
+		headers = null;
+		headers = new ArrayList<Header>();
+	}
+
+	/**
+	 * Removes an HTTP Header.
 	 *
 	 * @param index The index of the header to remove.
 	 */
@@ -263,7 +283,10 @@ public class HttpClientService {
 				error.setMessage(statusCode + " " + reasonPhrase);
 				response.onServerError(error);
 			} else if (statusCode >= 400) {
+				ErrorResponse error = new ErrorResponse();
 
+				error.setMessage(statusCode + " " + reasonPhrase);
+				response.onClientError(error);
 			} else {
 
 				HttpEntity entity = httpResponse.getEntity();

@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnHt
 	}
 
 	@Override
-	public void onClientError() {
+	public void onClientError(ErrorResponse response) {
 
 	}
 

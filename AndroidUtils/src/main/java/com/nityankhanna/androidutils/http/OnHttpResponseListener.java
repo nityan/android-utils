@@ -43,8 +43,10 @@ public interface OnHttpResponseListener {
 
 	/**
 	 * A delegate method called when an error occurs due to the client.
+	 *
+	 * @param response The error response.
 	 */
-	void onClientError();
+	void onClientError(ErrorResponse response);
 
 	/**
 	 * A delegate method called when an error occurs on the server.

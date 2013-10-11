@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.models;
 
-import org.json.JSONObject;
-
 /**
  * Created by Nityan Khanna on 04/10/13.
  */
@@ -12,7 +10,6 @@ import org.json.JSONObject;
 public class ErrorResponse {
 
 	private String message;
-	private JSONObject content;
 
 	public ErrorResponse() {
 	}
@@ -23,13 +20,5 @@ public class ErrorResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public JSONObject getContent() {
-		return content;
-	}
-
-	public void setContent(JSONObject content) {
-		this.content = content;
 	}
 }
