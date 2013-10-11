@@ -74,6 +74,7 @@ public class SecurityServiceManager {
 
 	/**
 	 * Returns the public key.
+	 *
 	 * @return Returns the public key.
 	 */
 	public PublicKey getPublicKey() {
@@ -82,6 +83,7 @@ public class SecurityServiceManager {
 
 	/**
 	 * Returns the private key.
+	 *
 	 * @return Returns the private key.
 	 */
 	public PrivateKey getPrivateKey() {
