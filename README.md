@@ -41,9 +41,21 @@ Threading
 Http Services
 
     HttpClientService clientService = new HttpClientService("http://example.com", RequestType.GET, this);
+    clientService.addHeader(new HttpHeader("Content-Type", "application/json;charset=UTF-8"));
     clientService.executeRequestAsync();
 
 
+System Services
+
+    ServiceManager serviceManager = ServiceManager.getInstance(getApplicationContext());
+    
+    if (serviceManager.isBluetoothAvailable()) {
+	    Log.d("DEBUG", "Bluetooth is available");
+    }
+    
+    if (serviceManager.isNetworkAvailable()) {
+	    Log.d("DEBUG", "Network is available");
+    }
 
 
 
