@@ -6,13 +6,13 @@ A collection of utility classes for the Android Platform.
 How to use
 =============
 
-Method One: The easy way
+Method One
 =============
 
 Download the JAR file, and add it as a library to your project.
 
 
-Method Two:
+Method Two
 =============
 
 1) Download and extract the project.
