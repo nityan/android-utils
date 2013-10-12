@@ -82,12 +82,30 @@ public class SecurityServiceManager {
 	}
 
 	/**
+	 * Sets the public key.
+	 *
+	 * @param publicKey The public key.
+	 */
+	public void setPublicKey(PublicKey publicKey) {
+		this.publicKey = publicKey;
+	}
+
+	/**
 	 * Returns the private key.
 	 *
 	 * @return Returns the private key.
 	 */
 	public PrivateKey getPrivateKey() {
 		return privateKey;
+	}
+
+	/**
+	 * Sets the private key.
+	 *
+	 * @param privateKey The private key.
+	 */
+	public void setPrivateKey(PrivateKey privateKey) {
+		this.privateKey = privateKey;
 	}
 
 	/**
