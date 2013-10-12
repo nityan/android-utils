@@ -2,8 +2,5 @@
 <resources>
 
     <string name="app_name">AndroidUtilsProject</string>
-    <string name="title_activity_main">Main Activity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_button">Execute Request</string>
 
 </resources>
