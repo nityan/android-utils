@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.models;
+package com.nityankhanna.androidutils.http;
 
 /**
  * Created by Nityan Khanna on 04/10/13.

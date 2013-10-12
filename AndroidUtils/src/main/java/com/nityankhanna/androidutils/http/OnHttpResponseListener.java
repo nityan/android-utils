@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.http;
 
-import com.nityankhanna.androidutils.models.ErrorResponse;
-
 import org.apache.http.HttpEntity;
 
 /**

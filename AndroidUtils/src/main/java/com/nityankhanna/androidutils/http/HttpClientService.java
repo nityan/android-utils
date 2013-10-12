@@ -6,7 +6,6 @@ import com.nityankhanna.androidutils.async.ThreadPool;
 import com.nityankhanna.androidutils.defines.Constants;
 import com.nityankhanna.androidutils.enums.RequestType;
 import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
-import com.nityankhanna.androidutils.models.ErrorResponse;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
