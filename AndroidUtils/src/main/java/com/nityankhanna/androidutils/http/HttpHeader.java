@@ -12,6 +12,14 @@ public class HttpHeader implements Header {
 	private String name;
 	private String value;
 
+	public HttpHeader() {
+	}
+
+	public HttpHeader(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
+
 	@Override
 	public String getName() {
 		return name;
