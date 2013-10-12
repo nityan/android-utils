@@ -56,6 +56,12 @@ System Services
     if (serviceManager.isNetworkAvailable()) {
 	    Log.d("DEBUG", "Network is available");
     }
+    
+Shared Preferences
 
-
+    SharedPreferences sharedPreferences = SharedPreferences.getInstance(getApplicationContext());
+    
+    sharedPreferences.setStringForKey("I'm the key", "I'm the value");
+    
+    String data = sharedPreferences.getStringForKey("I'm the key");
 
