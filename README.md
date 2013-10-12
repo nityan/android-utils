@@ -22,5 +22,28 @@ Method Two
 3) Import the project following the Android Studio import wizard.
 
 
+Examples
+=============
+
+Threading
+
+    ThreadPool threadPool = ThreadPool.getInstance();
+
+		threadPool.queueWorkerItem(new Runnable() {
+
+			@Override
+			public void run() {
+				Log.d("DEBUG", "I am running in a background thread");
+			}
+    });
+    
+    
+Http Services
+
+    HttpClientService clientService = new HttpClientService("http://example.com", RequestType.GET, this);
+    clientService.executeRequestAsync();
+
+
+
 
 
