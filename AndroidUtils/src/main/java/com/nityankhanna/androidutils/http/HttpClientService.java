@@ -85,7 +85,7 @@ public class HttpClientService {
 	 *
 	 * @param header The HTTP header to add to the collection.
 	 */
-	public void addHeader(HttpHeader header) throws InvalidArgumentException {
+	public void addHeader(HttpHeader header) {
 
 		if (header == null) {
 			throw new InvalidArgumentException("The header object cannot be null");

@@ -7,7 +7,7 @@ package com.nityankhanna.androidutils.exceptions;
 /**
  * An exception which is thrown when an unexpected value is input.
  */
-public class InvalidArgumentException extends Exception {
+public class InvalidArgumentException extends RuntimeException {
 
 	/**
 	 * The message for the exception.

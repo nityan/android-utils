@@ -7,7 +7,7 @@ package com.nityankhanna.androidutils.exceptions;
 /**
  * An exception which is thrown when a class, constructor, or method is being accessed which has not been implemented.
  */
-public class NotImplementedException extends Exception {
+public class NotImplementedException extends RuntimeException {
 
 	/**
 	 * THe message for the exception.

@@ -7,7 +7,7 @@ package com.nityankhanna.androidutils.exceptions;
 /**
  * An exception which is thrown when a required value has not been set.
  */
-public class ValueNotSetException extends Exception {
+public class ValueNotSetException extends RuntimeException {
 
 	/**
 	 * The message for the exception.
