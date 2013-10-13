@@ -11,7 +11,7 @@ import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.provider.Settings;
 
-import com.nityankhanna.androidutils.exceptions.ServiceUnavailableException;
+import com.nityankhanna.androidutils.ServiceUnavailableException;
 
 /**
  * Created by Nityan Khanna on 05/07/13.

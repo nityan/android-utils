@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.defines;
+package com.nityankhanna.androidutils;
 
 /**
  * Created by Tyler Urquhart on 03/05/13.

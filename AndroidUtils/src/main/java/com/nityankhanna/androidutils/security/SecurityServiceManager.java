@@ -3,9 +3,9 @@ package com.nityankhanna.androidutils.security;
 import android.util.Base64;
 import android.util.Log;
 
-import com.nityankhanna.androidutils.defines.Constants;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
-import com.nityankhanna.androidutils.exceptions.ValueNotSetException;
+import com.nityankhanna.androidutils.Constants;
+import com.nityankhanna.androidutils.InvalidArgumentException;
+import com.nityankhanna.androidutils.ValueNotSetException;
 
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -13,6 +13,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.HashMap;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -28,14 +29,14 @@ import javax.crypto.NoSuchPaddingException;
  */
 public class SecurityServiceManager {
 
-	private static SecurityServiceManager sharedInstance;
 	private Cipher cipher;
 	private PublicKey publicKey;
 	private PrivateKey privateKey;
 	private OnEncryptionListener encryptionListener;
 	private OnEncodingListener encodingListener;
+	private KeyPair keyPair;
 
-	private SecurityServiceManager() {
+	public SecurityServiceManager() {
 
 		try {
 
@@ -43,33 +44,13 @@ public class SecurityServiceManager {
 
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 			keyGen.initialize(2048);
-			KeyPair keyPair = keyGen.genKeyPair();
-
-			publicKey = keyPair.getPublic();
-			privateKey = keyPair.getPrivate();
+			this.keyPair = keyGen.genKeyPair();
 
 		} catch (NoSuchAlgorithmException e) {
 			Log.d(Constants.DEBUG, e.getMessage());
 		} catch (NoSuchPaddingException e) {
 			Log.d(Constants.DEBUG, e.getMessage());
 		}
-	}
-
-	/**
-	 * Returns a shared instance of the SecurityServiceManager class.
-	 *
-	 * @return Shared instance of the SecurityServiceManager class.
-	 */
-	public static SecurityServiceManager getInstance() {
-
-		synchronized (SecurityServiceManager.class) {
-
-			if (sharedInstance == null) {
-				sharedInstance = new SecurityServiceManager();
-			}
-		}
-
-		return sharedInstance;
 	}
 
 	/**
@@ -127,6 +108,22 @@ public class SecurityServiceManager {
 	}
 
 	/**
+	 * Generate a Public-Private key pair.
+	 *
+	 * @return Returns a HashMap containing the public and private key.
+	 */
+	public HashMap<PublicKey, PrivateKey> generateKeyPair() {
+		HashMap<PublicKey, PrivateKey> map = new HashMap<PublicKey, PrivateKey>();
+
+		publicKey = keyPair.getPublic();
+		privateKey = keyPair.getPrivate();
+
+		map.put(publicKey, privateKey);
+
+		return map;
+	}
+
+	/**
 	 * Encodes a byte array using Base64.
 	 *
 	 * @param data The string to be encoded.
@@ -160,13 +157,11 @@ public class SecurityServiceManager {
 	 * Encrypts data.
 	 *
 	 * @param dataToEncrypt The data to encrypt.
-	 * @throws InvalidArgumentException
 	 * @throws InvalidKeyException
 	 * @throws BadPaddingException
 	 * @throws IllegalBlockSizeException
-	 * @throws ValueNotSetException
 	 */
-	public void encryptData(byte[] dataToEncrypt) throws InvalidArgumentException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, ValueNotSetException {
+	public void encryptData(byte[] dataToEncrypt) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
 		byte[] encryptedData;
 
@@ -188,13 +183,11 @@ public class SecurityServiceManager {
 	 * Decrypts data.
 	 *
 	 * @param encryptedData The encrypted data to decrypt.
-	 * @throws InvalidArgumentException
 	 * @throws InvalidKeyException
-	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
-	 * @throws ValueNotSetException
+	 * @throws IllegalBlockSizeException
 	 */
-	public void decryptData(byte[] encryptedData) throws InvalidArgumentException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, ValueNotSetException {
+	public void decryptData(byte[] encryptedData) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
 		byte[] decryptedData;
 

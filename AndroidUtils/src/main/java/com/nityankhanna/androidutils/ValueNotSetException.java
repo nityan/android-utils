@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.exceptions;
+package com.nityankhanna.androidutils;
 
 /**
  * Created by Nityan Khanna on 01/07/13.

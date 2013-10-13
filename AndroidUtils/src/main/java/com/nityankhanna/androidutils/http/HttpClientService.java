@@ -2,16 +2,16 @@ package com.nityankhanna.androidutils.http;
 
 import android.util.Log;
 
+import com.nityankhanna.androidutils.Constants;
+import com.nityankhanna.androidutils.InvalidArgumentException;
 import com.nityankhanna.androidutils.async.ThreadPool;
-import com.nityankhanna.androidutils.defines.Constants;
-import com.nityankhanna.androidutils.enums.RequestType;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -198,6 +198,22 @@ public class HttpClientService {
 	 */
 	public void removeHeader(int index) {
 		headers.remove(index);
+	}
+
+	private HttpResponse executeDeleteRequest(HttpClient client) {
+		HttpDelete delete = new HttpDelete(url);
+		delete.setHeaders(headers.toArray(new Header[headers.size()]));
+
+		HttpResponse httpResponse = null;
+
+		try {
+
+			httpResponse = client.execute(delete);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return httpResponse;
 	}
 
 	private HttpResponse executeGetRequest(HttpClient client) {

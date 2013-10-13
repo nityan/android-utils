@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.nityankhanna.androidutils.defines.Constants;
+import com.nityankhanna.androidutils.Constants;
 
 import org.jetbrains.annotations.NotNull;
 

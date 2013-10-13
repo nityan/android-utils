@@ -1,10 +1,10 @@
 package com.nityankhanna.androidutils.system;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
-import com.nityankhanna.androidutils.defines.Constants;
-import com.nityankhanna.androidutils.enums.FileMode;
+import com.nityankhanna.androidutils.Constants;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -56,18 +56,16 @@ public class FileManager {
 	 * @param filename The The name of the file to write to.
 	 * @param mode     The mode in which to write the file.
 	 */
-	public static void writeObjectToFile(Context context, Object object, String filename, FileMode mode) {
+	public static void writeObjectToFile(Context context, Object object, String filename, FileMode mode) throws IOException {
 
 		ObjectOutputStream objectOut = null;
 		try {
 
-			FileOutputStream fileOut = context.openFileOutput("accounts", mode.getValue());
+			FileOutputStream fileOut = context.openFileOutput(filename, mode.getValue());
 			objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(object);
 			fileOut.getFD().sync();
 
-		} catch (IOException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				objectOut.close();
@@ -80,17 +78,13 @@ public class FileManager {
 	}
 
 	/**
-	 * http://stackoverflow.com/questions/5816695/android-sharedpreferences-with-serializable-object
-	 */
-
-	/**
 	 * * Reads an Object from a file.
 	 *
 	 * @param context  The application context.
 	 * @param filename The name of the file to read from.
 	 * @return Returns the object from the file.
 	 */
-	public static Object readObjectFromFile(Context context, String filename) {
+	public static Object readObjectFromFile(Context context, String filename) throws IOException {
 
 		ObjectInputStream objectIn = null;
 		Object object = null;
@@ -101,8 +95,6 @@ public class FileManager {
 
 			object = objectIn.readObject();
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -119,4 +111,40 @@ public class FileManager {
 
 		return object;
 	}
+
+	public static boolean canWriteToExternalStorage() {
+
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			return false;
+		} else {
+			return false;
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

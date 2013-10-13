@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.enums;
+package com.nityankhanna.androidutils.system;
 
 import android.annotation.TargetApi;
 import android.content.Context;
