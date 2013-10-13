@@ -49,49 +49,30 @@ public class ServiceManager extends ContextWrapper {
 	}
 
 	/**
-	 * Determines if there is internet connectivity.
+	 * Determines if airplane mode is enabled on the current device.
 	 *
-	 * @return Returns true if there is internet connectivity.
+	 * @return Returns true if airplane mode is enabled.
 	 */
-	public boolean isNetworkAvailable() {
-
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
-
-		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
+	public boolean isAirplaneModeOn() {
+		return Settings.System.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
 	}
 
 	/**
-	 * Determines if the user is connected to wifi.
+	 * Determines if Android Beam is available on the current device.
 	 *
-	 * @return Returns true if the user is connected to wifi.
+	 * @return Returns true if Android Beam is available.
+	 * @throws ServiceUnavailableException
 	 */
-	public boolean isOnWiFi() {
-		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public boolean isAndroidBeamAvailable() throws ServiceUnavailableException {
 
-		return wifi.isConnected();
-	}
+		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
 
-	/**
-	 * Determines if GPS is enabled.
-	 *
-	 * @return Returns true if GPS is enabled.
-	 */
-	public boolean isGPSEnabled() {
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	}
-
-	/**
-	 * Determines if Network Provider is available.
-	 *
-	 * @return Returns true if Network Provider is available.
-	 */
-	public boolean isNetworkProviderAvailable() {
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (nfcAdapter == null) {
+			throw new ServiceUnavailableException("The device does not support NFC.");
+		} else {
+			return nfcAdapter.isNdefPushEnabled();
+		}
 	}
 
 	/**
@@ -112,12 +93,37 @@ public class ServiceManager extends ContextWrapper {
 	}
 
 	/**
-	 * Determines if airplane mode is enabled on the current device.
+	 * Determines if GPS is enabled.
 	 *
-	 * @return Returns true if airplane mode is enabled.
+	 * @return Returns true if GPS is enabled.
 	 */
-	public boolean isAirplaneModeOn() {
-		return Settings.System.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+	public boolean isGPSEnabled() {
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	}
+
+	/**
+	 * Determines if there is internet connectivity.
+	 *
+	 * @return Returns true if there is internet connectivity.
+	 */
+	public boolean isNetworkAvailable() {
+
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
+	}
+
+	/**
+	 * Determines if Network Provider is available.
+	 *
+	 * @return Returns true if Network Provider is available.
+	 */
+	public boolean isNetworkProviderAvailable() {
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
 	/**
@@ -138,20 +144,16 @@ public class ServiceManager extends ContextWrapper {
 	}
 
 	/**
-	 * Determines if Android Beam is available on the current device.
+	 * Determines if the user is connected to wifi.
 	 *
-	 * @return Returns true if Android Beam is available.
-	 * @throws ServiceUnavailableException
+	 * @return Returns true if the user is connected to wifi.
 	 */
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	public boolean isAndroidBeamAvailable() throws ServiceUnavailableException {
+	public boolean isOnWiFi() {
+		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
-
-		if (nfcAdapter == null) {
-			throw new ServiceUnavailableException("The device does not support NFC.");
-		} else {
-			return nfcAdapter.isNdefPushEnabled();
-		}
+		return wifi.isConnected();
 	}
+
+
 }

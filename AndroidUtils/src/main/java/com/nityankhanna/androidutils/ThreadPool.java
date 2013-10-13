@@ -1,10 +1,8 @@
-package com.nityankhanna.androidutils.async;
+package com.nityankhanna.androidutils;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
-import com.nityankhanna.androidutils.Constants;
 
 import org.jetbrains.annotations.NotNull;
 

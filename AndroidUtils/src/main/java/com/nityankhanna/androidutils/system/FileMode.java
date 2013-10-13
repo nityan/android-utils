@@ -8,11 +8,14 @@ import android.os.Build;
  * Created by Nityan Khanna on 11/10/13.
  */
 public enum FileMode {
-
 	MODE_APPEND,
 	MODE_ENABLE_WRITE_AHEAD_LOGGING,
 	MODE_MULTI_PROCESS,
 	MODE_PRIVATE;
+
+	private FileMode() {
+
+	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public int getValue() {

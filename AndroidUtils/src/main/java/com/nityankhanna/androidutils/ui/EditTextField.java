@@ -6,12 +6,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.nityankhanna.androidutils.defines.Constants;
+import com.nityankhanna.androidutils.Constants;
 
 /**
  * Created by Nityan Khanna on 20/09/13.
  */
-public class EditTextField extends EditText {
+public class EditTextField extends EditText implements Field {
 
 	private String content;
 
@@ -27,7 +27,53 @@ public class EditTextField extends EditText {
 		super(context, attrs);
 	}
 
-	public String getContent() {
+	@Override
+	public void clear() {
+		setText("");
+	}
+
+	@Override
+	public int getTextAsInt() {
+
+		Editable editable = getText();
+
+		int value = badValue;
+
+		if (editable == null) {
+			return value;
+		} else {
+			try {
+				value = Integer.parseInt(editable.toString());
+			} catch (NumberFormatException ex) {
+				Log.d(Constants.DEBUG, ex.getMessage());
+			}
+		}
+
+		return value;
+	}
+
+	@Override
+	public double getTextAsDouble() {
+
+		Editable editable = getText();
+
+		double value = badValue;
+
+		if (editable == null) {
+			return value;
+		} else {
+			try {
+				value = Double.parseDouble(editable.toString());
+			} catch (NumberFormatException ex) {
+				Log.d(Constants.DEBUG, ex.getMessage());
+			}
+		}
+
+		return value;
+	}
+
+	@Override
+	public String getTextAsString() {
 
 		Editable editable = getText();
 
@@ -38,49 +84,12 @@ public class EditTextField extends EditText {
 		return content;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public int getContentAsInt() {
-
-		Editable editable = getText();
-		int value = -1;
-
-		if (editable == null) {
-			return value;
+	@Override
+	public void setHidden(boolean flag) {
+		if (flag) {
+			setVisibility(INVISIBLE);
 		} else {
-			try {
-				value = Integer.parseInt(editable.toString());
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-				value = -1;
-			}
+			setVisibility(VISIBLE);
 		}
-
-		return value;
-	}
-
-	public double getContentAsDouble() {
-
-		Editable editable = getText();
-		double value = -1;
-
-		if (editable == null) {
-			return value;
-		} else {
-			try {
-				value = Double.parseDouble(editable.toString());
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-				value = -1;
-			}
-		}
-
-		return value;
-	}
-
-	public void clear() {
-		this.setText("");
 	}
 }

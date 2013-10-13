@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.nityankhanna.androidutils.Constants;
 import com.nityankhanna.androidutils.InvalidArgumentException;
-import com.nityankhanna.androidutils.async.ThreadPool;
+import com.nityankhanna.androidutils.ThreadPool;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -20,9 +20,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -280,62 +278,40 @@ public class HttpClientService {
 		String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
 		int statusCode = httpResponse.getStatusLine().getStatusCode();
 
-		BufferedReader reader = null;
-		StringBuilder builder;
+		if (statusCode >= 500) {
+			ErrorResponse error = new ErrorResponse();
 
-		try {
-			reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-			builder = new StringBuilder();
+			error.setMessage(statusCode + " " + reasonPhrase);
+			response.onServerError(error);
+		} else if (statusCode >= 400) {
+			ErrorResponse error = new ErrorResponse();
 
+			error.setMessage(statusCode + " " + reasonPhrase);
+			response.onClientError(error);
+		} else {
 
-			for (String line; (line = reader.readLine()) != null; ) {
-				builder.append(line).append("\n");
-			}
+			HttpEntity entity = httpResponse.getEntity();
 
-			if (statusCode >= 500) {
-				ErrorResponse error = new ErrorResponse();
+			switch (requestType) {
 
-				error.setMessage(statusCode + " " + reasonPhrase);
-				response.onServerError(error);
-			} else if (statusCode >= 400) {
-				ErrorResponse error = new ErrorResponse();
+				case GET:
+					response.onGetCompleted(entity);
+					break;
 
-				error.setMessage(statusCode + " " + reasonPhrase);
-				response.onClientError(error);
-			} else {
+				case POST:
+					response.onPostCompleted(entity);
+					break;
 
-				HttpEntity entity = httpResponse.getEntity();
+				case PUT:
+					response.onPutCompleted(entity);
+					break;
 
-				switch (requestType) {
+				case DELETE:
+					response.onDeleteCompleted(entity);
+					break;
 
-					case GET:
-						response.onGetCompleted(entity);
-						break;
-
-					case POST:
-						response.onPostCompleted(entity);
-						break;
-
-					case PUT:
-						response.onPutCompleted(entity);
-						break;
-
-					case DELETE:
-						response.onDeleteCompleted(entity);
-						break;
-
-					default:
-						break;
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				default:
+					break;
 			}
 		}
 	}
