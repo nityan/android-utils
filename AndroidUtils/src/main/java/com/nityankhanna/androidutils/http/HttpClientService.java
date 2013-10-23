@@ -3,8 +3,7 @@ package com.nityankhanna.androidutils.http;
 import android.util.Log;
 
 import com.nityankhanna.androidutils.Constants;
-import com.nityankhanna.androidutils.InvalidArgumentException;
-import com.nityankhanna.androidutils.ThreadPool;
+import com.nityankhanna.androidutils.system.ThreadPool;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -50,10 +49,10 @@ public class HttpClientService {
 	 * @param url         The URL.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 *
 	 * @throws URISyntaxException
 	 */
 	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		super();
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.response = response;
@@ -67,10 +66,10 @@ public class HttpClientService {
 	 * @param params      The parameters for the request.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 *
 	 * @throws URISyntaxException
 	 */
 	public HttpClientService(String url, @NotNull JSONObject params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		super();
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.params = params;
@@ -86,7 +85,7 @@ public class HttpClientService {
 	public void addHeader(HttpHeader header) {
 
 		if (header == null) {
-			throw new InvalidArgumentException("The header object cannot be null");
+			throw new IllegalArgumentException("The header object cannot be null");
 		}
 
 		headers.add(header);

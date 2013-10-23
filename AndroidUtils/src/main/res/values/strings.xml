@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">AndroidUtilsProject</string>
+    <string name="title_main_activity">Main Screen</string>
 
 </resources>

@@ -7,12 +7,12 @@ import android.content.Context;
  */
 
 /**
- * A simplified Toast class.
+ * A simplified SimpleToast class.
  */
-public class Toast {
+public class SimpleToast {
 
 	/**
-	 * Displays a Toast message with a long length.
+	 * Displays a SimpleToast message with a long length.
 	 *
 	 * @param context The application context.
 	 * @param text    The text to be displayed in the toast message.
@@ -22,7 +22,7 @@ public class Toast {
 	}
 
 	/**
-	 * Displays a Toast message with a short length.
+	 * Displays a SimpleToast message with a short length.
 	 *
 	 * @param context The application context.
 	 * @param text    The text to be displayed in the toast message.

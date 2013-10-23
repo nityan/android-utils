@@ -29,7 +29,9 @@ public class FileManager {
 	 *
 	 * @param context    The application context.
 	 * @param resourceId The id of the resource to find.
+	 *
 	 * @return Returns a string containing the text from the file.
+	 *
 	 * @throws IOException
 	 */
 	public static String readRawFileFromResources(Context context, int resourceId) throws IOException {
@@ -82,6 +84,7 @@ public class FileManager {
 	 *
 	 * @param context  The application context.
 	 * @param filename The name of the file to read from.
+	 *
 	 * @return Returns the object from the file.
 	 */
 	public static Object readObjectFromFile(Context context, String filename) throws IOException {
@@ -113,16 +116,7 @@ public class FileManager {
 	}
 
 	public static boolean canWriteToExternalStorage() {
-
-		String state = Environment.getExternalStorageState();
-
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			return true;
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			return false;
-		} else {
-			return false;
-		}
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
 }
 
