@@ -32,6 +32,7 @@ public class ServiceManager extends ContextWrapper {
 	 * Returns a shared instance of the ServiceManager class.
 	 *
 	 * @param context The application context.
+	 *
 	 * @return Returns a shared instance of the ServiceManager class.
 	 */
 	public static ServiceManager getInstance(Context context) {
@@ -59,6 +60,7 @@ public class ServiceManager extends ContextWrapper {
 	 * Determines if Android Beam is available on the current device.
 	 *
 	 * @return Returns true if Android Beam is available.
+	 *
 	 * @throws ServiceUnavailableException
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -77,6 +79,7 @@ public class ServiceManager extends ContextWrapper {
 	 * Determines if Bluetooth is available on the current device.
 	 *
 	 * @return Returns true if bluetooth is available.
+	 *
 	 * @throws ServiceUnavailableException
 	 */
 	public boolean isBluetoothAvailable() throws ServiceUnavailableException {
@@ -128,6 +131,7 @@ public class ServiceManager extends ContextWrapper {
 	 * Determines if NFC is available on the current device.
 	 *
 	 * @return Returns true if NFC is available.
+	 *
 	 * @throws ServiceUnavailableException
 	 */
 	public boolean isNFCAvailable() throws ServiceUnavailableException {

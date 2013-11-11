@@ -3,7 +3,6 @@ package com.nityankhanna.androidutils.security;
 import android.util.Log;
 
 import com.nityankhanna.androidutils.Constants;
-import com.nityankhanna.androidutils.system.ThreadPool;
 
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -25,25 +24,18 @@ public class EncryptionManager {
 	private Cipher cipher;
 	private PublicKey publicKey;
 	private PrivateKey privateKey;
-	private OnEncryptionListener listener;
-	private ThreadPool threadPool;
+	private KeyPair keyPair;
 
-	public EncryptionManager(OnEncryptionListener listener) {
+	public EncryptionManager() {
 
 		try {
-
-			this.listener = listener;
-			threadPool = ThreadPool.getInstance();
 
 			cipher = Cipher.getInstance("RSA");
 
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 			keyGen.initialize(2048);
 
-			KeyPair keyPair = keyGen.genKeyPair();
-
-			publicKey = keyPair.getPublic();
-			privateKey = keyPair.getPrivate();
+			keyPair = keyGen.genKeyPair();
 
 		} catch (NoSuchAlgorithmException e) {
 			Log.d(Constants.DEBUG, e.getMessage());
@@ -52,52 +44,78 @@ public class EncryptionManager {
 		}
 	}
 
+	/**
+	 * Gets the PublicKey.
+	 *
+	 * @return Returns the PublicKey.
+	 */
 	public PublicKey getPublicKey() {
 		return publicKey;
 	}
 
+	/**
+	 * Sets the PublicKey.
+	 *
+	 * @param publicKey The PublicKey.
+	 */
 	public void setPublicKey(PublicKey publicKey) {
 		this.publicKey = publicKey;
 	}
 
+	/**
+	 * Gets the PrivateKey.
+	 *
+	 * @return Returns the PrivateKey.
+	 */
 	public PrivateKey getPrivateKey() {
 		return privateKey;
 	}
 
+	/**
+	 * Sets the PrivateKey.
+	 *
+	 * @param privateKey The PrivateKey.
+	 */
 	public void setPrivateKey(PrivateKey privateKey) {
 		this.privateKey = privateKey;
+	}
+
+	/**
+	 * Generates a PublicKey.
+	 *
+	 * @return Returns the generated public key.
+	 */
+	public PublicKey generatePublicKey() {
+		return keyPair.getPublic();
+	}
+
+	/**
+	 * Generate a PrivateKey.
+	 *
+	 * @return Returns the generated private key.
+	 */
+	public PrivateKey generatePrivateKey() {
+		return keyPair.getPrivate();
 	}
 
 	/**
 	 * Encrypts data.
 	 *
 	 * @param dataToEncrypt The data to encrypt.
+	 *
+	 * @return Returns the data as a byte array.
+	 *
+	 * @throws InvalidKeyException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
 	 */
-	public void encryptData(final byte[] dataToEncrypt) {
+	public byte[] encryptData(byte[] dataToEncrypt) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
-		threadPool.queueWorkerItem(new Runnable() {
+		byte[] encryptedData;
+		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+		encryptedData = cipher.doFinal(dataToEncrypt);
 
-			@Override
-			public void run() {
-
-				byte[] encryptedData = null;
-
-				try {
-					cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-					encryptedData = cipher.doFinal(dataToEncrypt);
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				} catch (BadPaddingException e) {
-					e.printStackTrace();
-				} catch (IllegalBlockSizeException e) {
-					e.printStackTrace();
-				}
-
-
-				listener.onEncryptionCompleted(encryptedData);
-
-			}
-		});
+		return encryptedData;
 	}
 
 	/**
@@ -105,33 +123,20 @@ public class EncryptionManager {
 	 *
 	 * @param encryptedData The encrypted data to decrypt.
 	 *
+	 * @return Returns the data as a byte array.
+	 *
 	 * @throws InvalidKeyException
 	 * @throws BadPaddingException
 	 * @throws IllegalBlockSizeException
 	 */
-	public void decryptData(final byte[] encryptedData) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+	public byte[] decryptData(byte[] encryptedData) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
-		threadPool.queueWorkerItem(new Runnable() {
+		byte[] decryptedData;
 
-			@Override
-			public void run() {
 
-				byte[] decryptedData = null;
+		cipher.init(Cipher.DECRYPT_MODE, privateKey);
+		decryptedData = (cipher.doFinal(encryptedData));
 
-				try {
-					cipher.init(Cipher.DECRYPT_MODE, privateKey);
-					decryptedData = (cipher.doFinal(encryptedData));
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				} catch (BadPaddingException e) {
-					e.printStackTrace();
-				} catch (IllegalBlockSizeException e) {
-					e.printStackTrace();
-				}
-
-				listener.onDecryptionCompleted(decryptedData);
-			}
-		});
-
+		return decryptedData;
 	}
 }

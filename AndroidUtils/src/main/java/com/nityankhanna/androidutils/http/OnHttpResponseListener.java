@@ -12,28 +12,28 @@ import org.apache.http.HttpEntity;
 public interface OnHttpResponseListener {
 
 	/**
-	 * A delegate method called when a get request is completed.
+	 * A delegate method called when a GET request is completed.
 	 *
 	 * @param response The response.
 	 */
 	void onGetCompleted(HttpEntity response);
 
 	/**
-	 * A delegate method called when a post request is completed.
+	 * A delegate method called when a POST request is completed.
 	 *
 	 * @param response The response.
 	 */
 	void onPostCompleted(HttpEntity response);
 
 	/**
-	 * A delegate method called when a put request is completed.
+	 * A delegate method called when a PUT request is completed.
 	 *
 	 * @param response The response.
 	 */
 	void onPutCompleted(HttpEntity response);
 
 	/**
-	 * A delegate method called when a delete request is completed.
+	 * A delegate method called when a DELETE request is completed.
 	 *
 	 * @param response The response.
 	 */

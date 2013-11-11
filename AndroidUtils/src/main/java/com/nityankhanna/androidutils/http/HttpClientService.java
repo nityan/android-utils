@@ -40,7 +40,7 @@ public class HttpClientService {
 	private URI url;
 	private RequestType requestType;
 	private JSONObject params;
-	private OnHttpResponseListener response;
+	private OnHttpResponseListener delegate;
 	private List<Header> headers;
 
 	/**
@@ -55,7 +55,7 @@ public class HttpClientService {
 	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
 		this.url = new URI(url);
 		this.requestType = requestType;
-		this.response = response;
+		this.delegate = response;
 		headers = new ArrayList<Header>();
 	}
 
@@ -73,7 +73,7 @@ public class HttpClientService {
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.params = params;
-		this.response = response;
+		this.delegate = response;
 		headers = new ArrayList<Header>();
 	}
 
@@ -281,12 +281,12 @@ public class HttpClientService {
 			ErrorResponse error = new ErrorResponse();
 
 			error.setMessage(statusCode + " " + reasonPhrase);
-			response.onServerError(error);
+			delegate.onServerError(error);
 		} else if (statusCode >= 400) {
 			ErrorResponse error = new ErrorResponse();
 
 			error.setMessage(statusCode + " " + reasonPhrase);
-			response.onClientError(error);
+			delegate.onClientError(error);
 		} else {
 
 			HttpEntity entity = httpResponse.getEntity();
@@ -294,19 +294,19 @@ public class HttpClientService {
 			switch (requestType) {
 
 				case GET:
-					response.onGetCompleted(entity);
+					delegate.onGetCompleted(entity);
 					break;
 
 				case POST:
-					response.onPostCompleted(entity);
+					delegate.onPostCompleted(entity);
 					break;
 
 				case PUT:
-					response.onPutCompleted(entity);
+					delegate.onPutCompleted(entity);
 					break;
 
 				case DELETE:
-					response.onDeleteCompleted(entity);
+					delegate.onDeleteCompleted(entity);
 					break;
 
 				default:

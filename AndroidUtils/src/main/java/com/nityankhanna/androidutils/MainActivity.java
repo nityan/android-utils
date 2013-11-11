@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nityankhanna.androidutils.security.EncryptionManager;
-import com.nityankhanna.androidutils.security.OnEncryptionListener;
 
 /**
  * Created by Nityan Khanna on 22/10/13.
