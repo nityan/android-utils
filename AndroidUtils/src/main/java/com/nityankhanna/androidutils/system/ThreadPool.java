@@ -29,6 +29,7 @@ public class ThreadPool implements RejectedExecutionHandler {
 
 	private ThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
 		service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory(), this);
+		service.allowCoreThreadTimeOut(true);
 	}
 
 	/**
@@ -52,8 +53,15 @@ public class ThreadPool implements RejectedExecutionHandler {
 	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPool) {
 
 		if (threadPool.isTerminated()) {
-			Log.d(Constants.DEBUG, "Cannot queue worker task, the thread pool is terminated.");
+			Log.e(Constants.DEBUG, "Cannot queue worker task, the thread pool is terminated.");
 		}
+	}
+
+	/**
+	 * Clears the queue of the thread pool.
+	 */
+	public void clearQueue() {
+		service.getQueue().clear();
 	}
 
 	/**

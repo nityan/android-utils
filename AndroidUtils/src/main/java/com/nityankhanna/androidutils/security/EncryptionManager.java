@@ -19,14 +19,19 @@ import javax.crypto.NoSuchPaddingException;
 /**
  * Created by Nityan Khanna on 22/10/13.
  */
+
+/**
+ * A utility class for encrypting data.
+ */
 public class EncryptionManager {
 
+	private static EncryptionManager sharedInstance;
 	private Cipher cipher;
 	private PublicKey publicKey;
 	private PrivateKey privateKey;
 	private KeyPair keyPair;
 
-	public EncryptionManager() {
+	private EncryptionManager() {
 
 		try {
 
@@ -41,6 +46,18 @@ public class EncryptionManager {
 			Log.d(Constants.DEBUG, e.getMessage());
 		} catch (NoSuchPaddingException e) {
 			Log.d(Constants.DEBUG, e.getMessage());
+		}
+	}
+
+	public static EncryptionManager getInstance() {
+
+		synchronized (EncryptionManager.class) {
+
+			if (sharedInstance == null) {
+				sharedInstance = new EncryptionManager();
+			}
+
+			return sharedInstance;
 		}
 	}
 

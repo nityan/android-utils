@@ -5,9 +5,27 @@ import android.util.Base64;
 /**
  * Created by Nityan Khanna on 22/10/13.
  */
+
+/**
+ * A utility class for encoding data.
+ */
 public class EncodingManager {
 
+	private static EncodingManager sharedInstance;
+
 	private EncodingManager() {
+	}
+
+	public static EncodingManager getInstance() {
+
+		synchronized (EncodingManager.class) {
+
+			if (sharedInstance == null) {
+				sharedInstance = new EncodingManager();
+			}
+
+			return sharedInstance;
+		}
 	}
 
 	/**
@@ -17,7 +35,7 @@ public class EncodingManager {
 	 *
 	 * @return Returns the encoded data as a byte array.
 	 */
-	public static byte[] encodeDataUsingBase64(byte[] data) {
+	public byte[] encodeDataUsingBase64(byte[] data) {
 		return Base64.encode(data, Base64.DEFAULT);
 	}
 
@@ -29,7 +47,7 @@ public class EncodingManager {
 	 *
 	 * @return Returns the decoded data as a byte array.
 	 */
-	public static byte[] decodeDataUsingBase64(byte[] data) {
+	public byte[] decodeDataUsingBase64(byte[] data) {
 		return Base64.decode(data, Base64.DEFAULT);
 	}
 }
