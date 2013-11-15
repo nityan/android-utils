@@ -7,5 +7,15 @@ import android.graphics.drawable.Drawable;
  */
 public interface ImageDownloaderCallback {
 
+	/**
+	 * A delegate method called when the image download is cancelled.
+	 */
+	void onImageDownloadCancelled();
+
+	/**
+	 * A delegate method called when the image download is complete.
+	 *
+	 * @param drawable The drawable which was downloaded.
+	 */
 	void onImageDownloadComplete(Drawable drawable);
 }
