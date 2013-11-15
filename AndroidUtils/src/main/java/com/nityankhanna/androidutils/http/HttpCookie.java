@@ -149,4 +149,10 @@ public class HttpCookie implements Cookie {
 	public void setExpired(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("name: %s, value: %s, comment: %s, expiryDate: %s, isPersistent: %s, domain: %s, path: %s, secure: %s, version: %s",
+				name, value, comment, expiryDate, isPersistent(), domain, path, isSecure, version);
+	}
 }
