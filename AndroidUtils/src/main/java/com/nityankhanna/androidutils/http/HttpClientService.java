@@ -224,17 +224,20 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 	@Override
 	public List<Cookie> getCookies() {
-		return null;
+		// TODO: implement the getCookies() method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
 	}
 
 	@Override
 	public boolean clearExpired(Date date) {
-		return false;
+		// TODO: implement the clearExpired(...) method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
 	}
 
 	@Override
 	public void clear() {
-
+		// TODO: implement the clear() method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
 	}
 
 	/**
