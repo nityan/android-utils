@@ -4,24 +4,28 @@ package com.nityankhanna.androidutils.camera;
  * Created by Nityan Khanna on 14/11/13.
  */
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.provider.MediaStore;
+
+import java.util.List;
 
 /**
  * A simple camera class.
  */
 public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallback {
 
-	private Context context;
-	private Camera camera;
+	private Activity activity;
 	private int cameraId = 0;
 	private CameraCallback cameraCallback;
 
-	public SimpleCamera(Context context, CameraCallback cameraCallback) {
-		this.context = context;
+	public SimpleCamera(Activity activity, CameraCallback cameraCallback) {
+		this.activity = activity;
 
 		if (cameraCallback == null) {
 			throw new IllegalArgumentException("The cameraCallback parameter cannot be null");
@@ -29,7 +33,7 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 
 		this.cameraCallback = cameraCallback;
 
-		PackageManager packageManager = this.context.getPackageManager();
+		PackageManager packageManager = this.activity.getPackageManager();
 
 		cameraId = findFrontFacingCamera();
 
@@ -39,13 +43,34 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 	}
 
 	public void takePicture() {
-		camera = Camera.open(cameraId);
 
+		Camera camera = Camera.open(cameraId);
 		camera.takePicture(this, this, this, this);
+	}
+
+	public void takeVideo() {
+
+		PackageManager packageManager = activity.getPackageManager();
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+		if (list.size() > 0) {
+			Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+			activity.startActivityForResult(takeVideoIntent, 9001);
+		}
+
 	}
 
 	@Override
 	public void onPictureTaken(byte[] data, Camera camera) {
+
+		if (camera != null) {
+			camera.stopPreview();
+			camera.release();
+			camera = null;
+		}
+
+
 		Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
 		if (bitmap == null) {
