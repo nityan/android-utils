@@ -61,7 +61,7 @@ public class ServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if Android Beam is available.
 	 *
-	 * @throws ServiceUnavailableException
+	 * @throws ServiceUnavailableException If the device does not support Android beam.
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public boolean isAndroidBeamAvailable() throws ServiceUnavailableException {
@@ -80,7 +80,7 @@ public class ServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if bluetooth is available.
 	 *
-	 * @throws ServiceUnavailableException
+	 * @throws ServiceUnavailableException If the device does not support bluetooth.
 	 */
 	public boolean isBluetoothAvailable() throws ServiceUnavailableException {
 
@@ -132,7 +132,7 @@ public class ServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if NFC is available.
 	 *
-	 * @throws ServiceUnavailableException
+	 * @throws ServiceUnavailableException If the device does not support NFC.
 	 */
 	public boolean isNFCAvailable() throws ServiceUnavailableException {
 
@@ -146,9 +146,9 @@ public class ServiceManager extends ContextWrapper {
 	}
 
 	/**
-	 * Determines if the user is connected to wifi.
+	 * Determines if the user is connected Wi-Fi.
 	 *
-	 * @return Returns true if the user is connected to wifi.
+	 * @return Returns true if the user is connected to Wi-Fi.
 	 */
 	public boolean isOnWiFi() {
 		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -157,27 +157,57 @@ public class ServiceManager extends ContextWrapper {
 		return wifi.isConnected();
 	}
 
+	/**
+	 * Determines if the device is running JellyBean or higher.
+	 *
+	 * @return Returns true if the device is running JellyBean or higher.
+	 */
 	public boolean isJellyBeanOrHigher() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 	}
 
+	/**
+	 * Determines if the device is running IceCreamSandwich or higher.
+	 *
+	 * @return Returns true if the device is running IceCreamSandwich or higher.
+	 */
 	public boolean isICSOrHigher() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 	}
 
+	/**
+	 * Determines if the device is running HoneyComb or higher.
+	 *
+	 * @return Returns true if the device is running HoneyComb or higher.
+	 */
 	public boolean isHoneycombOrHigher() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	}
 
+	/**
+	 * Determines if the device is running Gingerbread or higher.
+	 *
+	 * @return Returns true if the device is running Gingerbread or higher.
+	 */
 	public boolean isGingerbreadOrHigher() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
 	}
 
+	/**
+	 * Determines if the device is running Froyo or higher.
+	 *
+	 * @return Returns true if the device is running Froyo or higher.
+	 */
 	public boolean isFroyoOrHigher() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
 	}
 
-	public boolean isGoogleTV(Context context){
+	/**
+	 * Determines if the device is a GoogleTV.
+	 *
+	 * @return Returns true if the device is a GoogleTV.
+	 */
+	public boolean isGoogleTV(Context context) {
 		return context.getPackageManager().hasSystemFeature("com.google.android.tv");
 	}
 
