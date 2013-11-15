@@ -11,7 +11,7 @@ import com.nityankhanna.androidutils.Constants;
 /**
  * Created by Nityan Khanna on 20/09/13.
  */
-public class EditTextField extends EditText implements Field {
+public class EditTextField extends EditText implements FieldOperations {
 
 	private String content;
 

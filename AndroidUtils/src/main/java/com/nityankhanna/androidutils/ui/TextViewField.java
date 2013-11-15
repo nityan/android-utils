@@ -14,7 +14,7 @@ import com.nityankhanna.androidutils.Constants;
 /**
  * A custom TextView class.
  */
-public class TextViewField extends TextView implements Field {
+public class TextViewField extends TextView implements FieldOperations {
 
 	public TextViewField(Context context) {
 		super(context);

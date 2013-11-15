@@ -3,7 +3,7 @@ package com.nityankhanna.androidutils.ui;
 /**
  * Created by Nityan Khanna on 12/10/13.
  */
-public interface Field {
+public interface FieldOperations {
 
 	int badValue = -65536;
 

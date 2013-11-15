@@ -157,5 +157,29 @@ public class ServiceManager extends ContextWrapper {
 		return wifi.isConnected();
 	}
 
+	public boolean isJellyBeanOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+	}
+
+	public boolean isICSOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+	}
+
+	public boolean isHoneycombOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+	}
+
+	public boolean isGingerbreadOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
+	}
+
+	public boolean isFroyoOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
+	}
+
+	public boolean isGoogleTV(Context context){
+		return context.getPackageManager().hasSystemFeature("com.google.android.tv");
+	}
+
 
 }

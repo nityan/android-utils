@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nityankhanna.androidutils.security.EncryptionManager;
+import com.nityankhanna.androidutils.system.FileManager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -67,16 +68,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					temp2 = new String(encryptionManager.decryptData("password", temp.getBytes()));
 
 					Log.e("DEBUG", temp2);
-				} catch (IllegalBlockSizeException e) {
-					e.printStackTrace();
-				} catch (BadPaddingException e) {
-					e.printStackTrace();
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				} catch (InvalidKeySpecException e) {
-					e.printStackTrace();
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
+				} catch (Exception ex) {
+					FileManager.logException(this, ex);
 				}
 
 				break;
