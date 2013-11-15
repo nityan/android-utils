@@ -1,6 +1,5 @@
 package com.nityankhanna.androidutils.system;
 
-import android.content.AsyncTaskLoader;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -12,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +55,8 @@ public class ThreadPool implements RejectedExecutionHandler {
 
 		if (threadPool.isTerminated()) {
 			Log.e(Constants.DEBUG, "Cannot queue worker task, the thread pool is terminated.");
+		} else {
+			throw new RejectedExecutionException("Too many tasks have built up in the queue");
 		}
 	}
 
@@ -124,7 +126,12 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 *
 	 * @param runnable The runnable to run in the background.
 	 */
-	public void queueWorkerItem(@NotNull Runnable runnable) {
+	public void queueWorkerItem(Runnable runnable) {
+
+		if (runnable == null) {
+			throw new IllegalArgumentException("The runnable parameter cannot be null");
+		}
+
 		service.submit(runnable);
 	}
 
@@ -133,12 +140,29 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 *
 	 * @param runnable The runnable to run on the UI thread.
 	 */
-	public void runOnUiThread(@NotNull Runnable runnable) {
+	public void runOnUiThread(Runnable runnable) {
+
+		if (runnable == null) {
+			throw new IllegalArgumentException("The runnable parameter cannot be null");
+		}
 
 		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(runnable);
+	}
 
-		if (isCurrentThreadMain()) {
-			handler.post(runnable);
+	/**
+	 * Terminates the thread pool.
+	 *
+	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
+	 *
+	 * @throws InterruptedException
+	 */
+	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException {
+
+		if (shouldFinishQueue) {
+			service.awaitTermination(30000, TimeUnit.MILLISECONDS);
+		} else {
+			service.shutdownNow();
 		}
 	}
 }
