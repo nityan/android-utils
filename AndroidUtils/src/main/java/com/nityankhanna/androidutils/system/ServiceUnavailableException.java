@@ -10,11 +10,6 @@ package com.nityankhanna.androidutils.system;
 public class ServiceUnavailableException extends Exception {
 
 	/**
-	 * The message for the exception.
-	 */
-	private String message;
-
-	/**
 	 * Initializes a new ServiceUnavailableException with null as the message.
 	 */
 	public ServiceUnavailableException() {
@@ -28,6 +23,5 @@ public class ServiceUnavailableException extends Exception {
 	 */
 	public ServiceUnavailableException(String message) {
 		super(message);
-		this.message = message;
 	}
 }

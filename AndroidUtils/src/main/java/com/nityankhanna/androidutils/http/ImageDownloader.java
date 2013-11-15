@@ -49,7 +49,7 @@ public class ImageDownloader {
 		return new BitmapDrawable(Resources.getSystem(), bitmap);
 	}
 
-	private static class ImageDownloaderTask extends AsyncTask<String, Void, Drawable> {
+	private static class ImageDownloaderTask extends AsyncTask<String , Void, Drawable> {
 
 		private String url;
 
