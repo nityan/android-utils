@@ -30,9 +30,6 @@ public class EncryptionManager {
 
 	private static EncryptionManager sharedInstance;
 	private Cipher cipher;
-	private PublicKey publicKey;
-	private PrivateKey privateKey;
-	private KeyPair keyPair;
 
 	private EncryptionManager() {
 
@@ -58,40 +55,6 @@ public class EncryptionManager {
 
 			return sharedInstance;
 		}
-	}
-
-	/**
-	 * Gets the PublicKey.
-	 *
-	 * @return Returns the PublicKey.
-	 */
-	public byte[] getPublicKey() {
-		return publicKey.getEncoded();
-	}
-
-	/**
-	 * Gets the PrivateKey.
-	 *
-	 * @return Returns the PrivateKey.
-	 */
-	public byte[] getPrivateKey() {
-		return privateKey.getEncoded();
-	}
-
-	/**
-	 * Generates a PublicKey.
-	 */
-	public byte[] generatePublicKey() {
-		publicKey = keyPair.getPublic();
-		return publicKey.getEncoded();
-	}
-
-	/**
-	 * Generates a PrivateKey.
-	 */
-	public byte[] generatePrivateKey() {
-		privateKey = keyPair.getPrivate();
-		return privateKey.getEncoded();
 	}
 
 	/**
@@ -138,7 +101,8 @@ public class EncryptionManager {
 	 */
 	public byte[] decryptData(String password, byte[] encryptedData) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-		throw new UnsupportedOperationException("This method is not implemented yet");
+		// TODO: implement the decryptData() method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
 		/*
 
 		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
