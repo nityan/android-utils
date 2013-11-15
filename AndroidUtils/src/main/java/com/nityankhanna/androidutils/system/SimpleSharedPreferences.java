@@ -1,7 +1,9 @@
 package com.nityankhanna.androidutils.system;
 
 import android.content.Context;
-import android.content.ContextWrapper;
+import android.content.SharedPreferences;
+
+import com.nityankhanna.androidutils.security.EncryptionManager;
 
 /**
  * Created by Nityan Khanna on 28/06/13.
@@ -10,47 +12,52 @@ import android.content.ContextWrapper;
 /**
  * A simplified SharedPreferences class.
  */
-public class SharedPreferences extends ContextWrapper {
+public class SimpleSharedPreferences {
 
-	private static SharedPreferences sharedInstance;
-	private android.content.SharedPreferences sharedPreferences;
-	private android.content.SharedPreferences.Editor editor;
+	private static EncryptionManager encryptionManager = EncryptionManager.getInstance();
+	private SharedPreferences sharedPreferences;
+	private SharedPreferences.Editor editor;
 
 	/**
-	 * Initializes a new SharedPreferences instance with a specified context.
+	 * Initializes a new SimpleSharedPreferences instance with a specified context.
 	 *
 	 * @param context The application context.
 	 */
-	private SharedPreferences(Context context) {
-		super(context);
+	public SimpleSharedPreferences(Context context, String filename) {
 
-		sharedPreferences = context.getSharedPreferences("TheFeedSharedPrefs", MODE_PRIVATE);
+		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	/**
-	 * Returns a shared instance of the SharedPreferences class.
-	 *
-	 * @param context The application context.
-	 * @return Returns a shared instance of the SharedPreferences class.
-	 */
-	public static SharedPreferences getInstance(Context context) {
+	public SimpleSharedPreferences(Context context, String filename, int mode) {
 
-		synchronized (SharedPreferences.class) {
+		sharedPreferences = context.getSharedPreferences(filename, mode);
+		editor = sharedPreferences.edit();
+		editor.commit();
+	}
 
-			if (sharedInstance == null) {
-				sharedInstance = new SharedPreferences(context);
-			}
-		}
+	public SimpleSharedPreferences(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 
-		return sharedInstance;
+		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
+		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
+		editor = sharedPreferences.edit();
+		editor.commit();
+	}
+
+	public SimpleSharedPreferences(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+
+		sharedPreferences = context.getSharedPreferences(filename, mode);
+		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
+		editor = sharedPreferences.edit();
+		editor.commit();
 	}
 
 	/**
 	 * Returns a boolean from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
+	 *
 	 * @return Returns the value for an associated key.
 	 * Returns false if the preferences does not exist.
 	 */
@@ -62,6 +69,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * Returns a byte array from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
+	 *
 	 * @return Returns null if the preference does not exist.
 	 */
 	public byte[] getByteArrayForKey(String key) {
@@ -78,6 +86,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * Returns a float from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
+	 *
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public float getFloatForKey(String key) {
@@ -88,6 +97,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * Returns a int from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
+	 *
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public int getIntForKey(String key) {
@@ -98,6 +108,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * Returns a String from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
+	 *
 	 * @return Returns null if the preference does not exist.
 	 */
 	public String getStringForKey(String key) {
@@ -111,8 +122,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * @param value The value.
 	 */
 	public void setBooleanForKey(String key, boolean value) {
-		editor.putBoolean(key, value);
-		saveChanges();
+		editor.putBoolean(key, value).commit();
 	}
 
 	/**
@@ -122,8 +132,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * @param value The value.
 	 */
 	public void setByteArrayForKey(String key, byte[] value) {
-		editor.putString(key, new String(value));
-		saveChanges();
+		editor.putString(key, new String(value)).commit();
 	}
 
 	/**
@@ -133,8 +142,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * @param value The value.
 	 */
 	public void setFloatForKey(String key, float value) {
-		editor.putFloat(key, value);
-		saveChanges();
+		editor.putFloat(key, value).commit();
 	}
 
 	/**
@@ -144,8 +152,7 @@ public class SharedPreferences extends ContextWrapper {
 	 * @param value The value.
 	 */
 	public void setIntForKey(String key, int value) {
-		editor.putInt(key, value);
-		saveChanges();
+		editor.putInt(key, value).commit();
 	}
 
 	/**
@@ -155,14 +162,6 @@ public class SharedPreferences extends ContextWrapper {
 	 * @param value The value.
 	 */
 	public void setStringForKey(String key, String value) {
-		editor.putString(key, value);
-		saveChanges();
-	}
-
-	/**
-	 * Saves the changes made to the Shared Preferences.
-	 */
-	private void saveChanges() {
-		editor.commit();
+		editor.putString(key, value).commit();
 	}
 }

@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.enums;
+package com.nityankhanna.androidutils.system;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,6 +13,9 @@ public enum FileMode {
 	MODE_ENABLE_WRITE_AHEAD_LOGGING,
 	MODE_MULTI_PROCESS,
 	MODE_PRIVATE;
+
+	private FileMode() {
+	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public int getValue() {

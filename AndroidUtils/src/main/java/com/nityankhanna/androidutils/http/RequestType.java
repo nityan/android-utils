@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.enums;
+package com.nityankhanna.androidutils.http;
 
 /**
  * Created by Nityan Khanna on 01/07/13.

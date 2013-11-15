@@ -2,10 +2,7 @@ package com.nityankhanna.androidutils.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
-
-import com.nityankhanna.androidutils.defines.Constants;
 
 /**
  * Created by Nityan on 23/09/13.
@@ -14,7 +11,7 @@ import com.nityankhanna.androidutils.defines.Constants;
 /**
  * A custom TextView class.
  */
-public class TextViewField extends TextView {
+public class TextViewField extends TextView implements FieldOperations {
 
 	public TextViewField(Context context) {
 		super(context);
@@ -28,45 +25,86 @@ public class TextViewField extends TextView {
 		super(context, attrs, defStyle);
 	}
 
-	public int getTextAsInt() {
-
-		String text = (String) getText();
-		int value = -1;
-
-		if (text == null) {
-			return value;
-		} else {
-			try {
-				value = Integer.parseInt(text);
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-				value = -1;
-			}
-		}
-
-		return value;
-	}
-
-	public double getTextAsDouble() {
-
-		String text = (String) getText();
-		double value = -1;
-
-		if (text == null) {
-			return value;
-		} else {
-			try {
-				value = Double.parseDouble(text);
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-				value = -1;
-			}
-		}
-
-		return value;
-	}
-
+	@Override
 	public void clear() {
 		setText("");
+	}
+
+	@Override
+	public int getTextAsInt() {
+
+		String text = String.valueOf(getText());
+
+		int value = badValue;
+
+		if (text == null) {
+			return value;
+		} else {
+			value = Integer.parseInt(text.toString());
+		}
+
+		return value;
+	}
+
+	@Override
+	public double getTextAsDouble() {
+
+		String text = String.valueOf(getText());
+
+		double value = badValue;
+
+		if (text == null) {
+			return value;
+		} else {
+			value = Double.parseDouble(text.toString());
+		}
+
+		return value;
+	}
+
+	@Override
+	public String getTextAsString() {
+
+		String text = String.valueOf(getText());
+
+		if (text != null && !text.isEmpty()) {
+			return text;
+		}
+
+		return null;
+	}
+
+	@Override
+	public void setGone() {
+		setVisibility(GONE);
+	}
+
+	@Override
+	public void setHidden(boolean flag) {
+		if (flag) {
+			setVisibility(INVISIBLE);
+		} else {
+			setVisibility(VISIBLE);
+		}
+	}
+
+	@Override
+	public void setText(boolean value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(double value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(long value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(String value) {
+		super.setText(value);
 	}
 }

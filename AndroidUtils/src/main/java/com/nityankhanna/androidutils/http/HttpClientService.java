@@ -1,33 +1,34 @@
 package com.nityankhanna.androidutils.http;
 
-import android.util.Log;
+import android.os.NetworkOnMainThreadException;
 
-import com.nityankhanna.androidutils.async.ThreadPool;
-import com.nityankhanna.androidutils.defines.Constants;
-import com.nityankhanna.androidutils.enums.RequestType;
-import com.nityankhanna.androidutils.exceptions.InvalidArgumentException;
-import com.nityankhanna.androidutils.models.ErrorResponse;
+import com.nityankhanna.androidutils.system.ThreadPool;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.cookie.CookieIdentityComparator;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,15 +38,17 @@ import java.util.List;
 /**
  * A utility class to execute and handle HTTP requests and responses.
  */
-public class HttpClientService {
+public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 	private static ThreadPool threadPool = ThreadPool.getInstance();
 	private final String UTF8 = "UTF-8";
+	private final List<HttpHeader> headers;
+	private final List<Cookie> cookies;
+	private final Comparator<Cookie> cookieComparator;
 	private URI url;
 	private RequestType requestType;
 	private JSONObject params;
-	private OnHttpResponseListener response;
-	private List<Header> headers;
+	private OnHttpResponseListener delegate;
 
 	/**
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
@@ -53,14 +56,22 @@ public class HttpClientService {
 	 * @param url         The URL.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 *
 	 * @throws URISyntaxException
 	 */
 	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		super();
 		this.url = new URI(url);
 		this.requestType = requestType;
-		this.response = response;
-		headers = new ArrayList<Header>();
+		this.delegate = response;
+
+
+		if (this.delegate == null) {
+			throw new IllegalArgumentException("The response parameter cannot be null");
+		}
+
+		headers = new ArrayList<HttpHeader>();
+		cookies = new ArrayList<Cookie>();
+		this.cookieComparator = new CookieIdentityComparator();
 	}
 
 	/**
@@ -70,15 +81,22 @@ public class HttpClientService {
 	 * @param params      The parameters for the request.
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
+	 *
 	 * @throws URISyntaxException
 	 */
 	public HttpClientService(String url, @NotNull JSONObject params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		super();
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.params = params;
-		this.response = response;
-		headers = new ArrayList<Header>();
+		this.delegate = response;
+
+		if (this.delegate == null) {
+			throw new IllegalArgumentException("The response parameter cannot be null");
+		}
+
+		headers = new ArrayList<HttpHeader>();
+		cookies = new ArrayList<Cookie>();
+		this.cookieComparator = new CookieIdentityComparator();
 	}
 
 	/**
@@ -86,13 +104,140 @@ public class HttpClientService {
 	 *
 	 * @param header The HTTP header to add to the collection.
 	 */
-	public void addHeader(HttpHeader header) throws InvalidArgumentException {
+	@Override
+	public void addHeader(HttpHeader header) {
 
 		if (header == null) {
-			throw new InvalidArgumentException("The header object cannot be null");
+			throw new IllegalArgumentException("The header object cannot be null");
+		}
+
+		for (HttpHeader httpHeader : headers) {
+
+			if (httpHeader.equals(header)) {
+				headers.remove(httpHeader);
+				break;
+			}
 		}
 
 		headers.add(header);
+	}
+
+	/**
+	 * Adds an HTTP header to the request.
+	 *
+	 * @param index  The index of where to add the header.
+	 * @param header The HTTP header to add to the collection.
+	 */
+	@Override
+	public synchronized void addHeader(int index, HttpHeader header) {
+
+		if (header == null) {
+			throw new IllegalArgumentException("The header parameter cannot be null");
+		}
+
+		if (index < 0) {
+			throw new IllegalArgumentException("The index must be greater than 0");
+		}
+
+		headers.add(index, header);
+	}
+
+	/**
+	 * Adds an array of HttpHeaders to the request.
+	 *
+	 * @param headers The array of headers to add to the request.
+	 */
+	@Override
+	public void addHeaders(HttpHeader[] headers) {
+
+		if (headers == null) {
+			throw new IllegalArgumentException("The headers parameter cannot be null");
+		}
+
+		for (HttpHeader header : headers) {
+			this.addHeader(header);
+		}
+	}
+
+	/**
+	 * Returns a list of HTTP Headers.
+	 *
+	 * @return Returns a list of HTTP Headers.
+	 */
+	@Override
+	public List<HttpHeader> getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * Removes an HTTP Header.
+	 *
+	 * @param index The index of the header to remove.
+	 */
+	@Override
+	public synchronized void removeHeader(int index) {
+		headers.remove(index);
+	}
+
+	/**
+	 * Removes an HTTP Header.
+	 *
+	 * @param header The HTTP header object to be removed.
+	 */
+	@Override
+	public synchronized void removeHeader(HttpHeader header) {
+
+		if (header == null) {
+			throw new IllegalArgumentException("The header parameter cannot be null");
+		}
+
+		headers.remove(header);
+	}
+
+	/**
+	 * Removes all of the current HTTP headers.
+	 */
+	@Override
+	public void removeAllHeaders() {
+		headers.removeAll(headers);
+	}
+
+	@Override
+	public synchronized void addCookie(Cookie cookie) {
+
+		if (cookie == null) {
+			throw new IllegalArgumentException("The cookie parameter cannot be null");
+		}
+
+		// first remove any old cookie that is equivalent
+		for (Iterator<Cookie> it = cookies.iterator(); it.hasNext(); ) {
+			if (cookieComparator.compare(cookie, it.next()) == 0) {
+				it.remove();
+				break;
+			}
+		}
+
+		if (!cookie.isExpired(new Date())) {
+			cookies.add(cookie);
+		}
+	}
+
+	@Override
+	public List<Cookie> getCookies() {
+		// TODO: implement the getCookies() method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
+	}
+
+	@Override
+	public boolean clearExpired(Date date) {
+		// TODO: implement the clearExpired(...) method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
+	}
+
+	@Override
+	public void clear() {
+		// TODO: implement the clear() method
+		throw new UnsupportedOperationException("This method has not been implemented yet");
 	}
 
 	/**
@@ -102,6 +247,10 @@ public class HttpClientService {
 	 * to threaded properly.
 	 */
 	public void executeRequest() {
+
+		if (threadPool.isCurrentThreadMain()) {
+			throw new NetworkOnMainThreadException();
+		}
 
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse httpResponse = null;
@@ -117,13 +266,11 @@ public class HttpClientService {
 				break;
 
 			case PUT:
-				// TODO: add functionality for HTTP Put
-				Log.e(Constants.DEBUG, "Put requests have not been implemented yet.");
+				httpResponse = executePutRequest(client);
 				break;
 
 			case DELETE:
-				// TODO: add functionality for HTTP Delete
-				Log.e(Constants.DEBUG, "Delete requests have not been implemented yet.");
+				httpResponse = executeDeleteRequest(client);
 				break;
 
 			default:
@@ -156,13 +303,11 @@ public class HttpClientService {
 						break;
 
 					case PUT:
-						// TODO: add functionality for HTTP Put
-						Log.e(Constants.DEBUG, "Put requests have not been implemented yet.");
+						httpResponse = executePutRequest(client);
 						break;
 
 					case DELETE:
-						// TODO: add functionality for HTTP Delete
-						Log.e(Constants.DEBUG, "Delete requests have not been implemented yet.");
+						httpResponse = executeDeleteRequest(client);
 						break;
 
 					default:
@@ -175,30 +320,20 @@ public class HttpClientService {
 		});
 	}
 
-	/**
-	 * Returns a list of HTTP Headers.
-	 *
-	 * @return Returns a list of HTTP Headers.
-	 */
-	public List<Header> getHeaders() {
-		return headers;
-	}
+	private HttpResponse executeDeleteRequest(HttpClient client) {
 
-	/**
-	 * Removes all of the current HTTP headers.
-	 */
-	public void removeAllHeaders() {
-		headers = null;
-		headers = new ArrayList<Header>();
-	}
+		HttpDelete delete = new HttpDelete(url);
+		delete.setHeaders(headers.toArray(new Header[headers.size()]));
 
-	/**
-	 * Removes an HTTP Header.
-	 *
-	 * @param index The index of the header to remove.
-	 */
-	public void removeHeader(int index) {
-		headers.remove(index);
+		HttpResponse httpResponse = null;
+
+		try {
+			httpResponse = client.execute(delete);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return httpResponse;
 	}
 
 	private HttpResponse executeGetRequest(HttpClient client) {
@@ -209,7 +344,6 @@ public class HttpClientService {
 		HttpResponse httpResponse = null;
 
 		try {
-
 			httpResponse = client.execute(get);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -265,62 +399,40 @@ public class HttpClientService {
 		String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
 		int statusCode = httpResponse.getStatusLine().getStatusCode();
 
-		BufferedReader reader = null;
-		StringBuilder builder;
+		if (statusCode >= 500) {
+			ErrorResponse error = new ErrorResponse();
 
-		try {
-			reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-			builder = new StringBuilder();
+			error.setMessage(statusCode + " " + reasonPhrase);
+			delegate.onServerError(error);
+		} else if (statusCode >= 400) {
+			ErrorResponse error = new ErrorResponse();
 
+			error.setMessage(statusCode + " " + reasonPhrase);
+			delegate.onClientError(error);
+		} else {
 
-			for (String line; (line = reader.readLine()) != null; ) {
-				builder.append(line).append("\n");
-			}
+			HttpEntity entity = httpResponse.getEntity();
 
-			if (statusCode >= 500) {
-				ErrorResponse error = new ErrorResponse();
+			switch (requestType) {
 
-				error.setMessage(statusCode + " " + reasonPhrase);
-				response.onServerError(error);
-			} else if (statusCode >= 400) {
-				ErrorResponse error = new ErrorResponse();
+				case GET:
+					delegate.onGetCompleted(entity);
+					break;
 
-				error.setMessage(statusCode + " " + reasonPhrase);
-				response.onClientError(error);
-			} else {
+				case POST:
+					delegate.onPostCompleted(entity);
+					break;
 
-				HttpEntity entity = httpResponse.getEntity();
+				case PUT:
+					delegate.onPutCompleted(entity);
+					break;
 
-				switch (requestType) {
+				case DELETE:
+					delegate.onDeleteCompleted(entity);
+					break;
 
-					case GET:
-						response.onGetCompleted(entity);
-						break;
-
-					case POST:
-						response.onPostCompleted(entity);
-						break;
-
-					case PUT:
-						response.onPutCompleted(entity);
-						break;
-
-					case DELETE:
-						response.onDeleteCompleted(entity);
-						break;
-
-					default:
-						break;
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				default:
+					break;
 			}
 		}
 	}
