@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.nityankhanna.androidutils.security.EncryptionManager;
 import com.nityankhanna.androidutils.system.FileManager;
+import com.nityankhanna.androidutils.ui.TextViewField;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -37,6 +39,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		button.setOnClickListener(this);
 		button2.setOnClickListener(this);
+
+		TextViewField textViewField = (TextViewField) findViewById(R.id.text_view_field);
+
+		Log.d("DEBUG", textViewField.getTextAsString());
 	}
 
 	@Override

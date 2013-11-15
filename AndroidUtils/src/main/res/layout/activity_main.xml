@@ -21,4 +21,13 @@
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="73dp"/>
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="com.nityankhanna.androidutils.ui.TextViewField"
+        android:id="@+id/text_view_field"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="66dp"
+        android:text="Text Here"/>
 </RelativeLayout>
