@@ -14,6 +14,11 @@ public class HashManager {
 	private HashManager() {
 	}
 
+	/**
+	 * Returns an instance of the HashManager class.
+	 *
+	 * @return Returns an instance of the HashManager class.
+	 */
 	public static HashManager getInstance() {
 
 		synchronized (HashManager.class) {
@@ -26,16 +31,30 @@ public class HashManager {
 		}
 	}
 
-	public String hashString(String value, HashType type) throws NoSuchAlgorithmException {
+	/**
+	 * Hashes a string and returns the hashed string.
+	 *
+	 * @param value The string to hash.
+	 * @param type  The type of algorithm to use
+	 *
+	 * @return Returns the hashed string.
+	 *
+	 */
+	public String hashString(String value, HashType type) {
 
 		if (value == null || value.isEmpty()) {
 			throw new IllegalArgumentException("The string parameter cannot be null or empty");
 		}
 
-		MessageDigest digest = MessageDigest.getInstance(type.toString());
+		try {
+			MessageDigest digest = MessageDigest.getInstance(type.toString());
+			digest.update(value.getBytes());
+			return new String(digest.digest());
 
-		digest.update(value.getBytes());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
-		return new String(digest.digest());
+		return null;
 	}
 }
