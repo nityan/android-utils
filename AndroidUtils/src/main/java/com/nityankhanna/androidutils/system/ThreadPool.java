@@ -4,10 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.nityankhanna.androidutils.Constants;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -54,7 +50,7 @@ public class ThreadPool implements RejectedExecutionHandler {
 	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPool) {
 
 		if (threadPool.isTerminated()) {
-			Log.e(Constants.DEBUG, "Cannot queue worker task, the thread pool is terminated.");
+			Log.e("ANDROID_UTILS", "Cannot queue worker task, the thread pool is terminated.");
 		} else {
 			throw new RejectedExecutionException("Too many tasks have built up in the queue");
 		}

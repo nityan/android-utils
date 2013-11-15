@@ -15,5 +15,16 @@ public interface FieldOperations {
 
 	String getTextAsString();
 
+	void setGone();
+
 	void setHidden(boolean flag);
+
+	void setText(boolean value);
+
+	void setText(double value);
+
+	void setText(long value);
+
+	void setText(String value);
+
 }

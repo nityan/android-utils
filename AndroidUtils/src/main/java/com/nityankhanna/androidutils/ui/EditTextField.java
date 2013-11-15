@@ -3,10 +3,7 @@ package com.nityankhanna.androidutils.ui;
 import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
-
-import com.nityankhanna.androidutils.Constants;
 
 /**
  * Created by Nityan Khanna on 20/09/13.
@@ -42,11 +39,7 @@ public class EditTextField extends EditText implements FieldOperations {
 		if (editable == null) {
 			return value;
 		} else {
-			try {
-				value = Integer.parseInt(editable.toString());
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-			}
+			value = Integer.parseInt(editable.toString());
 		}
 
 		return value;
@@ -62,11 +55,7 @@ public class EditTextField extends EditText implements FieldOperations {
 		if (editable == null) {
 			return value;
 		} else {
-			try {
-				value = Double.parseDouble(editable.toString());
-			} catch (NumberFormatException ex) {
-				Log.d(Constants.DEBUG, ex.getMessage());
-			}
+			value = Double.parseDouble(editable.toString());
 		}
 
 		return value;
@@ -85,11 +74,36 @@ public class EditTextField extends EditText implements FieldOperations {
 	}
 
 	@Override
+	public void setGone() {
+		setVisibility(GONE);
+	}
+
+	@Override
 	public void setHidden(boolean flag) {
 		if (flag) {
 			setVisibility(INVISIBLE);
 		} else {
 			setVisibility(VISIBLE);
 		}
+	}
+
+	@Override
+	public void setText(boolean value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(double value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(long value) {
+		setText(String.valueOf(value));
+	}
+
+	@Override
+	public void setText(String value) {
+		super.setText(value);
 	}
 }
