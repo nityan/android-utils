@@ -3,6 +3,10 @@ package com.nityankhanna.androidutils.ui;
 /**
  * Created by Nityan Khanna on 12/10/13.
  */
+
+/**
+ * An interface containing methods to perform operations on text fields.
+ */
 public interface FieldOperations {
 
 	int badValue = -65536;

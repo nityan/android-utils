@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Nityan Khanna on 11/11/13.
- * Copyright (c) 2013 NAATec. All rights reserved.
  */
 public class HashManager {
 

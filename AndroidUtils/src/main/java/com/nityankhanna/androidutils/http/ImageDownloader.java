@@ -20,7 +20,6 @@ import java.net.URL;
 
 /**
  * Created by Nityan Khanna on 13/11/13.
- * Copyright (c) 2013 NAATec. All rights reserved.
  */
 public class ImageDownloader {
 

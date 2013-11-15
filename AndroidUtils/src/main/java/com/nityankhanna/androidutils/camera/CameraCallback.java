@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 /**
  * Created by Nityan Khanna on 14/11/13.
- * Copyright (c) 2013 NAATec. All rights reserved.
  */
 public interface CameraCallback {
 

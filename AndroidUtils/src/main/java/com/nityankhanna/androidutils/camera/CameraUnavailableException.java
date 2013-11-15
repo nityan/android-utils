@@ -2,7 +2,6 @@ package com.nityankhanna.androidutils.camera;
 
 /**
  * Created by Nityan Khanna on 14/11/13.
- * Copyright (c) 2013 NAATec. All rights reserved.
  */
 
 /**
