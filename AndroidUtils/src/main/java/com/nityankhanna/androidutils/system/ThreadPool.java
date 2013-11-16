@@ -113,7 +113,7 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 *
 	 * @return Returns true is the current thread is the main thread.
 	 */
-	public boolean isCurrentThreadMain() {
+	public static boolean isCurrentThreadMain() {
 		return (Looper.getMainLooper().getThread() == Thread.currentThread());
 	}
 
@@ -136,7 +136,7 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 *
 	 * @param runnable The runnable to run on the UI thread.
 	 */
-	public void runOnUiThread(Runnable runnable) {
+	public static void runOnUiThread(Runnable runnable) {
 
 		if (runnable == null) {
 			throw new IllegalArgumentException("The runnable parameter cannot be null");

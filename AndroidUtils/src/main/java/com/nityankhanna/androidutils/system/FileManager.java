@@ -68,13 +68,21 @@ public class FileManager {
 	}
 
 	public static void logException(Context context, Exception exception) {
+		logException(context, exception, null);
+	}
+
+	public static void logException(Context context, Exception exception, String fileName) {
 
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fileOutputStream = null;
 
 		try {
 
-			String fileName = context.getPackageName() + "-exceptions";
+			if (fileName == null) {
+				fileOutputStream = context.openFileOutput(context.getPackageName() + "-exceptions", Context.MODE_PRIVATE);
+			} else {
+				fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+			}
 
 			fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 			outputStream = new ObjectOutputStream(fileOutputStream);
@@ -98,10 +106,6 @@ public class FileManager {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void logException(Context context, Exception exception, String fileName) {
-
 	}
 
 	/**
