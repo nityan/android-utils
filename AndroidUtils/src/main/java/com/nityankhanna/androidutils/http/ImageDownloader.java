@@ -83,16 +83,6 @@ public class ImageDownloader {
 			this.callback = callback;
 		}
 
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-
-			if (!URLUtil.isValidUrl(url)) {
-				throw new IllegalArgumentException("Bad url: " + url);
-			}
-		}
-
 		@Override
 		protected Drawable doInBackground(String... strings) {
 
@@ -106,11 +96,11 @@ public class ImageDownloader {
 		}
 
 		@Override
-		protected void onCancelled() {
-			super.onCancelled();
+		protected void onPreExecute() {
+			super.onPreExecute();
 
-			if (callback != null) {
-				callback.onImageDownloadCancelled();
+			if (!URLUtil.isValidUrl(url)) {
+				throw new IllegalArgumentException("Bad url: " + url);
 			}
 		}
 
@@ -123,6 +113,24 @@ public class ImageDownloader {
 			} else {
 				callback.onImageDownloadComplete(drawable);
 			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+
+			if (callback != null) {
+				callback.onImageDownloadCancelled();
+			}
+		}
+
+		@Override
+		protected void finalize() throws Throwable {
+			super.finalize();
+
+			url = null;
+			imageView = null;
+			callback = null;
 		}
 	}
 
