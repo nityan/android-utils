@@ -1,5 +1,6 @@
 package com.nityankhanna.androidutils.http;
 
+import android.os.AsyncTask;
 import android.os.NetworkOnMainThreadException;
 
 import com.nityankhanna.androidutils.system.ThreadPool;
@@ -40,7 +41,6 @@ import java.util.List;
  */
 public class HttpClientService implements HttpHeaderStore, CookieStore {
 
-	private static ThreadPool threadPool = ThreadPool.getInstance();
 	private final String UTF8 = "UTF-8";
 	private final List<HttpHeader> headers;
 	private final List<Cookie> cookies;
@@ -241,199 +241,162 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	}
 
 	/**
-	 * Executes an HTTP request.
-	 * <p/>
-	 * This method is not run in the background and will need
-	 * to threaded properly.
-	 */
-	public void executeRequest() {
-
-		if (threadPool.isCurrentThreadMain()) {
-			throw new NetworkOnMainThreadException();
-		}
-
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse httpResponse = null;
-
-		switch (requestType) {
-
-			case GET:
-				httpResponse = executeGetRequest(client);
-				break;
-
-			case POST:
-				httpResponse = executePostRequest(client);
-				break;
-
-			case PUT:
-				httpResponse = executePutRequest(client);
-				break;
-
-			case DELETE:
-				httpResponse = executeDeleteRequest(client);
-				break;
-
-			default:
-				break;
-		}
-
-		parseResponse(httpResponse);
-	}
-
-	/**
 	 * Executes an HTTP request on a background thread.
 	 */
 	public void executeRequestAsync() {
-
-		threadPool.queueWorkerItem(new Runnable() {
-
-			@Override
-			public void run() {
-				HttpClient client = new DefaultHttpClient();
-				HttpResponse httpResponse = null;
-
-				switch (requestType) {
-
-					case GET:
-						httpResponse = executeGetRequest(client);
-						break;
-
-					case POST:
-						httpResponse = executePostRequest(client);
-						break;
-
-					case PUT:
-						httpResponse = executePutRequest(client);
-						break;
-
-					case DELETE:
-						httpResponse = executeDeleteRequest(client);
-						break;
-
-					default:
-						break;
-				}
-
-				parseResponse(httpResponse);
-			}
-
-		});
+		new HttpClientTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	private HttpResponse executeDeleteRequest(HttpClient client) {
+	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
 
-		HttpDelete delete = new HttpDelete(url);
-		delete.setHeaders(headers.toArray(new Header[headers.size()]));
+		@Override
+		protected HttpResponse doInBackground(Void... voids) {
 
-		HttpResponse httpResponse = null;
-
-		try {
-			httpResponse = client.execute(delete);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return httpResponse;
-	}
-
-	private HttpResponse executeGetRequest(HttpClient client) {
-
-		HttpGet get = new HttpGet(url);
-		get.setHeaders(headers.toArray(new Header[headers.size()]));
-
-		HttpResponse httpResponse = null;
-
-		try {
-			httpResponse = client.execute(get);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return httpResponse;
-	}
-
-	private HttpResponse executePostRequest(HttpClient client) {
-
-		HttpPost post = new HttpPost(url);
-		post.setHeaders(headers.toArray(new Header[headers.size()]));
-
-		HttpResponse httpResponse = null;
-
-		try {
-			post.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = client.execute(post);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return httpResponse;
-	}
-
-	private HttpResponse executePutRequest(HttpClient client) {
-
-		HttpPut put = new HttpPut(url);
-		put.setHeaders(headers.toArray(new Header[headers.size()]));
-
-		HttpResponse httpResponse = null;
-
-		try {
-			put.setEntity(new StringEntity(params.toString(), UTF8));
-			httpResponse = client.execute(put);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return httpResponse;
-	}
-
-	private void parseResponse(final HttpResponse httpResponse) {
-
-		String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
-		int statusCode = httpResponse.getStatusLine().getStatusCode();
-
-		if (statusCode >= 500) {
-			ErrorResponse error = new ErrorResponse();
-
-			error.setMessage(statusCode + " " + reasonPhrase);
-			delegate.onServerError(error);
-		} else if (statusCode >= 400) {
-			ErrorResponse error = new ErrorResponse();
-
-			error.setMessage(statusCode + " " + reasonPhrase);
-			delegate.onClientError(error);
-		} else {
-
-			HttpEntity entity = httpResponse.getEntity();
+			HttpClient client = new DefaultHttpClient();
+			HttpResponse httpResponse = null;
 
 			switch (requestType) {
 
 				case GET:
-					delegate.onGetCompleted(entity);
+					httpResponse = executeGetRequest(client);
 					break;
 
 				case POST:
-					delegate.onPostCompleted(entity);
+					httpResponse = executePostRequest(client);
 					break;
 
 				case PUT:
-					delegate.onPutCompleted(entity);
+					httpResponse = executePutRequest(client);
 					break;
 
 				case DELETE:
-					delegate.onDeleteCompleted(entity);
+					httpResponse = executeDeleteRequest(client);
 					break;
 
 				default:
 					break;
 			}
+
+			return httpResponse;
+		}
+
+		@Override
+		protected void onPostExecute(HttpResponse httpResponse) {
+			super.onPostExecute(httpResponse);
+
+			String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
+			int statusCode = httpResponse.getStatusLine().getStatusCode();
+
+			if (statusCode >= 500) {
+				ErrorResponse error = new ErrorResponse();
+
+				error.setMessage(statusCode + " " + reasonPhrase);
+				delegate.onServerError(error);
+			} else if (statusCode >= 400) {
+				ErrorResponse error = new ErrorResponse();
+
+				error.setMessage(statusCode + " " + reasonPhrase);
+				delegate.onClientError(error);
+			} else {
+
+				HttpEntity entity = httpResponse.getEntity();
+
+				switch (requestType) {
+
+					case GET:
+						delegate.onGetCompleted(entity);
+						break;
+
+					case POST:
+						delegate.onPostCompleted(entity);
+						break;
+
+					case PUT:
+						delegate.onPutCompleted(entity);
+						break;
+
+					case DELETE:
+						delegate.onDeleteCompleted(entity);
+						break;
+
+					default:
+						break;
+				}
+			}
+		}
+
+		private HttpResponse executeDeleteRequest(HttpClient client) {
+
+			HttpDelete delete = new HttpDelete(url);
+			delete.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			HttpResponse httpResponse = null;
+
+			try {
+				httpResponse = client.execute(delete);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return httpResponse;
+		}
+
+		private HttpResponse executeGetRequest(HttpClient client) {
+
+			HttpGet get = new HttpGet(url);
+			get.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			HttpResponse httpResponse = null;
+
+			try {
+				httpResponse = client.execute(get);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return httpResponse;
+		}
+
+		private HttpResponse executePostRequest(HttpClient client) {
+
+			HttpPost post = new HttpPost(url);
+			post.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			HttpResponse httpResponse = null;
+
+			try {
+				post.setEntity(new StringEntity(params.toString(), UTF8));
+				httpResponse = client.execute(post);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return httpResponse;
+		}
+
+		private HttpResponse executePutRequest(HttpClient client) {
+
+			HttpPut put = new HttpPut(url);
+			put.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			HttpResponse httpResponse = null;
+
+			try {
+				put.setEntity(new StringEntity(params.toString(), UTF8));
+				httpResponse = client.execute(put);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return httpResponse;
 		}
 	}
 }

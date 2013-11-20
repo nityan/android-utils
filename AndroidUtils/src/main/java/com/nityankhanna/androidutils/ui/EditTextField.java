@@ -10,8 +10,6 @@ import android.widget.EditText;
  */
 public class EditTextField extends EditText implements FieldOperations {
 
-	private String content;
-
 	public EditTextField(Context context) {
 		super(context);
 	}
@@ -66,11 +64,13 @@ public class EditTextField extends EditText implements FieldOperations {
 
 		Editable editable = getText();
 
+		String value = null;
+
 		if (editable != null) {
-			content = editable.toString();
+			value = editable.toString();
 		}
 
-		return content;
+		return value;
 	}
 
 	@Override

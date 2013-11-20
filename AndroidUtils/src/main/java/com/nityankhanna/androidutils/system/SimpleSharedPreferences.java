@@ -14,7 +14,6 @@ import com.nityankhanna.androidutils.security.EncryptionManager;
  */
 public class SimpleSharedPreferences {
 
-	private static EncryptionManager encryptionManager = EncryptionManager.getInstance();
 	private SharedPreferences sharedPreferences;
 	private SharedPreferences.Editor editor;
 

@@ -53,16 +53,6 @@ public class ImageDownloader {
 		new ImageDownloaderTask(url, imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	private static Drawable downloadImage(String url) throws IOException {
-		InputStream inputStream = (InputStream) new URL(url).getContent();
-
-		Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-		inputStream.close();
-
-		return new BitmapDrawable(Resources.getSystem(), bitmap);
-	}
-
 	private static class ImageDownloaderTask extends AsyncTask<String, Void, Drawable> {
 
 		private String url;
@@ -131,6 +121,16 @@ public class ImageDownloader {
 			url = null;
 			imageView = null;
 			callback = null;
+		}
+
+		private Drawable downloadImage(String url) throws IOException {
+			InputStream inputStream = (InputStream) new URL(url).getContent();
+
+			Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+			inputStream.close();
+
+			return new BitmapDrawable(Resources.getSystem(), bitmap);
 		}
 	}
 

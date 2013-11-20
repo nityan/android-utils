@@ -35,7 +35,7 @@ public class EncodingManager {
 	 *
 	 * @return Returns the encoded data as a byte array.
 	 */
-	public byte[] encodeDataUsingBase64(byte[] data) {
+	public synchronized byte[] encodeDataUsingBase64(byte[] data) {
 		return Base64.encode(data, Base64.DEFAULT);
 	}
 
@@ -47,7 +47,7 @@ public class EncodingManager {
 	 *
 	 * @return Returns the decoded data as a byte array.
 	 */
-	public byte[] decodeDataUsingBase64(byte[] data) {
+	public synchronized byte[] decodeDataUsingBase64(byte[] data) {
 		return Base64.decode(data, Base64.DEFAULT);
 	}
 }
