@@ -1,6 +1,7 @@
 package com.nityankhanna.androidutils.ui;
 
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * Created by Nityan Khanna on 29/06/13.
@@ -32,6 +33,6 @@ public class SimpleToast {
 	}
 
 	private static void displayToast(Context context, String text, int duration) {
-		android.widget.Toast.makeText(context, text, duration).show();
+		Toast.makeText(context, text, duration).show();
 	}
 }

@@ -1,13 +1,9 @@
 package com.nityankhanna.androidutils.ui;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.nityankhanna.androidutils.system.ThreadPool;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -49,16 +45,13 @@ public class SimpleArrayAdapter<T> extends ArrayAdapter<T> {
 
 				@Override
 				public void run() {
-					updateDataSet();
+
+					SimpleArrayAdapter.super.notifyDataSetChanged();
 				}
 			});
 
 		} else {
-			updateDataSet();
+			super.notifyDataSetChanged();
 		}
-	}
-
-	private void updateDataSet() {
-		super.notifyDataSetChanged();
 	}
 }
