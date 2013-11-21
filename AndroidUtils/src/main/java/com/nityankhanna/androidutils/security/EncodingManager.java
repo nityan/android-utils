@@ -16,6 +16,10 @@ public class EncodingManager {
 	private EncodingManager() {
 	}
 
+	/**
+	 * Returns an instance of the EncodingManager class.
+	 * @return Returns an instance of the EncodingManager class.
+	 */
 	public static EncodingManager getInstance() {
 
 		synchronized (EncodingManager.class) {

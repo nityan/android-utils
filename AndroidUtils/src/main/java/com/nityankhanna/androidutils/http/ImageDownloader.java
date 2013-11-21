@@ -44,6 +44,12 @@ public class ImageDownloader {
 		new ImageDownloaderTask(url, callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
+	/**
+	 * Downloads an image in the background.
+	 *
+	 * @param url       The url of the image.
+	 * @param imageView The image view to set the image in.
+	 */
 	public static void loadImageFromUrlAsync(String url, ImageView imageView) {
 
 		if (!URLUtil.isValidUrl(url)) {
@@ -123,6 +129,15 @@ public class ImageDownloader {
 			callback = null;
 		}
 
+		/**
+		 * Downloads an image.
+		 *
+		 * @param url The url of the image.
+		 *
+		 * @return Returns the drawable image.
+		 *
+		 * @throws IOException
+		 */
 		private Drawable downloadImage(String url) throws IOException {
 			InputStream inputStream = (InputStream) new URL(url).getContent();
 

@@ -3,6 +3,10 @@ package com.nityankhanna.androidutils.system;
 /**
  * Created by Nityan Khanna on 14/11/13.
  */
+
+/**
+ * Represents an exception that occurs when reading from a file.
+ */
 public class FileReadException extends RuntimeException {
 
 	/**

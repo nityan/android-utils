@@ -26,6 +26,11 @@ public class FileManager {
 	private FileManager() {
 	}
 
+	/**
+	 * Determines if the there is the ability to write to external storage.
+	 *
+	 * @return Returns true if there is the ability to write to external storage.
+	 */
 	public static boolean canWriteToExternalStorage() {
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
@@ -67,10 +72,23 @@ public class FileManager {
 		return destination;
 	}
 
+	/**
+	 * Logs an exception to a file.
+	 *
+	 * @param context   The application context.
+	 * @param exception The exception to log to the file.
+	 */
 	public static void logException(Context context, Exception exception) {
 		logException(context, exception, null);
 	}
 
+	/**
+	 * Logs an exception to a file.
+	 *
+	 * @param context   The application context.
+	 * @param exception The exception to log to the file.
+	 * @param fileName  The name of the file.
+	 */
 	public static void logException(Context context, Exception exception, String fileName) {
 
 		ObjectOutputStream outputStream = null;
@@ -148,7 +166,7 @@ public class FileManager {
 	}
 
 	/**
-	 * Reads a raw file from the android resources.
+	 * Reads a raw text file from the android resources.
 	 *
 	 * @param context    The application context.
 	 * @param resourceId The id of the resource to find.

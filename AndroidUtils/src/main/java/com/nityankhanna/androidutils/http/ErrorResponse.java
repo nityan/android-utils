@@ -5,23 +5,50 @@ package com.nityankhanna.androidutils.http;
  */
 
 /**
- * An ErrorResponse class to hold an error message.
+ * Represents an error response.
  */
 public class ErrorResponse {
 
 	private String message;
 
+	/**
+	 * Initializes a new instance of the ErrorResponse class.
+	 */
 	public ErrorResponse() {
 	}
 
+	/**
+	 * Initializes a new instance of the ErrorResponse class with a specified message.
+	 *
+	 * @param message The message.
+	 */
+	public ErrorResponse(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * Gets the message.
+	 *
+	 * @return Returns the message.
+	 */
 	public String getMessage() {
 		return message;
 	}
 
+	/**
+	 * Sets the message.
+	 *
+	 * @param message The message.
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
+	/**
+	 * Returns the message.
+	 *
+	 * @return Returns the message.
+	 */
 	@Override
 	public String toString() {
 		return getMessage();

@@ -23,6 +23,7 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 	private Activity activity;
 	private int cameraId = 0;
 	private CameraCallback cameraCallback;
+	private PackageManager packageManager;
 
 	public SimpleCamera(Activity activity, CameraCallback cameraCallback) {
 		this.activity = activity;
@@ -33,7 +34,7 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 
 		this.cameraCallback = cameraCallback;
 
-		PackageManager packageManager = this.activity.getPackageManager();
+		this.packageManager = this.activity.getPackageManager();
 
 		cameraId = findFrontFacingCamera();
 
@@ -50,7 +51,6 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 
 	public void takeVideo() {
 
-		PackageManager packageManager = activity.getPackageManager();
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -58,7 +58,6 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 			Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 			activity.startActivityForResult(takeVideoIntent, 9001);
 		}
-
 	}
 
 	@Override
@@ -67,9 +66,7 @@ public class SimpleCamera implements Camera.PictureCallback, Camera.ShutterCallb
 		if (camera != null) {
 			camera.stopPreview();
 			camera.release();
-			camera = null;
 		}
-
 
 		Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 

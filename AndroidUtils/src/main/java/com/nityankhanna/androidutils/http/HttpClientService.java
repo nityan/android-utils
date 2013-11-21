@@ -1,9 +1,6 @@
 package com.nityankhanna.androidutils.http;
 
 import android.os.AsyncTask;
-import android.os.NetworkOnMainThreadException;
-
-import com.nityankhanna.androidutils.system.ThreadPool;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
