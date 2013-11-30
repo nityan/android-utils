@@ -1,12 +1,14 @@
 package com.nityankhanna.androidutils;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.nityankhanna.androidutils.security.EncryptionManager;
+import com.nityankhanna.androidutils.system.ThreadPool;
 import com.nityankhanna.androidutils.ui.TextViewField;
 
 /**
@@ -30,6 +32,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		button2.setOnClickListener(this);
 
 		TextViewField textViewField = (TextViewField) findViewById(R.id.text_view_field);
+
+		new TestTask().executeOnExecutor(ThreadPool.EXECUTOR);
 
 		Log.d("DEBUG", textViewField.getTextAsString());
 	}
@@ -59,6 +63,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			default:
 				break;
+		}
+	}
+
+	private class TestTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			return null;
 		}
 	}
 }
