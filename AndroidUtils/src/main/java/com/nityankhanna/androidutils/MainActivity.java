@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		TextViewField textViewField = (TextViewField) findViewById(R.id.text_view_field);
 
+		ThreadPool threadPool = ThreadPool.getInstance();
 		new TestTask().executeOnExecutor(ThreadPool.EXECUTOR);
 
 		Log.d("DEBUG", textViewField.getTextAsString());

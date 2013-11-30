@@ -1,18 +1,12 @@
 package com.nityankhanna.androidutils.system;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -24,18 +18,15 @@ import java.util.concurrent.TimeUnit;
 /**
  * An ThreadPoolExecutor service that queues tasks to be executed.
  */
-public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionHandler {
+public class ThreadPool {
 
+	public static final Executor EXECUTOR = getInstance().service;
 	private static ThreadPool sharedInstance;
-	//private ThreadPoolExecutor service;
-
-	public static final Executor EXECUTOR = getInstance();
+	private ThreadPoolExecutor service;
 
 	private ThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory());
-		//service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory());
-		//service.allowCoreThreadTimeOut(true);
-		allowCoreThreadTimeOut(true);
+		service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory());
+		service.allowCoreThreadTimeOut(true);
 	}
 
 	/**
@@ -79,22 +70,11 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 		handler.post(runnable);
 	}
 
-	@Override
-	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPool) {
-
-		if (threadPool.isTerminated()) {
-			Log.e("ANDROID_UTILS", "Cannot queue worker task, the thread pool is terminated.");
-		} else {
-			throw new RejectedExecutionException("Too many tasks have built up in the queue");
-		}
-	}
-
 	/**
 	 * Clears the queue of the thread pool.
 	 */
 	public void clearQueue() {
-//		service.getQueue().clear();
-		getQueue().clear();
+		service.getQueue().clear();
 	}
 
 	/**
@@ -103,8 +83,7 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 * @return Returns the max pool size of the ThreadPool.
 	 */
 	public int getMaxPoolSize() {
-//		return service.getMaximumPoolSize();
-		return getMaximumPoolSize();
+		return service.getMaximumPoolSize();
 	}
 
 	/**
@@ -113,8 +92,7 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 * @return Returns the active task count of the ThreadPool.
 	 */
 	public int getActiveTaskCount() {
-//		return service.getActiveCount();
-		return getActiveCount();
+		return service.getActiveCount();
 	}
 
 	/**
@@ -123,8 +101,7 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 * @return Returns the queued task count of the thread pool.
 	 */
 	public int getQueuedTaskCount() {
-//		return service.getQueue().size();
-		return getQueue().size();
+		return service.getQueue().size();
 	}
 
 	/**
@@ -133,8 +110,25 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 * @return Returns the uncompleted task count of the ThreadPool.
 	 */
 	public int getUncompletedTaskCount() {
-//		return service.getQueue().size() - service.getActiveCount();
-		return getQueue().size() - getActiveCount();
+		return service.getQueue().size() - service.getActiveCount();
+	}
+
+	/**
+	 * Gets the rejected execution handler.
+	 *
+	 * @return The rejected execution handler.
+	 */
+	public RejectedExecutionHandler getRejectedExecutionHandler() {
+		return service.getRejectedExecutionHandler();
+	}
+
+	/**
+	 * Sets the rejected execution handler, to handle errors on when submitting and running tasks on the thread pool.
+	 *
+	 * @param rejectedExecutionHandler The rejected execution handler.
+	 */
+	public void setRejectedExecutionHandler(RejectedExecutionHandler rejectedExecutionHandler) {
+		service.setRejectedExecutionHandler(rejectedExecutionHandler);
 	}
 
 	/**
@@ -142,16 +136,13 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 *
 	 * @param runnable The runnable to be run on a background thread.
 	 */
-	@NotNull
-	@Override
-	public Future<?> submit(Runnable runnable) {
+	public void submit(Runnable runnable) {
 
 		if (runnable == null) {
 			throw new IllegalArgumentException("The runnable parameter cannot be null");
 		}
 
-//		service.submit(runnable);
-		return super.submit(runnable);
+		service.submit(runnable);
 	}
 
 	/**
@@ -162,8 +153,7 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 	 * @throws InterruptedException
 	 */
 	public void terminateThreadPool(int timeout) throws InterruptedException {
-//		service.awaitTermination(timeout, TimeUnit.MILLISECONDS);
-		awaitTermination(timeout, TimeUnit.MILLISECONDS);
+		service.awaitTermination(timeout, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -178,8 +168,7 @@ public class ThreadPool extends ThreadPoolExecutor implements RejectedExecutionH
 		if (shouldFinishQueue) {
 			terminateThreadPool(30000);
 		} else {
-//			service.shutdownNow();
-			shutdownNow();
+			service.shutdownNow();
 		}
 	}
 }
