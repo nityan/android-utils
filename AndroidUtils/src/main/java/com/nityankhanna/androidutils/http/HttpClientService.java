@@ -206,7 +206,6 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			throw new IllegalArgumentException("The cookie parameter cannot be null");
 		}
 
-		// first remove any old cookie that is equivalent
 		for (Iterator<Cookie> it = cookies.iterator(); it.hasNext(); ) {
 			if (cookieComparator.compare(cookie, it.next()) == 0) {
 				it.remove();
