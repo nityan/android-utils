@@ -114,6 +114,15 @@ public class ThreadPool {
 	}
 
 	/**
+	 * Removes this task from the executor's internal queue if it is present, thus causing it not to be run if it has not already started.
+	 *
+	 * @param runnable The task to remove.
+	 */
+	public boolean remove(Runnable runnable) {
+		return service.remove(runnable);
+	}
+
+	/**
 	 * Gets the rejected execution handler.
 	 *
 	 * @return The rejected execution handler.
