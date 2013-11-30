@@ -13,9 +13,17 @@ public class Column {
 	private DataType type;
 	private String constraints;
 
+	/**
+	 * Initializes a new instance of a Column.
+	 */
 	public Column() {
 	}
 
+	/**
+	 * Initializes a new instance of a Column with a name and type.
+	 * @param name The name.
+	 * @param type The type.
+	 */
 	public Column(String name, DataType type) {
 		this.name = name;
 		this.type = type;
