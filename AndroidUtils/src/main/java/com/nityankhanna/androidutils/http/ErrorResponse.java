@@ -18,15 +18,6 @@ public class ErrorResponse {
 	}
 
 	/**
-	 * Initializes a new instance of the ErrorResponse class with a specified message.
-	 *
-	 * @param message The message.
-	 */
-	public ErrorResponse(String message) {
-		this.message = message;
-	}
-
-	/**
 	 * Gets the message.
 	 *
 	 * @return Returns the message.
