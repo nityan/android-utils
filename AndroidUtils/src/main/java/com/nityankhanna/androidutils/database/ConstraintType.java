@@ -32,9 +32,18 @@ public enum ConstraintType {
 	PRIMARY_KEY,
 
 	/**
+	 * A combination of a NOT NULL and UNIQUE. with autoincrement.
+	 * Ensures that a column (or combination of two or more columns) have an unique identity which helps to find a particular record in a table more easily and quickly.
+	 */
+	PRIMARY_KEY_AUTO_INCREMENT,
+
+	/**
 	 * Ensures that each row for a column must have a unique value.
 	 */
 	UNIQUE;
+
+	private ConstraintType() {
+	}
 
 	@Override
 	public String toString() {
@@ -44,27 +53,31 @@ public enum ConstraintType {
 		switch (this) {
 
 			case CHECK:
-				value = "CHECK";
+				value = " CHECK ";
 				break;
 
 			case DEFAULT:
-				value = "DEFAULT";
+				value = " DEFAULT ";
 				break;
 
 			case FOREIGN_KEY:
-				value = "FOREIGN KEY";
+				value = " FOREIGN KEY ";
 				break;
 
 			case NOT_NULL:
-				value = "NOT NULL";
+				value = " NOT NULL ";
 				break;
 
 			case PRIMARY_KEY:
-				value = "PRIMARY KEY";
+				value = " PRIMARY KEY ";
+				break;
+
+			case PRIMARY_KEY_AUTO_INCREMENT:
+				value = " PRIMARY KEY AUTO INCREMENT ";
 				break;
 
 			case UNIQUE:
-				value = "UNIQUE";
+				value = " UNIQUE ";
 				break;
 
 			default:
