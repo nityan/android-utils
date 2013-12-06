@@ -11,6 +11,7 @@ public final class CreateTableHandler {
 	public CreateTableHandler() {
 	}
 
+	/*
 	public void createTable(String tableName, boolean dropTableIfExists, Column... columns) {
 
 		if (dropTableIfExists) {
@@ -46,6 +47,7 @@ public final class CreateTableHandler {
 
 		close();
 	}
+	*/
 
 	public String createForeignKeySyntax(Column column, String referenceTableName, Column referenceColumn) {
 		return "FOREIGN KEY(" + column.getName() + ") REFERENCES " + referenceTableName + "(" + referenceColumn.getName() + ")";

@@ -52,6 +52,67 @@ public class DatabaseHandler extends SQLiteOpenHelper implements DatabaseErrorHa
 
 		return database;
 	}
+
+	public void createTable(String tableName, boolean dropTableIfExists, Column... columns) {
+
+		if (dropTableIfExists) {
+
+			openForWrite();
+			database.execSQL("DROP TABLE IF EXISTS " + tableName);
+			close();
+		}
+
+		String startSyntax = "CREATE TABLE " + tableName + "(";
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(startSyntax);
+
+		int index = 0;
+
+		for (Column column : columns) {
+			builder.append(column.toString());
+
+			if (index != columns.length - 1) {
+				builder.append(", ");
+			}
+
+			index++;
+		}
+
+		builder.append(")");
+
+		openForWrite();
+
+		database.execSQL(builder.toString());
+
+		close();
+	}
+
+	public void updateTable(String tableName, String[] columns, Object[] newValues) {
+
+		if (columns.length != newValues.length) {
+			throw new IllegalArgumentException("The columns to update do not match the number of new values");
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("UPDATE ");
+		builder.append(tableName);
+		builder.append(" SET ");
+
+		for (String s : columns) {
+
+		}
+
+		openForWrite();
+	}
+
+	public void dropTable(String tableName) {
+		openForWrite();
+		database.execSQL("DROP TABLE IF EXISTS" + tableName);
+		close();
+	}
 }
 
 

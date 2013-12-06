@@ -48,7 +48,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		Column firstColumn = new Column("id", DataType.TEXT, "PRIMARY KEY");
 		Column secondColumn = new Column("name", DataType.TEXT, "NOT NULL UNIQUE");
 
-		databaseHandler.
 		databaseHandler.createTable("users", true, firstColumn, secondColumn);
 		databaseHandler.createTable("roles", true, firstColumn, secondColumn);
 
