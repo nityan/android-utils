@@ -12,32 +12,31 @@ import com.nityankhanna.androidutils.security.EncryptionManager;
 /**
  * A simplified SharedPreferences class.
  */
-public class SimpleSharedPreferences {
+public class SharedPreferenceManager {
 
-	private static EncryptionManager encryptionManager = EncryptionManager.getInstance();
-	private SharedPreferences sharedPreferences;
-	private SharedPreferences.Editor editor;
+	private final SharedPreferences sharedPreferences;
+	private final SharedPreferences.Editor editor;
 
 	/**
-	 * Initializes a new SimpleSharedPreferences instance with a specified context.
+	 * Initializes a new SharedPreferenceManager instance with a specified context.
 	 *
 	 * @param context The application context.
 	 */
-	public SimpleSharedPreferences(Context context, String filename) {
+	public SharedPreferenceManager(Context context, String filename) {
 
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	public SimpleSharedPreferences(Context context, String filename, int mode) {
+	public SharedPreferenceManager(Context context, String filename, int mode) {
 
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	public SimpleSharedPreferences(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferenceManager(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
@@ -45,7 +44,7 @@ public class SimpleSharedPreferences {
 		editor.commit();
 	}
 
-	public SimpleSharedPreferences(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferenceManager(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
