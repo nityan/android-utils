@@ -157,16 +157,14 @@ public class ThreadPool {
 	/**
 	 * Terminates the thread pool.
 	 *
-	 * @param timeout The timeout in milliseconds
-	 *
 	 * @throws InterruptedException
 	 */
-	public void terminateThreadPool(int timeout) throws InterruptedException {
-		service.awaitTermination(timeout, TimeUnit.MILLISECONDS);
+	public void terminateThreadPool() throws InterruptedException {
+		terminateThreadPool(false);
 	}
 
 	/**
-	 * Terminate the thread pool.
+	 * Terminates the thread pool.
 	 *
 	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
 	 *
@@ -175,7 +173,7 @@ public class ThreadPool {
 	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException {
 
 		if (shouldFinishQueue) {
-			terminateThreadPool(30000);
+			service.awaitTermination(30000, TimeUnit.MILLISECONDS);
 		} else {
 			service.shutdownNow();
 		}
