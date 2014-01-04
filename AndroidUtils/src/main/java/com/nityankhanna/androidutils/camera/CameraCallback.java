@@ -8,5 +8,6 @@ import android.graphics.Bitmap;
 public interface CameraCallback {
 
 	void onPictureTaken(Bitmap bitmap);
+
 	void onPictureTakenFailure();
 }
