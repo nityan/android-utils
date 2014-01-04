@@ -245,32 +245,34 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
 
+		private HttpClient client;
+
 		@Override
 		protected HttpResponse doInBackground(Void... voids) {
 
-			HttpClient client = new DefaultHttpClient();
-			HttpResponse httpResponse = null;
+			client = new DefaultHttpClient();
+			HttpResponse httpResponse;
 
 			switch (requestType) {
 
 				case GET:
-					httpResponse = executeGetRequest(client);
+					httpResponse = executeGetRequest();
 					break;
 
 				case POST:
-					httpResponse = executePostRequest(client);
+					httpResponse = executePostRequest();
 					break;
 
 				case PUT:
-					httpResponse = executePutRequest(client);
+					httpResponse = executePutRequest();
 					break;
 
 				case DELETE:
-					httpResponse = executeDeleteRequest(client);
+					httpResponse = executeDeleteRequest();
 					break;
 
 				default:
-					break;
+					throw new RuntimeException("Invalid request type");
 			}
 
 			return httpResponse;
@@ -282,46 +284,59 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 			String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
 			int statusCode = httpResponse.getStatusLine().getStatusCode();
+			HttpEntity entity = httpResponse.getEntity();
+			Header[] basicHeaders = httpResponse.getAllHeaders();
+
+			List<HttpHeader> httpHeaders = new ArrayList<HttpHeader>();
+
+			for (Header header : basicHeaders) {
+				HttpHeader httpHeader = new HttpHeader(header.getName(), header.getValue());
+				httpHeaders.add(httpHeader);
+			}
+
+			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
 
 			if (statusCode >= 500) {
 				ErrorResponse error = new ErrorResponse();
 
 				error.setMessage(statusCode + " " + reasonPhrase);
-				delegate.onServerError(error);
+				responseMessage.setError(error);
+
+				delegate.onServerError(responseMessage);
 			} else if (statusCode >= 400) {
 				ErrorResponse error = new ErrorResponse();
 
 				error.setMessage(statusCode + " " + reasonPhrase);
-				delegate.onClientError(error);
-			} else {
+				responseMessage.setError(error);
 
-				HttpEntity entity = httpResponse.getEntity();
+				delegate.onClientError(responseMessage);
+			} else {
 
 				switch (requestType) {
 
 					case GET:
-						delegate.onGetCompleted(entity);
+						delegate.onGetCompleted(responseMessage);
 						break;
 
 					case POST:
-						delegate.onPostCompleted(entity);
+						delegate.onPostCompleted(responseMessage);
 						break;
 
 					case PUT:
-						delegate.onPutCompleted(entity);
+						delegate.onPutCompleted(responseMessage);
 						break;
 
 					case DELETE:
-						delegate.onDeleteCompleted(entity);
+						delegate.onDeleteCompleted(responseMessage);
 						break;
 
 					default:
-						break;
+						throw new RuntimeException("Invalid request type");
 				}
 			}
 		}
 
-		private HttpResponse executeDeleteRequest(HttpClient client) {
+		private HttpResponse executeDeleteRequest() {
 
 			HttpDelete delete = new HttpDelete(url);
 			delete.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -337,7 +352,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			return httpResponse;
 		}
 
-		private HttpResponse executeGetRequest(HttpClient client) {
+		private HttpResponse executeGetRequest() {
 
 			HttpGet get = new HttpGet(url);
 			get.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -353,7 +368,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			return httpResponse;
 		}
 
-		private HttpResponse executePostRequest(HttpClient client) {
+		private HttpResponse executePostRequest() {
 
 			HttpPost post = new HttpPost(url);
 			post.setHeaders(headers.toArray(new Header[headers.size()]));
@@ -374,7 +389,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			return httpResponse;
 		}
 
-		private HttpResponse executePutRequest(HttpClient client) {
+		private HttpResponse executePutRequest() {
 
 			HttpPut put = new HttpPut(url);
 			put.setHeaders(headers.toArray(new Header[headers.size()]));
