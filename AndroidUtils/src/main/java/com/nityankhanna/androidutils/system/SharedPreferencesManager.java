@@ -3,6 +3,8 @@ package com.nityankhanna.androidutils.system;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.nityankhanna.androidutils.security.EncryptionManager;
+
 /**
  * Created by Nityan Khanna on 28/06/13.
  */
@@ -10,46 +12,31 @@ import android.content.SharedPreferences;
 /**
  * A simplified SharedPreferences class.
  */
-public class SimpleSharedPreferences {
+public class SharedPreferencesManager {
 
-	private SharedPreferences sharedPreferences;
-	private SharedPreferences.Editor editor;
+	private final SharedPreferences sharedPreferences;
+	private final SharedPreferences.Editor editor;
 
 	/**
-	 * Initializes a new instance of the SimpleSharedPreferences class with the specified context and filename.
+	 * Initializes a new SharedPreferencesManager instance with a specified context.
 	 *
-	 * @param context  The application context.
-	 * @param filename The filename.
+	 * @param context The application context.
 	 */
-	public SimpleSharedPreferences(Context context, String filename) {
+	public SharedPreferencesManager(Context context, String filename) {
 
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	/**
-	 * Initializes a new instance of the SimpleSharedPreferences class with the specified context, filename and file mode.
-	 *
-	 * @param context  The application context.
-	 * @param filename The filename.
-	 * @param mode     The file mode.
-	 */
-	public SimpleSharedPreferences(Context context, String filename, int mode) {
+	public SharedPreferencesManager(Context context, String filename, int mode) {
 
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	/**
-	 * Initializes a new instance of the SimpleSharedPreferences class with the specified context, filename, and OnSharedPreferencesChangeListener.
-	 *
-	 * @param context  The application context.
-	 * @param filename The filename.
-	 * @param delegate The OnSharedPreferencesChangedListener.
-	 */
-	public SimpleSharedPreferences(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferencesManager(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
@@ -57,15 +44,7 @@ public class SimpleSharedPreferences {
 		editor.commit();
 	}
 
-	/**
-	 * Initializes a new instance of the SimpleSharedPreferences class with the specified context, filename, file mode, and OnSharedPreferencesChangeListener.
-	 *
-	 * @param context  The application context.
-	 * @param filename The filename.
-	 * @param mode     The file mode.
-	 * @param delegate The OnSharedPreferencesChangedListener.
-	 */
-	public SimpleSharedPreferences(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferencesManager(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
