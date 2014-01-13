@@ -20,7 +20,32 @@ android {
         minSdkVersion 14
         targetSdkVersion 16
     }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/../lib'
+            }
+        }
+    }
 }
+
+task clearJar(type: Delete) {
+    delete 'build/libs/ProjectName.jar'
+    delete 'build/libs/android-utils-sources.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename ('classes.jar', 'android-utils.jar')
+}
+
+makeJar.dependsOn(clearJar, build)
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')

@@ -32,7 +32,10 @@ local.properties
 *~
 *.swp
 gradle/
-TheFeed_Android/build
 *.iml
 atlassian-ide-plugin.xml
 AndroidUtils/build/
+/settings.gradle
+/build.gradle
+/gradlew
+/gradlew.bat

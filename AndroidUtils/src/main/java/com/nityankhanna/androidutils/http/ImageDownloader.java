@@ -14,13 +14,15 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * Created by Tyler Urquhart on 13/11/13.
+ * Created by Nityan Khanna on 13/11/13.
  */
 
 /**
  * Downloads images in the background.
  */
 public class ImageDownloader {
+
+	private static ImageDownloaderTask imageDownloaderTask;
 
 	private ImageDownloader() {
 	}
@@ -41,7 +43,8 @@ public class ImageDownloader {
 			throw new IllegalArgumentException("Bad url: " + url);
 		}
 
-		new ImageDownloaderTask(url, callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		imageDownloaderTask = new ImageDownloaderTask(url, callback);
+		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	/**
@@ -56,7 +59,12 @@ public class ImageDownloader {
 			throw new IllegalArgumentException("Bad url: " + url);
 		}
 
-		new ImageDownloaderTask(url, imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		imageDownloaderTask =  new ImageDownloaderTask(url, imageView);
+		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	public static void cancelImageDownload(boolean mayInterruptIfRunning) {
+		imageDownloaderTask.cancel(mayInterruptIfRunning);
 	}
 
 	private static class ImageDownloaderTask extends AsyncTask<String, Void, Drawable> {

@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.nityankhanna.androidutils.system.FileManager;
+
 /**
  * Created by Nityan Khanna on 01/07/13.
  */
@@ -51,10 +53,15 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
 	 *
-	 * @throws URISyntaxException
 	 */
-	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		this.url = new URI(url);
+	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) {
+
+		try {
+			this.url = new URI(url);
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException("Bad URL: " + url);
+		}
+
 		this.requestType = requestType;
 		this.delegate = response;
 
@@ -75,10 +82,15 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	 * @param requestType The type of request to be sent.
 	 * @param response    The response listener used to listen for the HTTP response.
 	 *
-	 * @throws URISyntaxException
 	 */
-	public HttpClientService(String url, BasicHttpParams params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
-		this.url = new URI(url);
+	public HttpClientService(String url, BasicHttpParams params, RequestType requestType, OnHttpResponseListener response) {
+
+		try {
+			this.url = new URI(url);
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException("Bad URL: " + url);
+		}
+
 		this.requestType = requestType;
 		this.params = params;
 		this.delegate = response;
