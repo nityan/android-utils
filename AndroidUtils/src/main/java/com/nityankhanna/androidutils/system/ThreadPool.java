@@ -2,12 +2,11 @@ package com.nityankhanna.androidutils.system;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -19,13 +18,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * An ThreadPoolExecutor service that queues tasks to be executed.
  */
-public class ThreadPool implements RejectedExecutionHandler {
+public class ThreadPool {
 
+	public static final Executor EXECUTOR = getInstance().service;
 	private static ThreadPool sharedInstance;
 	private ThreadPoolExecutor service;
 
 	private ThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-		service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory(), this);
+		service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory());
 		service.allowCoreThreadTimeOut(true);
 	}
 
@@ -46,14 +46,28 @@ public class ThreadPool implements RejectedExecutionHandler {
 		return sharedInstance;
 	}
 
-	@Override
-	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPool) {
+	/**
+	 * Checks if the current thread is the main thread (The UI thread).
+	 *
+	 * @return Returns true is the current thread is the main thread.
+	 */
+	public static boolean isCurrentThreadMain() {
+		return (Looper.getMainLooper().getThread() == Thread.currentThread());
+	}
 
-		if (threadPool.isTerminated()) {
-			Log.e("ANDROID_UTILS", "Cannot queue worker task, the thread pool is terminated.");
-		} else {
-			throw new RejectedExecutionException("Too many tasks have built up in the queue");
+	/**
+	 * Runs an item on the UI thread.
+	 *
+	 * @param runnable The runnable to run on the UI thread.
+	 */
+	public static void runOnUiThread(Runnable runnable) {
+
+		if (runnable == null) {
+			throw new IllegalArgumentException("The runnable parameter cannot be null");
 		}
+
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(runnable);
 	}
 
 	/**
@@ -61,15 +75,6 @@ public class ThreadPool implements RejectedExecutionHandler {
 	 */
 	public void clearQueue() {
 		service.getQueue().clear();
-	}
-
-	/**
-	 * Returns the core pool size of the ThreadPool.
-	 *
-	 * @return Returns the core pool size of the ThreadPool.
-	 */
-	public int getCorePoolSize() {
-		return service.getCorePoolSize();
 	}
 
 	/**
@@ -109,20 +114,38 @@ public class ThreadPool implements RejectedExecutionHandler {
 	}
 
 	/**
-	 * Checks if the current thread is the main thread (The UI thread).
+	 * Removes this task from the executor's internal queue if it is present, thus causing it not to be run if it has not already started.
 	 *
-	 * @return Returns true is the current thread is the main thread.
+	 * @param runnable The task to remove.
 	 */
-	public static boolean isCurrentThreadMain() {
-		return (Looper.getMainLooper().getThread() == Thread.currentThread());
+	public boolean remove(Runnable runnable) {
+		return service.remove(runnable);
 	}
 
 	/**
-	 * Queues a worker item to be run on a background thread pool.
+	 * Gets the rejected execution handler.
 	 *
-	 * @param runnable The runnable to run in the background.
+	 * @return The rejected execution handler.
 	 */
-	public void queueWorkerItem(Runnable runnable) {
+	public RejectedExecutionHandler getRejectedExecutionHandler() {
+		return service.getRejectedExecutionHandler();
+	}
+
+	/**
+	 * Sets the rejected execution handler, to handle errors on when submitting and running tasks on the thread pool.
+	 *
+	 * @param rejectedExecutionHandler The rejected execution handler.
+	 */
+	public void setRejectedExecutionHandler(RejectedExecutionHandler rejectedExecutionHandler) {
+		service.setRejectedExecutionHandler(rejectedExecutionHandler);
+	}
+
+	/**
+	 * Submits a task to be run on a background thread pool.
+	 *
+	 * @param runnable The runnable to be run on a background thread.
+	 */
+	public void submit(Runnable runnable) {
 
 		if (runnable == null) {
 			throw new IllegalArgumentException("The runnable parameter cannot be null");
@@ -132,18 +155,12 @@ public class ThreadPool implements RejectedExecutionHandler {
 	}
 
 	/**
-	 * Runs an item on the UI thread.
+	 * Terminates the thread pool.
 	 *
-	 * @param runnable The runnable to run on the UI thread.
+	 * @throws InterruptedException
 	 */
-	public static void runOnUiThread(Runnable runnable) {
-
-		if (runnable == null) {
-			throw new IllegalArgumentException("The runnable parameter cannot be null");
-		}
-
-		Handler handler = new Handler(Looper.getMainLooper());
-		handler.post(runnable);
+	public void terminateThreadPool() throws InterruptedException {
+		terminateThreadPool(false);
 	}
 
 	/**
