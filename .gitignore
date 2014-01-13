@@ -35,7 +35,3 @@ gradle/
 *.iml
 atlassian-ide-plugin.xml
 AndroidUtils/build/
-/settings.gradle
-/build.gradle
-/gradlew
-/gradlew.bat
