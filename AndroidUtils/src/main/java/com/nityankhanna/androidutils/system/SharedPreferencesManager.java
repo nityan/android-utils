@@ -3,8 +3,6 @@ package com.nityankhanna.androidutils.system;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.nityankhanna.androidutils.security.EncryptionManager;
-
 /**
  * Created by Nityan Khanna on 28/06/13.
  */
@@ -23,21 +21,18 @@ public class SharedPreferencesManager {
 	 * @param context The application context.
 	 */
 	public SharedPreferencesManager(Context context, String filename) {
-
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
 	public SharedPreferencesManager(Context context, String filename, int mode) {
-
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
 	public SharedPreferencesManager(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
-
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
 		editor = sharedPreferences.edit();
@@ -45,7 +40,6 @@ public class SharedPreferencesManager {
 	}
 
 	public SharedPreferencesManager(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
-
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
 		editor = sharedPreferences.edit();

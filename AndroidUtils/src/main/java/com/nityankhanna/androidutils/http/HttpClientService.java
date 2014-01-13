@@ -14,10 +14,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieIdentityComparator;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
+import org.apache.http.params.BasicHttpParams;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,13 +36,12 @@ import java.util.List;
  */
 public class HttpClientService implements HttpHeaderStore, CookieStore {
 
-	private final String UTF8 = "UTF-8";
 	private final List<HttpHeader> headers;
 	private final List<Cookie> cookies;
 	private final Comparator<Cookie> cookieComparator;
 	private URI url;
 	private RequestType requestType;
-	private JSONObject params;
+	private BasicHttpParams params;
 	private OnHttpResponseListener delegate;
 
 	/**
@@ -60,7 +57,6 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.delegate = response;
-
 
 		if (this.delegate == null) {
 			throw new IllegalArgumentException("The response parameter cannot be null");
@@ -81,7 +77,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	 *
 	 * @throws URISyntaxException
 	 */
-	public HttpClientService(String url, @NotNull JSONObject params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
+	public HttpClientService(String url, BasicHttpParams params, RequestType requestType, OnHttpResponseListener response) throws URISyntaxException {
 		this.url = new URI(url);
 		this.requestType = requestType;
 		this.params = params;
@@ -152,7 +148,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 		}
 
 		for (HttpHeader header : headers) {
-			this.addHeader(header);
+			addHeader(header);
 		}
 	}
 
@@ -376,7 +372,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			HttpResponse httpResponse = null;
 
 			try {
-				post.setEntity(new StringEntity(params.toString(), UTF8));
+				post.setParams(params);
 				httpResponse = client.execute(post);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -397,7 +393,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			HttpResponse httpResponse = null;
 
 			try {
-				put.setEntity(new StringEntity(params.toString(), UTF8));
+				put.setParams(params);
 				httpResponse = client.execute(put);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

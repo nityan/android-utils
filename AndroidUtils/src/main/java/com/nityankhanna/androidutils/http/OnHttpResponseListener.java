@@ -1,10 +1,5 @@
 package com.nityankhanna.androidutils.http;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-
-import java.util.List;
-
 /**
  * Created by Nityan Khanna on 01/07/13.
  */

@@ -2,8 +2,6 @@ package com.nityankhanna.androidutils.security;
 
 import android.util.Base64;
 
-import com.nityankhanna.androidutils.ui.SimpleArrayAdapter;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
