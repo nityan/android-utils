@@ -68,7 +68,7 @@ public class HttpHeader implements Header {
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		super.clone();
-		throw new UnsupportedOperationException("The clone method is not supported on HttpHeader.");
+		throw new CloneNotSupportedException("The clone method is not supported on HttpHeader.");
 	}
 
 	@Override
@@ -100,7 +100,9 @@ public class HttpHeader implements Header {
 
 	@Override
 	public String toString() {
-		return name + " " + value;
+		return getClass().getName() + "[" +
+				"Name = " + name + ", " +
+				"Value = " + value + ", ]";
 	}
 
 	/**
