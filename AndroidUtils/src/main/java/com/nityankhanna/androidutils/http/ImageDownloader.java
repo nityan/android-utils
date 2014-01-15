@@ -59,7 +59,7 @@ public class ImageDownloader {
 			throw new IllegalArgumentException("Bad url: " + url);
 		}
 
-		imageDownloaderTask =  new ImageDownloaderTask(url, imageView);
+		imageDownloaderTask = new ImageDownloaderTask(url, imageView);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 

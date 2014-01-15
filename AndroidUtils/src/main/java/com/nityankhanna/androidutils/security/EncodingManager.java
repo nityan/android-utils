@@ -48,12 +48,12 @@ public class EncodingManager {
 	 * Encodes a byte array using Base64.
 	 *
 	 * @param data       The data to be encoded.
-	 * @param base64Mode The Base64 encoding mode.
+	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the encoded data as a byte array.
 	 */
-	public byte[] encodeToByteArray(byte[] data, int base64Mode) {
-		return Base64.encode(data, base64Mode);
+	public byte[] encodeToByteArray(byte[] data, Base64Mode mode) {
+		return Base64.encode(data, mode.getValue());
 	}
 
 	/**
@@ -71,12 +71,12 @@ public class EncodingManager {
 	 * Encodes a byte array using Base64.
 	 *
 	 * @param data       The data to be encoded.
-	 * @param base64Mode The Base64 encoding mode.
+	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the encoded data as a String.
 	 */
-	public String encodeToString(byte[] data, int base64Mode) {
-		return Base64.encodeToString(data, base64Mode);
+	public String encodeToString(byte[] data, Base64Mode mode) {
+		return Base64.encodeToString(data, mode.getValue());
 	}
 
 	/**
@@ -94,12 +94,12 @@ public class EncodingManager {
 	 * Decodes a byte array using Base64.
 	 *
 	 * @param data       The data to be encoded.
-	 * @param base64Mode The Base64 encoding mode.
+	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the decoded data as a byte array.
 	 */
-	public byte[] decodeToByteArray(byte[] data, int base64Mode) {
-		return Base64.encode(data, base64Mode);
+	public byte[] decodeToByteArray(byte[] data, Base64Mode mode) {
+		return Base64.encode(data, mode.getValue());
 	}
 
 	/**
@@ -117,11 +117,11 @@ public class EncodingManager {
 	 * Decodes a byte array using Base64.
 	 *
 	 * @param data       The data to be encoded.
-	 * @param base64Mode The Base64 encoding mode.
+	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the decoded data as a String.
 	 */
-	public String decodeToString(byte[] data, int base64Mode) {
-		return new String(Base64.decode(data, base64Mode));
+	public String decodeToString(byte[] data, Base64Mode mode) {
+		return new String(Base64.decode(data, mode.getValue()));
 	}
 }
