@@ -23,7 +23,21 @@ import java.nio.channels.FileChannel;
  */
 public class FileManager {
 
+	private static FileManager sharedInstance;
+
 	private FileManager() {
+	}
+
+	public static FileManager getInstance() {
+
+		synchronized (FileManager.class) {
+
+			if (sharedInstance == null) {
+				sharedInstance = new FileManager();
+			}
+		}
+
+		return sharedInstance;
 	}
 
 	/**
@@ -31,7 +45,7 @@ public class FileManager {
 	 *
 	 * @return Returns true if there is the ability to write to external storage.
 	 */
-	public static boolean canWriteToExternalStorage() {
+	public boolean canWriteToExternalStorage() {
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
 
@@ -45,7 +59,7 @@ public class FileManager {
 	 *
 	 * @throws IOException
 	 */
-	public static File copyFile(File source, File destination) throws IOException {
+	public File copyFile(File source, File destination) throws IOException {
 
 		FileInputStream inputStream = new FileInputStream(source);
 		FileOutputStream outputStream = new FileOutputStream(destination);
@@ -78,7 +92,7 @@ public class FileManager {
 	 * @param context   The application context.
 	 * @param exception The exception to log to the file.
 	 */
-	public static void logException(Context context, Exception exception) {
+	public void logException(Context context, Exception exception) {
 		logException(context, exception, null);
 	}
 
@@ -89,7 +103,7 @@ public class FileManager {
 	 * @param exception The exception to log to the file.
 	 * @param fileName  The name of the file.
 	 */
-	public static void logException(Context context, Exception exception, String fileName) {
+	public void logException(Context context, Exception exception, String fileName) {
 
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fileOutputStream = null;
@@ -134,7 +148,7 @@ public class FileManager {
 	 *
 	 * @return Returns the object from the file.
 	 */
-	public static Object readObjectFromFile(Context context, String fileName) {
+	public Object readObjectFromFile(Context context, String fileName) {
 
 		ObjectInputStream inputStream = null;
 		Object object = null;
@@ -173,7 +187,7 @@ public class FileManager {
 	 *
 	 * @return Returns a string containing the text from the file.
 	 */
-	public static String readTextFileFromResources(Context context, int resourceId) {
+	public String readTextFileFromResources(Context context, int resourceId) {
 
 		InputStream inputStream = null;
 		BufferedReader bufferedReader = null;
@@ -218,7 +232,7 @@ public class FileManager {
 	 * @param filename The The name of the file to write to.
 	 * @param mode     The mode in which to write the file.
 	 */
-	public static void writeObjectToFile(Context context, Object object, String filename, FileMode mode) {
+	public void writeObjectToFile(Context context, Object object, String filename, FileMode mode) {
 
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fileOutputStream = null;
