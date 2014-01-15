@@ -2,6 +2,7 @@ package com.nityankhanna.androidutils.system;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -74,6 +75,4 @@ public class DateUtils {
 					". Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.");
 		}
 	}
-
-
 }

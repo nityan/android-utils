@@ -11,59 +11,35 @@ public enum RequestType {
 	/**
 	 * Represents an HTTP GET request.
 	 */
-	GET,
+	GET("GET"),
 
 	/**
 	 * Represents an HTTP POST request.
 	 */
-	POST,
+	POST("POST"),
 
 	/**
 	 * Represents an HTTP PUT request
 	 */
-	PUT,
+	PUT("PUT"),
 
 	/**
 	 * Represents an HTTP DELETE request.
 	 */
-	DELETE;
+	DELETE("DELETE");
 
-	private RequestType() {
+	private String value;
+
+	private RequestType(String value) {
+		this.value = value;
 	}
 
 	/**
-	 * Returns the int value of the RequestType.
+	 * Returns the value of the RequestType.
 	 *
-	 * @return Returns the string value of the RequestType.
+	 * @return Returns the value of the RequestType.
 	 */
-	@Override
-	public String toString() {
-
-		String value;
-
-		switch (this) {
-
-			case GET:
-				value = "GET";
-				break;
-
-			case POST:
-				value = "POST";
-				break;
-
-			case PUT:
-				value = "PUT";
-				break;
-
-			case DELETE:
-				value = "DELETE";
-				break;
-
-			default:
-				value = null;
-				break;
-		}
-
+	public String getValue() {
 		return value;
 	}
 }

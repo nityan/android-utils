@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.nityankhanna.androidutils.system.FileManager;
-
 /**
  * Created by Nityan Khanna on 01/07/13.
  */

@@ -1,46 +1,50 @@
-package com.nityankhanna.androidutils.system;
+package com.nityankhanna.androidutils.system.services;
 
 import android.annotation.TargetApi;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.ContextWrapper;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.nfc.NfcAdapter;
 import android.os.Build;
+import android.os.IBinder;
 import android.provider.Settings;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.nityankhanna.androidutils.system.SerializeManager;
 
 /**
  * Created by Nityan Khanna on 05/07/13.
  */
 
 /**
- * A ServiceManager providing methods to determine certain service connectivity.
+ * A Service Manager providing methods to determine certain service connectivity.
  */
-public class ServiceManager extends ContextWrapper {
+public class ServiceManager extends Service {
 
 	private static ServiceManager sharedInstance;
-	private Context context;
+	private final Context context;
 
-	private ServiceManager(Context context) {
-		super(context);
-		this.context = context;
+	private ServiceManager() {
+		this.context = getApplicationContext();
 	}
 
-	/**
-	 * Returns a shared instance of the ServiceManager class.
-	 *
-	 * @param context The application context.
-	 *
-	 * @return Returns a shared instance of the ServiceManager class.
-	 */
-	public static ServiceManager getInstance(Context context) {
+	@Nullable
+	@Override
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
 
-		synchronized (ServiceManager.class) {
+	public static ServiceManager getInstance() {
+
+		synchronized (SerializeManager.class) {
 
 			if (sharedInstance == null) {
-				sharedInstance = new ServiceManager(context);
+				sharedInstance = new ServiceManager();
 			}
 		}
 
@@ -52,6 +56,7 @@ public class ServiceManager extends ContextWrapper {
 	 *
 	 * @return Returns true if airplane mode is enabled.
 	 */
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public boolean isAirplaneModeOn() {
 		return Settings.System.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
 	}
@@ -99,7 +104,7 @@ public class ServiceManager extends ContextWrapper {
 	 * @return Returns true if GPS is enabled.
 	 */
 	public boolean isGPSEnabled() {
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
@@ -110,7 +115,7 @@ public class ServiceManager extends ContextWrapper {
 	 */
 	public boolean isNetworkAvailable() {
 
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -123,7 +128,7 @@ public class ServiceManager extends ContextWrapper {
 	 * @return Returns true if Network Provider is available.
 	 */
 	public boolean isNetworkProviderAvailable() {
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
@@ -151,7 +156,7 @@ public class ServiceManager extends ContextWrapper {
 	 * @return Returns true if the user is connected to Wi-Fi.
 	 */
 	public boolean isOnWiFi() {
-		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 		return wifi.isConnected();
