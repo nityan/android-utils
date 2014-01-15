@@ -3,7 +3,7 @@ package com.nityankhanna.androidutils.ui;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.nityankhanna.androidutils.system.ThreadPool;
+import com.nityankhanna.androidutils.system.async.ThreadPool;
 
 import java.util.List;
 

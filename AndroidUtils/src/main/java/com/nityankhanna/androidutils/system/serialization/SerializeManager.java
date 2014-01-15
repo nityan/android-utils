@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.system;
+package com.nityankhanna.androidutils.system.serialization;
 
 import android.util.Log;
 

@@ -15,7 +15,7 @@ import android.provider.Settings;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.nityankhanna.androidutils.system.SerializeManager;
+import com.nityankhanna.androidutils.system.serialization.SerializeManager;
 
 /**
  * Created by Nityan Khanna on 05/07/13.

@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.system;
+package com.nityankhanna.androidutils.system.datetime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
