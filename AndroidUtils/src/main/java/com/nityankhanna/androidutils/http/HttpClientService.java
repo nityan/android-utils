@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * A utility class to execute and handle HTTP requests and responses.
  */
-public class HttpClientService implements HttpHeaderStore, CookieStore {
+public class HttpClientService {
 
 	private final List<HttpHeader> headers;
 	private final List<Cookie> cookies;
@@ -47,58 +47,47 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	/**
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
 	 *
-	 * @param url         The URL.
-	 * @param requestType The type of request to be sent.
+	 * @param requestMessage The request message.
 	 * @param response    The response listener used to listen for the HTTP response.
 	 *
 	 */
-	public HttpClientService(String url, RequestType requestType, OnHttpResponseListener response) {
+	public HttpClientService(HttpRequestMessage requestMessage, OnHttpResponseListener response) {
 
 		try {
-			this.url = new URI(url);
+			this.url = new URI(requestMessage.getUrl());
 		} catch (URISyntaxException e) {
 			throw new IllegalArgumentException("Bad URL: " + url);
 		}
 
-		this.requestType = requestType;
+		this.requestType = requestMessage.getRequestType();
 		this.delegate = response;
 
 		if (this.delegate == null) {
 			throw new IllegalArgumentException("The response parameter cannot be null");
 		}
 
-		headers = new ArrayList<HttpHeader>();
-		cookies = new ArrayList<Cookie>();
-		this.cookieComparator = new CookieIdentityComparator();
-	}
+		if (requestMessage.containsCookies()) {
+			List<Cookie> cookieList = new ArrayList<Cookie>();
 
-	/**
-	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type, parameters and response listener.
-	 *
-	 * @param url         The URL.
-	 * @param params      The parameters for the request.
-	 * @param requestType The type of request to be sent.
-	 * @param response    The response listener used to listen for the HTTP response.
-	 *
-	 */
-	public HttpClientService(String url, BasicHttpParams params, RequestType requestType, OnHttpResponseListener response) {
+			for (HttpCookie httpCookie : requestMessage.getCookies()) {
+				cookieList.add(httpCookie);
+			}
 
-		try {
-			this.url = new URI(url);
-		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException("Bad URL: " + url);
+			cookies = cookieList;
+		} else {
+			cookies = new ArrayList<Cookie>();
 		}
 
-		this.requestType = requestType;
-		this.params = params;
-		this.delegate = response;
-
-		if (this.delegate == null) {
-			throw new IllegalArgumentException("The response parameter cannot be null");
+		if (requestMessage.containsHeaders()) {
+			headers = requestMessage.getHeaders();
+		} else {
+			headers = new ArrayList<HttpHeader>();
 		}
 
-		headers = new ArrayList<HttpHeader>();
-		cookies = new ArrayList<Cookie>();
+		if (requestMessage.containsParams()) {
+			params = requestMessage.getParams();
+		}
+
 		this.cookieComparator = new CookieIdentityComparator();
 	}
 
@@ -226,20 +215,24 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 	@Override
 	public List<Cookie> getCookies() {
-		// TODO: implement the getCookies() method
-		throw new UnsupportedOperationException("This method has not been implemented yet");
+		return cookies;
 	}
 
 	@Override
 	public boolean clearExpired(Date date) {
-		// TODO: implement the clearExpired(...) method
-		throw new UnsupportedOperationException("This method has not been implemented yet");
+
+		for (Iterator<Cookie> it = cookies.iterator(); it.hasNext(); ) {
+			if (it.next().isExpired(date)) {
+				it.remove();
+			}
+		}
+
+		return true;
 	}
 
 	@Override
 	public void clear() {
-		// TODO: implement the clear() method
-		throw new UnsupportedOperationException("This method has not been implemented yet");
+		cookies.clear();
 	}
 
 	/**
@@ -252,6 +245,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
 
 		private HttpClient client;
+		private HttpRequestMessage requestMessage;
 
 		@Override
 		protected HttpResponse doInBackground(Void... voids) {
@@ -301,6 +295,7 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 			}
 
 			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
+			responseMessage.setContentType(new HttpHeader(entity.getContentType().getName(), entity.getContentType().getValue()));
 
 			if (statusCode >= 500) {
 				ErrorResponse error = new ErrorResponse();
@@ -351,6 +346,13 @@ public class HttpClientService implements HttpHeaderStore, CookieStore {
 
 			try {
 				httpResponse = client.execute(delete);
+				requestMessage = new HttpRequestMessage(url.toString(), requestType);
+
+				if (containsHeaders()) {
+					requestMessage.setHeaders(headers);
+				}
+
+				if ()
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

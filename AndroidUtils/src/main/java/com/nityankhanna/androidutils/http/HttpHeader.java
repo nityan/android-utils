@@ -100,26 +100,6 @@ public class HttpHeader implements Header {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + "[" +
-				"Name = " + name + ", " +
-				"Value = " + value + ", ]";
-	}
-
-	/**
-	 * Sets the name of the header.
-	 *
-	 * @param name The name.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Sets the value of the header.
-	 *
-	 * @param value The value.
-	 */
-	public void setValue(String value) {
-		this.value = value;
+		return "Name: " + name + " Value: " + value;
 	}
 }

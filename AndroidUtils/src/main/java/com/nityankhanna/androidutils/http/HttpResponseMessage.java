@@ -9,11 +9,13 @@ import java.util.List;
  */
 public class HttpResponseMessage {
 
-	private int statusCode;
-	private String reasonPhrase;
+	private HttpHeader contentType;
 	private HttpEntity entity;
-	private List<HttpHeader> headers;
 	private ErrorResponse error;
+	private List<HttpHeader> headers;
+	private String reasonPhrase;
+	private HttpRequestMessage requestMessage;
+	private int statusCode;
 
 	public HttpResponseMessage() {
 	}
@@ -44,20 +46,12 @@ public class HttpResponseMessage {
 		this.error = error;
 	}
 
-	public int getStatusCode() {
-		return statusCode;
+	public HttpHeader getContentType() {
+		return contentType;
 	}
 
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
-
-	public String getReasonPhrase() {
-		return reasonPhrase;
-	}
-
-	public void setReasonPhrase(String reasonPhrase) {
-		this.reasonPhrase = reasonPhrase;
+	public void setContentType(HttpHeader contentType) {
+		this.contentType = contentType;
 	}
 
 	public HttpEntity getEntity() {
@@ -68,6 +62,14 @@ public class HttpResponseMessage {
 		this.entity = entity;
 	}
 
+	public ErrorResponse getError() {
+		return error;
+	}
+
+	public void setError(ErrorResponse error) {
+		this.error = error;
+	}
+
 	public List<HttpHeader> getHeaders() {
 		return headers;
 	}
@@ -76,12 +78,28 @@ public class HttpResponseMessage {
 		this.headers = headers;
 	}
 
-	public ErrorResponse getError() {
-		return error;
+	public String getReasonPhrase() {
+		return reasonPhrase;
 	}
 
-	public void setError(ErrorResponse error) {
-		this.error = error;
+	public void setReasonPhrase(String reasonPhrase) {
+		this.reasonPhrase = reasonPhrase;
+	}
+
+	public HttpRequestMessage getRequestMessage() {
+		return requestMessage;
+	}
+
+	public void setRequestMessage(HttpRequestMessage requestMessage) {
+		this.requestMessage = requestMessage;
+	}
+
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public boolean containsError() {
