@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.http;
+package com.nityankhanna.androidutils;
 
 import android.graphics.drawable.Drawable;
 

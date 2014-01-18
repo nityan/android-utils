@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.system;
+package com.nityankhanna.androidutils;
 
 /**
  * Created by Nityan Khanna on Jan 18 2014.

@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.system.io;
+package com.nityankhanna.androidutils.io;
 
 import android.annotation.TargetApi;
 import android.content.Context;

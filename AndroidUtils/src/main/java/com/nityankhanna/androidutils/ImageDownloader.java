@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.http;
+package com.nityankhanna.androidutils;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -61,6 +61,10 @@ public class ImageDownloader {
 
 		imageDownloaderTask = new ImageDownloaderTask(url, imageView);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	public static void cancelImageDownload() {
+		cancelImageDownload(true);
 	}
 
 	public static void cancelImageDownload(boolean mayInterruptIfRunning) {
@@ -128,15 +132,6 @@ public class ImageDownloader {
 			}
 		}
 
-		@Override
-		protected void finalize() throws Throwable {
-			super.finalize();
-
-			url = null;
-			imageView = null;
-			callback = null;
-		}
-
 		/**
 		 * Downloads an image.
 		 *
@@ -156,5 +151,4 @@ public class ImageDownloader {
 			return new BitmapDrawable(Resources.getSystem(), bitmap);
 		}
 	}
-
 }

@@ -13,14 +13,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion '17.0.0'
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 16
     }
-
     sourceSets {
         main {
             java {
@@ -30,6 +28,8 @@ android {
                 srcDir 'src/main/res'
             }
         }
+    }
+    buildTypes {
     }
 }
 

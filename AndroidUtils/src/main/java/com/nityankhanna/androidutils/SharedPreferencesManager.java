@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.system;
+package com.nityankhanna.androidutils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
