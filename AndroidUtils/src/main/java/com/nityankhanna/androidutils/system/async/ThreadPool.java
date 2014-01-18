@@ -20,9 +20,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPool {
 
-	public static final Executor ASYNC_EXECUTOR = new ExecutorService().getAsyncService();
-	public static final Executor SERIAL_EXECUTOR = new ExecutorService().getSerialService();
-
 	private static ThreadPool sharedInstance;
 	private ThreadPoolExecutor service;
 
