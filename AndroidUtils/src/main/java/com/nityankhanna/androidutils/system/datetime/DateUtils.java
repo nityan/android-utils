@@ -11,6 +11,8 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
+	private static final String ERROR_MESSAGE = "An error has occurred when parsing the date time. " +
+			" Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.";
 	private DateUtils() {
 	}
 
@@ -25,8 +27,7 @@ public class DateUtils {
 					? TimeZone.getDefault().getDSTSavings() : 0));
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("An error has occurred when parsing the date time. " +
-					" Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.");
+			throw new IllegalArgumentException(ERROR_MESSAGE);
 		}
 	}
 
@@ -54,8 +55,7 @@ public class DateUtils {
 			return newFormat.parse(formattedDateAsString);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("An error has occurred when parsing the date time. " +
-					" Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.");
+			throw new IllegalArgumentException(ERROR_MESSAGE);
 		}
 	}
 
