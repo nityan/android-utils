@@ -29,12 +29,11 @@ android {
             }
         }
     }
-//    buildTypes {
-//    }
 }
 
 task clearJar(type: Delete) {
     delete 'build/libs/android-utils.jar'
+    delete 'build/libs/android-utils-sources.jar'
 }
 
 task makeJar(type: Copy) {
@@ -42,6 +41,12 @@ task makeJar(type: Copy) {
     into('build/libs/')
     include('classes.jar')
     rename('classes.jar', 'android-utils.jar')
+}
+
+task makeSourceJar(type: Jar) {
+    from android.sourceSets.main.java
+    into('build/libs/')
+    //rename('AndroidUtils.jar', 'android-utils-sources.jar')
 }
 
 makeJar.dependsOn(clearJar, build)
