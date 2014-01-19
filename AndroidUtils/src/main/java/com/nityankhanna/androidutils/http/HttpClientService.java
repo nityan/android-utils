@@ -11,8 +11,6 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.cookie.CookieIdentityComparator;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 
@@ -21,19 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
-import com.nityankhanna.androidutils.http.HttpParameter;
-import com.nityankhanna.androidutils.http.OnHttpResponseListener;
-import com.nityankhanna.androidutils.http.RequestType;
-import com.nityankhanna.androidutils.http.ErrorResponse;
-import com.nityankhanna.androidutils.http.HttpCookie;
-import com.nityankhanna.androidutils.http.HttpHeader;
-import com.nityankhanna.androidutils.http.HttpRequestMessage;
-import com.nityankhanna.androidutils.http.HttpResponseMessage;
 
 /**
  * Created by Nityan Khanna on 01/07/13.
@@ -46,7 +32,7 @@ public final class HttpClientService {
 
 	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;
-	private  List<HttpHeader> headers;
+	private List<HttpHeader> headers;
 	private List<HttpParameter> params;
 	private HttpRequestMessage requestMessage;
 	private RequestType requestType;
@@ -56,8 +42,7 @@ public final class HttpClientService {
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
 	 *
 	 * @param requestMessage The request message.
-	 * @param response    The response listener used to listen for the HTTP response.
-	 *
+	 * @param response       The response listener used to listen for the HTTP response.
 	 */
 	public HttpClientService(HttpRequestMessage requestMessage, OnHttpResponseListener response) {
 		this.requestMessage = requestMessage;
