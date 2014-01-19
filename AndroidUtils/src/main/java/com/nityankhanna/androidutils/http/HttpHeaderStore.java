@@ -15,19 +15,12 @@ public interface HttpHeaderStore {
 	void addHeader(HttpHeader header);
 
 	/**
-	 * Adds an HTTP header to the request.
+	 * Adds an HTTP header to the collection at the specified index.
 	 *
 	 * @param index  The index of where to add the header.
 	 * @param header The HTTP header to add to the collection.
 	 */
 	void addHeader(int index, HttpHeader header);
-
-	/**
-	 * Adds an array of HttpHeaders to the request.
-	 *
-	 * @param headers The array of headers to add to the request.
-	 */
-	void addHeaders(HttpHeader[] headers);
 
 	/**
 	 * Returns a list of HTTP headers.
@@ -37,18 +30,18 @@ public interface HttpHeaderStore {
 	List<HttpHeader> getHeaders();
 
 	/**
-	 * Removes an HTTP header.
-	 *
-	 * @param index The index of the header to remove.
-	 */
-	void removeHeader(int index);
-
-	/**
 	 * Removes an HTTP Header.
 	 *
 	 * @param header The HTTP header object to be removed.
 	 */
 	void removeHeader(HttpHeader header);
+
+	/**
+	 * Removes the header at the specified index.
+	 *
+	 * @param index The index of the header to be removed.
+	 */
+	void removeHeader(int index);
 
 	/**
 	 * Removes all of the current HTTP headers.

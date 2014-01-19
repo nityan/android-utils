@@ -4,10 +4,12 @@ import org.apache.http.HttpEntity;
 
 import java.util.List;
 
+import com.nityankhanna.androidutils.http.core.HttpMessage;
+
 /**
  * Created by Nityan Khanna on Jan 03 2014.
  */
-public class HttpResponseMessage {
+public class HttpResponseMessage implements HttpMessage {
 
 	private HttpHeader contentType;
 	private HttpEntity entity;
@@ -46,8 +48,85 @@ public class HttpResponseMessage {
 		this.error = error;
 	}
 
+	/**
+	 * Checks if the HttpRequestMessage contains cookies.
+	 *
+	 * @return Returns true if the HttpRequestMessage contains cookies.
+	 */
+	@Override
+	public boolean containsCookies() {
+		return false;
+	}
+
+	/**
+	 * Checks if the HttpRequestMessage contains headers.
+	 *
+	 * @return Returns true if the HttpRequestMessage contains headers.
+	 */
+	@Override
+	public boolean containsHeaders() {
+		return headers.size() > 0;
+	}
+
+	/**
+	 * Checks if the HttpRequestMessage contains parameters.
+	 *
+	 * @return Returns true if the HttpRequestMessage contains parameters.
+	 */
+	@Override
+	public boolean containsParameters() {
+		return requestMessage.containsParameters();
+	}
+
+	/**
+	 * Gets the content type of the message.
+	 *
+	 * @return Returns an HttpHeader with the content type.
+	 */
+	@Override
 	public HttpHeader getContentType() {
-		return contentType;
+
+		HttpHeader httpHeader = null;
+
+		for (HttpHeader header : headers) {
+
+			if (header.getName().equals("Content-Type")) {
+				httpHeader = header;
+				break;
+			}
+		}
+
+		return httpHeader;
+	}
+
+	/**
+	 * Gets a list of HttpCookies.
+	 *
+	 * @return Returns a list of HttpCookies.
+	 */
+	@Override
+	public List<HttpCookie> getCookies() {
+		return null;
+	}
+
+	/**
+	 * Gets a list of HttpHeaders.
+	 *
+	 * @return Returns a list of HttpHeaders.
+	 */
+	@Override
+	public List<HttpHeader> getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * Gets a list of HttpParameters.
+	 *
+	 * @return Returns a list of HttpParameters.
+	 */
+	@Override
+	public List<HttpParameter> getParameters() {
+		return null;
 	}
 
 	public void setContentType(HttpHeader contentType) {
@@ -68,14 +147,6 @@ public class HttpResponseMessage {
 
 	public void setError(ErrorResponse error) {
 		this.error = error;
-	}
-
-	public List<HttpHeader> getHeaders() {
-		return headers;
-	}
-
-	public void setHeaders(List<HttpHeader> headers) {
-		this.headers = headers;
 	}
 
 	public String getReasonPhrase() {
@@ -100,9 +171,5 @@ public class HttpResponseMessage {
 
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
-	}
-
-	public boolean containsError() {
-		return error != null;
 	}
 }

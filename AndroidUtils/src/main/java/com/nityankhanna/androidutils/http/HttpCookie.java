@@ -27,20 +27,10 @@ public class HttpCookie implements Cookie {
 		super();
 		this.name = name;
 		this.value = value;
-	}
-
-	public HttpCookie(String name, String value, boolean isSecure) {
-		super();
-		this.name = name;
-		this.value = value;
-		this.isSecure = isSecure;
-	}
-
-	public HttpCookie(String name, String value, Date expiryDate) {
-		super();
-		this.name = name;
-		this.value = value;
-		this.expiryDate = expiryDate;
+		this.comment = "";
+		this.domain = "";
+		this.expiryDate = new Date();
+		this.path = "";
 	}
 
 	@Override
@@ -147,6 +137,42 @@ public class HttpCookie implements Cookie {
 
 	public void setExpired(Date expiryDate) {
 		this.expiryDate = expiryDate;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+
+		if (this == object) {
+			return true;
+		}
+
+		if (!(object instanceof HttpCookie)) {
+			return false;
+		}
+
+		HttpCookie cookie = (HttpCookie) object;
+
+		return name.equals(cookie.name) && value.equals(cookie.value)
+				&& comment.equals(cookie.comment) && domain.equals(cookie.domain)
+				&& expiryDate.equals(cookie.expiryDate) && path.equals(cookie.path)
+				&& isSecure == cookie.isSecure && version == cookie.version;
+	}
+
+	@Override
+	public int hashCode() {
+
+		int result = 17;
+
+		result = 31 * result + name.hashCode();
+		result = 31 * result + value.hashCode();
+		result = 31 * result + comment.hashCode();
+		result = 31 * result + domain.hashCode();
+		result = 31 * result + expiryDate.hashCode();
+		result = 31 * result + path.hashCode();
+		result = 31 * result + (isSecure ? 1 : 0);
+		result = 31 * result + version;
+
+		return result;
 	}
 
 	@Override

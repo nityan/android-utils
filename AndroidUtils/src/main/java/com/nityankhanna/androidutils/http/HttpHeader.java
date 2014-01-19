@@ -1,12 +1,12 @@
 package com.nityankhanna.androidutils.http;
 
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.ParseException;
-
 /**
  * Created by Nityan Khanna on 11/10/13.
  */
+
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.ParseException;
 
 /**
  * Represents a Http Header.
@@ -53,16 +53,9 @@ public class HttpHeader implements Header {
 		return value;
 	}
 
-	/**
-	 * Gets the elements of the header.
-	 *
-	 * @return Returns an array of header elements.
-	 *
-	 * @throws ParseException
-	 */
 	@Override
 	public HeaderElement[] getElements() throws ParseException {
-		throw new ParseException("This method has not been implemented yet.");
+		return new HeaderElement[0];
 	}
 
 	@Override

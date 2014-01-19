@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.http;
 
-import org.apache.http.params.BasicHttpParams;
-
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */

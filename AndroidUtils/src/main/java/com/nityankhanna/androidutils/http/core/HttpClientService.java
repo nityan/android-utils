@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.http;
+package com.nityankhanna.androidutils.http.core;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -27,6 +26,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.nityankhanna.androidutils.http.HttpParameter;
+import com.nityankhanna.androidutils.http.OnHttpResponseListener;
+import com.nityankhanna.androidutils.http.RequestType;
+import com.nityankhanna.androidutils.http.ErrorResponse;
+import com.nityankhanna.androidutils.http.HttpCookie;
+import com.nityankhanna.androidutils.http.HttpHeader;
+import com.nityankhanna.androidutils.http.HttpRequestMessage;
+import com.nityankhanna.androidutils.http.HttpResponseMessage;
+
 /**
  * Created by Nityan Khanna on 01/07/13.
  */
@@ -36,13 +44,13 @@ import java.util.List;
  */
 public class HttpClientService {
 
-	private final List<HttpHeader> headers;
-	private final List<Cookie> cookies;
-	private final Comparator<Cookie> cookieComparator;
-	private URI url;
-	private RequestType requestType;
-	private BasicHttpParams params;
+	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;
+	private  List<HttpHeader> headers;
+	private List<HttpParameter> params;
+	private HttpRequestMessage requestMessage;
+	private RequestType requestType;
+	private URI url;
 
 	/**
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
@@ -52,6 +60,7 @@ public class HttpClientService {
 	 *
 	 */
 	public HttpClientService(HttpRequestMessage requestMessage, OnHttpResponseListener response) {
+		this.requestMessage = requestMessage;
 
 		try {
 			this.url = new URI(requestMessage.getUrl());
@@ -60,22 +69,17 @@ public class HttpClientService {
 		}
 
 		this.requestType = requestMessage.getRequestType();
-		this.delegate = response;
 
-		if (this.delegate == null) {
+		if (response == null) {
 			throw new IllegalArgumentException("The response parameter cannot be null");
 		}
 
+		this.delegate = response;
+
 		if (requestMessage.containsCookies()) {
-			List<Cookie> cookieList = new ArrayList<Cookie>();
-
-			for (HttpCookie httpCookie : requestMessage.getCookies()) {
-				cookieList.add(httpCookie);
-			}
-
-			cookies = cookieList;
+			cookies = requestMessage.getCookies();
 		} else {
-			cookies = new ArrayList<Cookie>();
+			cookies = new ArrayList<HttpCookie>();
 		}
 
 		if (requestMessage.containsHeaders()) {
@@ -84,155 +88,9 @@ public class HttpClientService {
 			headers = new ArrayList<HttpHeader>();
 		}
 
-		if (requestMessage.containsParams()) {
+		if (requestMessage.containsParameters()) {
 			params = requestMessage.getParams();
 		}
-
-		this.cookieComparator = new CookieIdentityComparator();
-	}
-
-	/**
-	 * Adds an HTTP Header to the request.
-	 *
-	 * @param header The HTTP header to add to the collection.
-	 */
-	@Override
-	public void addHeader(HttpHeader header) {
-
-		if (header == null) {
-			throw new IllegalArgumentException("The header object cannot be null");
-		}
-
-		for (HttpHeader httpHeader : headers) {
-
-			if (httpHeader.equals(header)) {
-				headers.remove(httpHeader);
-				break;
-			}
-		}
-
-		headers.add(header);
-	}
-
-	/**
-	 * Adds an HTTP header to the request.
-	 *
-	 * @param index  The index of where to add the header.
-	 * @param header The HTTP header to add to the collection.
-	 */
-	@Override
-	public synchronized void addHeader(int index, HttpHeader header) {
-
-		if (header == null) {
-			throw new IllegalArgumentException("The header parameter cannot be null");
-		}
-
-		if (index < 0) {
-			throw new IllegalArgumentException("The index must be greater than 0");
-		}
-
-		headers.add(index, header);
-	}
-
-	/**
-	 * Adds an array of HttpHeaders to the request.
-	 *
-	 * @param headers The array of headers to add to the request.
-	 */
-	@Override
-	public void addHeaders(HttpHeader[] headers) {
-
-		if (headers == null) {
-			throw new IllegalArgumentException("The headers parameter cannot be null");
-		}
-
-		for (HttpHeader header : headers) {
-			addHeader(header);
-		}
-	}
-
-	/**
-	 * Returns a list of HTTP Headers.
-	 *
-	 * @return Returns a list of HTTP Headers.
-	 */
-	@Override
-	public List<HttpHeader> getHeaders() {
-		return headers;
-	}
-
-	/**
-	 * Removes an HTTP Header.
-	 *
-	 * @param index The index of the header to remove.
-	 */
-	@Override
-	public synchronized void removeHeader(int index) {
-		headers.remove(index);
-	}
-
-	/**
-	 * Removes an HTTP Header.
-	 *
-	 * @param header The HTTP header object to be removed.
-	 */
-	@Override
-	public synchronized void removeHeader(HttpHeader header) {
-
-		if (header == null) {
-			throw new IllegalArgumentException("The header parameter cannot be null");
-		}
-
-		headers.remove(header);
-	}
-
-	/**
-	 * Removes all of the current HTTP headers.
-	 */
-	@Override
-	public void removeAllHeaders() {
-		headers.removeAll(headers);
-	}
-
-	@Override
-	public synchronized void addCookie(Cookie cookie) {
-
-		if (cookie == null) {
-			throw new IllegalArgumentException("The cookie parameter cannot be null");
-		}
-
-		for (Iterator<Cookie> it = cookies.iterator(); it.hasNext(); ) {
-			if (cookieComparator.compare(cookie, it.next()) == 0) {
-				it.remove();
-				break;
-			}
-		}
-
-		if (!cookie.isExpired(new Date())) {
-			cookies.add(cookie);
-		}
-	}
-
-	@Override
-	public List<Cookie> getCookies() {
-		return cookies;
-	}
-
-	@Override
-	public boolean clearExpired(Date date) {
-
-		for (Iterator<Cookie> it = cookies.iterator(); it.hasNext(); ) {
-			if (it.next().isExpired(date)) {
-				it.remove();
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public void clear() {
-		cookies.clear();
 	}
 
 	/**
@@ -245,7 +103,6 @@ public class HttpClientService {
 	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
 
 		private HttpClient client;
-		private HttpRequestMessage requestMessage;
 
 		@Override
 		protected HttpResponse doInBackground(Void... voids) {
@@ -296,6 +153,7 @@ public class HttpClientService {
 
 			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
 			responseMessage.setContentType(new HttpHeader(entity.getContentType().getName(), entity.getContentType().getValue()));
+			responseMessage.setRequestMessage(requestMessage);
 
 			if (statusCode >= 500) {
 				ErrorResponse error = new ErrorResponse();
@@ -346,13 +204,6 @@ public class HttpClientService {
 
 			try {
 				httpResponse = client.execute(delete);
-				requestMessage = new HttpRequestMessage(url.toString(), requestType);
-
-				if (containsHeaders()) {
-					requestMessage.setHeaders(headers);
-				}
-
-				if ()
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -384,7 +235,14 @@ public class HttpClientService {
 			HttpResponse httpResponse = null;
 
 			try {
-				post.setParams(params);
+
+				BasicHttpParams basicHttpParams = new BasicHttpParams();
+
+				for (HttpParameter parameter : params) {
+					basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
+				}
+
+				post.setParams(basicHttpParams);
 				httpResponse = client.execute(post);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -405,7 +263,14 @@ public class HttpClientService {
 			HttpResponse httpResponse = null;
 
 			try {
-				put.setParams(params);
+
+				BasicHttpParams basicHttpParams = new BasicHttpParams();
+
+				for (HttpParameter parameter : params) {
+					basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
+				}
+
+				put.setParams(basicHttpParams);
 				httpResponse = client.execute(put);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
