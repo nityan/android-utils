@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.io;
+package com.nityankhanna.androidutils.fileio;
 
 /**
  * Created by Nityan Khanna on 14/11/13.

@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.io;
+package com.nityankhanna.androidutils.fileio;
 
 import android.content.Context;
 import android.os.Environment;
