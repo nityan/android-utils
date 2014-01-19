@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.http.core;
+package com.nityankhanna.androidutils.http;
 
 import android.os.AsyncTask;
 
@@ -42,7 +42,7 @@ import com.nityankhanna.androidutils.http.HttpResponseMessage;
 /**
  * A utility class to execute and handle HTTP requests and responses.
  */
-public class HttpClientService {
+public final class HttpClientService {
 
 	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;

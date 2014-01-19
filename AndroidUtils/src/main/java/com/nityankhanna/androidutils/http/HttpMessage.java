@@ -1,4 +1,4 @@
-package com.nityankhanna.androidutils.http.core;
+package com.nityankhanna.androidutils.http;
 
 import java.util.List;
 

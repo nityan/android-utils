@@ -19,12 +19,7 @@ public class HttpCookie implements Cookie {
 	private String value;
 	private int version;
 
-	public HttpCookie() {
-		super();
-	}
-
 	public HttpCookie(String name, String value) {
-		super();
 		this.name = name;
 		this.value = value;
 		this.comment = "";

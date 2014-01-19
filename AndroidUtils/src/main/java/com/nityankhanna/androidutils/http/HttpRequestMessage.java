@@ -5,12 +5,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.nityankhanna.androidutils.http.core.HttpMessage;
-
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
-public class HttpRequestMessage implements HttpCookieStore, HttpHeaderStore, HttpMessage, HttpParameterStore {
+public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStore, HttpMessage, HttpParameterStore {
 
 	private List<HttpCookie> cookies;
 	private List<HttpHeader> headers;

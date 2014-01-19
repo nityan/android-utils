@@ -4,12 +4,10 @@ import org.apache.http.HttpEntity;
 
 import java.util.List;
 
-import com.nityankhanna.androidutils.http.core.HttpMessage;
-
 /**
  * Created by Nityan Khanna on Jan 03 2014.
  */
-public class HttpResponseMessage implements HttpMessage {
+public final class HttpResponseMessage implements HttpMessage {
 
 	private HttpHeader contentType;
 	private HttpEntity entity;
@@ -28,24 +26,13 @@ public class HttpResponseMessage implements HttpMessage {
 	}
 
 	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity) {
-		this.statusCode = statusCode;
-		this.reasonPhrase = reasonPhrase;
+		this(statusCode, reasonPhrase);
 		this.entity = entity;
 	}
 
 	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers) {
-		this.statusCode = statusCode;
-		this.reasonPhrase = reasonPhrase;
-		this.entity = entity;
+		this(statusCode, reasonPhrase, entity);
 		this.headers = headers;
-	}
-
-	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers, ErrorResponse error) {
-		this.statusCode = statusCode;
-		this.reasonPhrase = reasonPhrase;
-		this.entity = entity;
-		this.headers = headers;
-		this.error = error;
 	}
 
 	/**
@@ -86,17 +73,15 @@ public class HttpResponseMessage implements HttpMessage {
 	@Override
 	public HttpHeader getContentType() {
 
-		HttpHeader httpHeader = null;
-
 		for (HttpHeader header : headers) {
 
 			if (header.getName().equals("Content-Type")) {
-				httpHeader = header;
+				contentType = header;
 				break;
 			}
 		}
 
-		return httpHeader;
+		return contentType;
 	}
 
 	/**
@@ -129,7 +114,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return null;
 	}
 
-	public void setContentType(HttpHeader contentType) {
+	protected void setContentType(HttpHeader contentType) {
 		this.contentType = contentType;
 	}
 
@@ -137,7 +122,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return entity;
 	}
 
-	public void setEntity(HttpEntity entity) {
+	protected void setEntity(HttpEntity entity) {
 		this.entity = entity;
 	}
 
@@ -145,7 +130,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return error;
 	}
 
-	public void setError(ErrorResponse error) {
+	protected void setError(ErrorResponse error) {
 		this.error = error;
 	}
 
@@ -153,7 +138,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return reasonPhrase;
 	}
 
-	public void setReasonPhrase(String reasonPhrase) {
+	protected void setReasonPhrase(String reasonPhrase) {
 		this.reasonPhrase = reasonPhrase;
 	}
 
@@ -161,7 +146,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return requestMessage;
 	}
 
-	public void setRequestMessage(HttpRequestMessage requestMessage) {
+	protected void setRequestMessage(HttpRequestMessage requestMessage) {
 		this.requestMessage = requestMessage;
 	}
 
@@ -169,7 +154,7 @@ public class HttpResponseMessage implements HttpMessage {
 		return statusCode;
 	}
 
-	public void setStatusCode(int statusCode) {
+	protected void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 }
