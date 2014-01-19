@@ -6,7 +6,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -87,7 +86,7 @@ public final class HttpClientService {
 
 	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
 
-		private HttpClient client;
+		private DefaultHttpClient client;
 
 		@Override
 		protected HttpResponse doInBackground(Void... voids) {
