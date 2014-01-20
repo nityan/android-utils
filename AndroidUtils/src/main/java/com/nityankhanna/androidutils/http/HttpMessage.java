@@ -35,9 +35,9 @@ public interface HttpMessage {
 	/**
 	 * Gets the content type of the message.
 	 *
-	 * @return Returns an HttpHeader with the content type.
+	 * @return Returns the content type.
 	 */
-	HttpHeader getContentType();
+	ContentType getContentType();
 
 	/**
 	 * Gets a list of HttpCookies.
@@ -45,6 +45,12 @@ public interface HttpMessage {
 	 * @return Returns a list of HttpCookies.
 	 */
 	List<HttpCookie> getCookies();
+
+	/**
+	 * Gets the encoding of the message.
+	 * @return Returns the encoding.
+	 */
+	Encoding getEncoding();
 
 	/**
 	 * Gets a list of HttpHeaders.

@@ -10,15 +10,19 @@ import java.util.List;
  */
 public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStore, HttpMessage, HttpParameterStore {
 
+	private ContentType contentType;
 	private List<HttpCookie> cookies;
+	private Encoding encoding;
 	private List<HttpHeader> headers;
 	private List<HttpParameter> params;
 	private RequestType requestType;
 	private String url;
 
-	public HttpRequestMessage(String url, RequestType requestType) {
-		headers = new ArrayList<HttpHeader>();
+	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding) {
 		cookies = new ArrayList<HttpCookie>();
+		this.contentType = contentType;
+		this.encoding = encoding;
+		headers = new ArrayList<HttpHeader>();
 		params = new ArrayList<HttpParameter>();
 		this.url = url;
 		this.requestType = requestType;
@@ -61,19 +65,18 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 * @return Returns an HttpHeader with the content type.
 	 */
 	@Override
-	public HttpHeader getContentType() {
+	public ContentType getContentType() {
+		return contentType;
+	}
 
-		HttpHeader httpHeader = null;
-
-		for (HttpHeader header : headers) {
-
-			if (header.getName().equals("Content-Type")) {
-				httpHeader = header;
-				break;
-			}
-		}
-
-		return httpHeader;
+	/**
+	 * Gets the encoding of the message.
+	 *
+	 * @return Returns the encoding.
+	 */
+	@Override
+	public Encoding getEncoding() {
+		return encoding;
 	}
 
 	/**

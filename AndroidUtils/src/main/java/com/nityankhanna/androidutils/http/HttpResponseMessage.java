@@ -9,7 +9,7 @@ import java.util.List;
  */
 public final class HttpResponseMessage implements HttpMessage {
 
-	private HttpHeader contentType;
+	private ContentType contentType;
 	private HttpEntity entity;
 	private ErrorResponse error;
 	private List<HttpHeader> headers;
@@ -65,23 +65,19 @@ public final class HttpResponseMessage implements HttpMessage {
 		return requestMessage.containsParameters();
 	}
 
+	@Override
+	public ContentType getContentType() {
+		return contentType;
+	}
+
 	/**
-	 * Gets the content type of the message.
+	 * Gets the encoding of the message.
 	 *
-	 * @return Returns an HttpHeader with the content type.
+	 * @return Returns the encoding.
 	 */
 	@Override
-	public HttpHeader getContentType() {
-
-		for (HttpHeader header : headers) {
-
-			if (header.getName().equals("Content-Type")) {
-				contentType = header;
-				break;
-			}
-		}
-
-		return contentType;
+	public Encoding getEncoding() {
+		return null;
 	}
 
 	/**
@@ -114,7 +110,7 @@ public final class HttpResponseMessage implements HttpMessage {
 		return null;
 	}
 
-	protected void setContentType(HttpHeader contentType) {
+	protected void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
 

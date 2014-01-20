@@ -6,12 +6,16 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -142,7 +146,14 @@ public final class HttpClientService {
 			}
 
 			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
-			responseMessage.setContentType(new HttpHeader(entity.getContentType().getName(), entity.getContentType().getValue()));
+
+			for (HttpHeader header : httpHeaders) {
+
+				if (header.getValue().contains("application/json")) {
+					responseMessage.setContentType(ContentType.JSON);
+				}
+			}
+
 			responseMessage.setRequestMessage(requestMessage);
 
 			if (statusCode >= 500) {
@@ -226,19 +237,26 @@ public final class HttpClientService {
 
 			try {
 
-				BasicHttpParams basicHttpParams = new BasicHttpParams();
+				if (requestMessage.getContentType().equals(ContentType.JSON)) {
 
-				for (HttpParameter parameter : params) {
-					basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
+					JSONObject body = new JSONObject();
+
+					for (HttpParameter parameter : params) {
+						body.put(parameter.getName(), parameter.getValue());
+					}
+
+					post.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
 				}
 
-				post.setParams(basicHttpParams);
+
 				httpResponse = client.execute(post);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
