@@ -98,6 +98,17 @@ public class SharedPreferencesManager {
 	}
 
 	/**
+	 * Returns a long from the SharedPreferences for the specified key.
+	 *
+	 * @param key The key for an associated value.
+	 *
+	 * @return Returns 9000 if the preference does not exist.
+	 */
+	public long getLongForKey(String key) {
+		return sharedPreferences.getLong(key, 9000);
+	}
+
+	/**
 	 * Returns a String from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
@@ -146,6 +157,16 @@ public class SharedPreferencesManager {
 	 */
 	public void setIntForKey(String key, int value) {
 		editor.putInt(key, value).commit();
+	}
+
+	/**
+	 * Sets a long for a specified key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
+	public void setLongForKey(String key, long value) {
+		editor.putLong(key, value).commit();
 	}
 
 	/**
