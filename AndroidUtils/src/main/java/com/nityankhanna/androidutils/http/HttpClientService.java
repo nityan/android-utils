@@ -123,8 +123,14 @@ public final class HttpClientService {
 		protected void onPostExecute(HttpResponse httpResponse) {
 			super.onPostExecute(httpResponse);
 
-			String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
-			int statusCode = httpResponse.getStatusLine().getStatusCode();
+			String reasonPhrase = null;
+			int statusCode = -1;
+
+			if (httpResponse.getStatusLine() != null) {
+				reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
+				statusCode = httpResponse.getStatusLine().getStatusCode();
+			}
+
 			HttpEntity entity = httpResponse.getEntity();
 			Header[] basicHeaders = httpResponse.getAllHeaders();
 
