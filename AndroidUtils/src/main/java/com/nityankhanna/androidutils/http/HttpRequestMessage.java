@@ -21,15 +21,15 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	public HttpRequestMessage(String url, RequestType requestType) {
 		this.url = url;
 		this.requestType = requestType;
+		cookies = new ArrayList<HttpCookie>();
+		headers = new ArrayList<HttpHeader>();
+		params = new ArrayList<HttpParameter>();
 	}
 
 	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding) {
 		this(url, requestType);
-		cookies = new ArrayList<HttpCookie>();
 		this.contentType = contentType;
 		this.encoding = encoding;
-		headers = new ArrayList<HttpHeader>();
-		params = new ArrayList<HttpParameter>();
 	}
 
 	/**
