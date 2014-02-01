@@ -50,12 +50,6 @@ task makeJar(type: Copy) {
     rename('classes.jar', 'android-utils.jar')
 }
 
-task makeSourceJar(type: Jar) {
-    from android.sourceSets.main.java
-    into('build/libs/')
-    //rename('AndroidUtils.jar', 'android-utils-sources.jar')
-}
-
 makeJar.dependsOn(clearJar, build)
 
 dependencies {

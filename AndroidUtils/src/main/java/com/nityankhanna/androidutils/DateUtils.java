@@ -2,7 +2,6 @@ package com.nityankhanna.androidutils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -25,7 +24,7 @@ public class DateUtils {
 					? TimeZone.getDefault().getDSTSavings() : 0));
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("");
+			throw new IllegalArgumentException("The date: " + date + " format does not match the format " + dateTimeFormat.getValue() + ", unable to parse");
 		}
 	}
 
