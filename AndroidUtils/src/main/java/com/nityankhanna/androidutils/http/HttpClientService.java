@@ -246,17 +246,20 @@ public final class HttpClientService {
 					}
 
 					post.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
+				} else if (requestMessage.getContentType().equals(ContentType.XML)) {
+
+					BasicHttpParams basicHttpParams = new BasicHttpParams();
+
+					for (HttpParameter parameter : params) {
+						basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
+					}
+
+					post.setParams(basicHttpParams);
 				}
 
 
 				httpResponse = client.execute(post);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (JSONException | IOException e) {
 				e.printStackTrace();
 			}
 
@@ -280,10 +283,6 @@ public final class HttpClientService {
 
 				put.setParams(basicHttpParams);
 				httpResponse = client.execute(put);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
