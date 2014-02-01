@@ -11,14 +11,12 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
-	private static final String ERROR_MESSAGE = "An error has occurred when parsing the date time. " +
-			" Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.";
 	private DateUtils() {
 	}
 
-	public static Date convertToLocalTimeAsDate(Date date, String dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat);
-		long when = 0;
+	public static Date convertToLocalTime(Date date, DateTimeFormat dateTimeFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
+		long when;
 
 		try {
 			when = dateFormat.parse(dateToString(date, dateTimeFormat)).getTime();
@@ -27,22 +25,8 @@ public class DateUtils {
 					? TimeZone.getDefault().getDSTSavings() : 0));
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException(ERROR_MESSAGE);
+			throw new IllegalArgumentException("");
 		}
-	}
-
-	public static String convertToLocalTimeAsString(Date date, String dateTimeFormat) {
-		Date localDate = convertToLocalTimeAsDate(date, dateTimeFormat);
-		return dateToString(localDate, dateTimeFormat);
-	}
-
-	public static Date convertToLocalTimeAsDate(String date, String dateTimeFormat) {
-		return convertToLocalTimeAsDate(stringToDate(date, dateTimeFormat), dateTimeFormat);
-	}
-
-	public static String convertToLocalTimeAsString(String date, String dateTimeFormat) {
-		Date localDate = convertToLocalTimeAsDate(date, dateTimeFormat);
-		return dateToString(localDate, dateTimeFormat);
 	}
 
 	public static Date convertToNewFormat(String dateToFormat, String currentFormat, String targetFormat) {
@@ -55,24 +39,27 @@ public class DateUtils {
 			return newFormat.parse(formattedDateAsString);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException(ERROR_MESSAGE);
+			throw new IllegalArgumentException("");
 		}
 	}
 
-	public static String dateToString(Date date, String dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat);
+	public static String dateToString(Date date) {
+		return dateToString(date, DateTimeFormat.MONTH_DAY_YEAR);
+	}
+
+	public static String dateToString(Date date, DateTimeFormat dateTimeFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
 		return dateFormat.format(date);
 	}
 
-	public static Date stringToDate(String date, String dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat);
+	public static Date stringToDate(String date, DateTimeFormat dateTimeFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
 
 		try {
 			return dateFormat.parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("The date time format " + dateTimeFormat + " does not match the date time format of" + date +
-					". Reference http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html for date time formatting help.");
+			throw new IllegalArgumentException("The date: " + date + " format does not match the format " + dateTimeFormat.getValue() + ", unable to parse");
 		}
 	}
 }
