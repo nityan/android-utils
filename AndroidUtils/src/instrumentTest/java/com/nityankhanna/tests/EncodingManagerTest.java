@@ -13,14 +13,6 @@ public class EncodingManagerTest extends TestCase {
 	public EncodingManagerTest() {
 	}
 
-	public void setUp() throws Exception {
-		super.setUp();
-	}
-
-	public void tearDown() throws Exception {
-		super.tearDown();
-	}
-
 	public void testGetInstance() throws Exception {
 
 		Class expectedResult = EncodingManager.class;
@@ -28,28 +20,36 @@ public class EncodingManagerTest extends TestCase {
 
 		assertEquals(expectedResult, result.getClass());
 	}
-
-	public void testEncodeToByteArray() throws Exception {
+	
+	public void testDecodeToByteArray() throws Exception {
 
 		String name = "Nityan Khanna";
 
 		EncodingManager encodingManager = EncodingManager.getInstance();
 
-		byte[] data = encodingManager.encodeToByteArray(StringUtils.toByteArray(name));
+		byte[] encodedData = encodingManager.encodeToByteArray(StringUtils.toByteArray(name));
 
-		assertNotNull("Data is null", data);
-	}
+		assertNotNull("Encoded data is null", encodedData);
 
+		byte[] decodedData = encodingManager.decodeToByteArray(encodedData);
 
-	public void testEncodeToString() throws Exception {
-
-	}
-	
-	public void testDecodeToByteArray() throws Exception {
-
+		assertNotNull("Decoded data is null", decodedData);
+		assertNotSame("Decoded data is not equal to the original data", StringUtils.toByteArray(name), decodedData);
 	}
 	
 	public void testDecodeToString() throws Exception {
 
+		String name = "Nityan Khanna";
+
+		EncodingManager encodingManager = EncodingManager.getInstance();
+
+		String encodedData = encodingManager.encodeToString(StringUtils.toByteArray(name));
+
+		assertNotNull("Encoded data is null", encodedData);
+
+		String decodedData = encodingManager.decodeToString(StringUtils.toByteArray(encodedData));
+
+		assertNotNull("Decoded data is null", decodedData);
+		assertEquals("Decoded data is not equal to the original data", name, decodedData);
 	}
 }

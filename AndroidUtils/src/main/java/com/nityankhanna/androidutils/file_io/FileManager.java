@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.channels.FileChannel;
 
 /**
@@ -70,60 +71,6 @@ public class FileManager {
 		}
 
 		return destination;
-	}
-
-	/**
-	 * Logs an exception to a file.
-	 *
-	 * @param context   The application context.
-	 * @param exception The exception to log to the file.
-	 */
-	public static void logException(Context context, Exception exception) {
-		logException(context, exception, null);
-	}
-
-	/**
-	 * Logs an exception to a file.
-	 *
-	 * @param context   The application context.
-	 * @param exception The exception to log to the file.
-	 * @param fileName  The name of the file.
-	 */
-	public static void logException(Context context, Exception exception, String fileName) {
-
-		ObjectOutputStream outputStream = null;
-		FileOutputStream fileOutputStream = null;
-
-		try {
-
-			if (fileName == null) {
-				fileOutputStream = context.openFileOutput(context.getPackageName() + "-exceptions", Context.MODE_PRIVATE);
-			} else {
-				fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-			}
-
-			fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-			outputStream = new ObjectOutputStream(fileOutputStream);
-			outputStream.writeObject(exception);
-			fileOutputStream.getFD().sync();
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			throw new FileWriteException(ex.getMessage());
-		} finally {
-
-			try {
-				if (outputStream != null) {
-					outputStream.close();
-				}
-
-				if (fileOutputStream != null) {
-					fileOutputStream.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -222,6 +169,10 @@ public class FileManager {
 
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fileOutputStream = null;
+
+		if (!(object instanceof Serializable)) {
+			throw new FileWriteException("The object " + object.getClass().getSimpleName() + " must implement java.io.Serializable");
+		}
 
 		try {
 
