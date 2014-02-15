@@ -52,7 +52,7 @@ public class ServiceManager extends Service {
 	}
 
 	/**
-	 * Determines if airplane mode is enabled on the current device.
+	 * Determines if airplane mode is enabled on the device.
 	 *
 	 * @return Returns true if airplane mode is enabled.
 	 */
@@ -62,7 +62,7 @@ public class ServiceManager extends Service {
 	}
 
 	/**
-	 * Determines if Android Beam is available on the current device.
+	 * Determines if Android Beam is available on the device.
 	 *
 	 * @return Returns true if Android Beam is available.
 	 *
@@ -81,7 +81,7 @@ public class ServiceManager extends Service {
 	}
 
 	/**
-	 * Determines if Bluetooth is available on the current device.
+	 * Determines if Bluetooth is available on the device.
 	 *
 	 * @return Returns true if bluetooth is available.
 	 *
@@ -133,7 +133,7 @@ public class ServiceManager extends Service {
 	}
 
 	/**
-	 * Determines if NFC is available on the current device.
+	 * Determines if NFC is available on the device.
 	 *
 	 * @return Returns true if NFC is available.
 	 *
