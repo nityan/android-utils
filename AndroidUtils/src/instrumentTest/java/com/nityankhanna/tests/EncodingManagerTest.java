@@ -2,6 +2,7 @@ package com.nityankhanna.tests;
 
 import junit.framework.TestCase;
 
+import com.nityankhanna.androidutils.StringUtils;
 import com.nityankhanna.androidutils.security.EncodingManager;
 
 /**
@@ -9,26 +10,34 @@ import com.nityankhanna.androidutils.security.EncodingManager;
  */
 public class EncodingManagerTest extends TestCase {
 
-	public void setUp() throws Exception {
+	public EncodingManagerTest() {
+	}
 
+	public void setUp() throws Exception {
+		super.setUp();
 	}
 
 	public void tearDown() throws Exception {
-
+		super.tearDown();
 	}
 
 	public void testGetInstance() throws Exception {
-		EncodingManager encodingManager = EncodingManager.getInstance();
 
-		assertTrue(encodingManager != null);
+		Class expectedResult = EncodingManager.class;
+		EncodingManager result = EncodingManager.getInstance();
+
+		assertEquals(expectedResult, result.getClass());
 	}
 
 	public void testEncodeToByteArray() throws Exception {
+
+		String name = "Nityan Khanna";
+
 		EncodingManager encodingManager = EncodingManager.getInstance();
 
-		String data = encodingManager.encodeToString("Nityan".getBytes());
+		byte[] data = encodingManager.encodeToByteArray(StringUtils.toByteArray(name));
 
-		assertTrue("Data is not null", data == null);
+		assertNotNull("Data is null", data);
 	}
 
 

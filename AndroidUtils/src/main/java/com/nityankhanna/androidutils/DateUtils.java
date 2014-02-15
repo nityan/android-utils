@@ -10,55 +10,76 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
+	private static final String ERROR_MESSAGE = "An unknown error has occurred. Please visit the stack trace for more information.";
+
 	private DateUtils() {
 	}
 
-	public static Date convertToLocalTime(Date date, DateTimeFormat dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
+	/**
+	 * Converts a date to local time.
+	 *
+	 * @param date         The date to convert.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the local date time as specified in the targetFormat parameter.
+	 */
+	public static String convertToLocalTime(Date date, DateTimeFormat targetFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat.getValue());
 		long when;
 
 		try {
-			when = dateFormat.parse(dateToString(date, dateTimeFormat)).getTime();
+			when = dateFormat.parse(dateToString(date, targetFormat)).getTime();
 
-			return new Date(when + TimeZone.getDefault().getRawOffset() + (TimeZone.getDefault().inDaylightTime(new Date())
+			Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + (TimeZone.getDefault().inDaylightTime(new Date())
 					? TimeZone.getDefault().getDSTSavings() : 0));
+			return convertToNewFormat(localDate, targetFormat);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("The date: " + date + " format does not match the format " + dateTimeFormat.getValue() + ", unable to parse");
+			throw new IllegalArgumentException(ERROR_MESSAGE);
 		}
 	}
 
-	public static Date convertToNewFormat(String dateToFormat, String currentFormat, String targetFormat) {
-		SimpleDateFormat originalFormat = new SimpleDateFormat(currentFormat);
-		SimpleDateFormat newFormat = new SimpleDateFormat(targetFormat);
-
-		try {
-			Date date = originalFormat.parse(dateToFormat);
-			String formattedDateAsString = newFormat.format(date);
-			return newFormat.parse(formattedDateAsString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException("");
-		}
+	/**
+	 * Converts a date to a new format.
+	 *
+	 * @param date         The date to format.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the date time as specified in the targetFormat parameter.
+	 */
+	public static String convertToNewFormat(Date date, DateTimeFormat targetFormat) {
+		return dateToString(date, targetFormat);
 	}
 
-	public static String dateToString(Date date) {
-		return dateToString(date, DateTimeFormat.MONTH_DAY_YEAR);
-	}
-
-	public static String dateToString(Date date, DateTimeFormat dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
+	/**
+	 * Converts a date to a string.
+	 *
+	 * @param date         The date to convert.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the date time as specified in the targetFormat parameter.
+	 */
+	public static String dateToString(Date date, DateTimeFormat targetFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat.getValue());
 		return dateFormat.format(date);
 	}
 
-	public static Date stringToDate(String date, DateTimeFormat dateTimeFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat.getValue());
+	/**
+	 * Converts a string to a date.
+	 *
+	 * @param date          The string to convert.
+	 * @param currentFormat The current date time format of the string to be converted.
+	 *
+	 * @return Returns a date.
+	 */
+	public static Date stringToDate(String date, DateTimeFormat currentFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(currentFormat.getValue());
 
 		try {
 			return dateFormat.parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("The date: " + date + " format does not match the format " + dateTimeFormat.getValue() + ", unable to parse");
+			throw new IllegalArgumentException(ERROR_MESSAGE);
 		}
 	}
 }
