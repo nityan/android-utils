@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -34,15 +33,6 @@ public class ImageDownloader {
 	 * @param callback The callback.
 	 */
 	public static void loadImageFromUrlAsync(String url, ImageDownloaderCallback callback) {
-
-		if (callback == null) {
-			throw new IllegalArgumentException("The callback parameter cannot be null");
-		}
-
-		if (!URLUtil.isValidUrl(url)) {
-			throw new IllegalArgumentException("Bad url: " + url);
-		}
-
 		imageDownloaderTask = new ImageDownloaderTask(url, callback);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
@@ -54,11 +44,6 @@ public class ImageDownloader {
 	 * @param imageView The image view to set the image in.
 	 */
 	public static void loadImageFromUrlAsync(String url, ImageView imageView) {
-
-		if (!URLUtil.isValidUrl(url)) {
-			throw new IllegalArgumentException("Bad url: " + url);
-		}
-
 		imageDownloaderTask = new ImageDownloaderTask(url, imageView);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
@@ -101,15 +86,6 @@ public class ImageDownloader {
 			}
 
 			return null;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-
-			if (!URLUtil.isValidUrl(url)) {
-				throw new IllegalArgumentException("Bad url: " + url);
-			}
 		}
 
 		@Override

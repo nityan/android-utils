@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -18,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -58,22 +55,18 @@ public final class HttpClientService {
 
 		this.requestType = requestMessage.getRequestType();
 
-		if (response == null) {
-			throw new IllegalArgumentException("The response parameter cannot be null");
-		}
-
 		this.delegate = response;
 
 		if (requestMessage.containsCookies()) {
 			cookies = requestMessage.getCookies();
 		} else {
-			cookies = new ArrayList<HttpCookie>();
+			cookies = new ArrayList<>();
 		}
 
 		if (requestMessage.containsHeaders()) {
 			headers = requestMessage.getHeaders();
 		} else {
-			headers = new ArrayList<HttpHeader>();
+			headers = new ArrayList<>();
 		}
 
 		if (requestMessage.containsParameters()) {
@@ -151,6 +144,7 @@ public final class HttpClientService {
 
 				if (header.getValue().contains("application/json")) {
 					responseMessage.setContentType(ContentType.JSON);
+					break;
 				}
 			}
 

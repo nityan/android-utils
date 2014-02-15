@@ -3,9 +3,9 @@ package com.nityankhanna.androidutils.ui;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.nityankhanna.androidutils.system.async.ThreadPool;
-
 import java.util.List;
+
+import com.nityankhanna.androidutils.system.async.ThreadPool;
 
 /**
  * Created by Nityan Khanna on 15/11/13.

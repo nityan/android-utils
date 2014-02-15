@@ -5,7 +5,6 @@ import android.os.Looper;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -145,11 +144,6 @@ public class ThreadPool {
 	 * @param runnable The runnable to be run on a background thread.
 	 */
 	public void submit(Runnable runnable) {
-
-		if (runnable == null) {
-			throw new IllegalArgumentException("The runnable parameter cannot be null");
-		}
-
 		service.submit(runnable);
 	}
 

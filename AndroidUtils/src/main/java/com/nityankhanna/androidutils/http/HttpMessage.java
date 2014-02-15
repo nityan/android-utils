@@ -2,10 +2,6 @@ package com.nityankhanna.androidutils.http;
 
 import java.util.List;
 
-import com.nityankhanna.androidutils.http.HttpCookie;
-import com.nityankhanna.androidutils.http.HttpHeader;
-import com.nityankhanna.androidutils.http.HttpParameter;
-
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */

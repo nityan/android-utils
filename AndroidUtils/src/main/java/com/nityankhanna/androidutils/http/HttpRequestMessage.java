@@ -90,10 +90,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	@Override
 	public void addCookie(HttpCookie cookie) {
 
-		if (cookie == null) {
-			throw new IllegalArgumentException("The cookie parameter cannot be null");
-		}
-
 		removeDuplicateCookie(cookie);
 
 		if (!cookie.isExpired(new Date())) {
@@ -110,16 +106,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	@Override
 	public void addCookie(int index, HttpCookie cookie) {
 
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
-		if (cookie == null) {
-			throw new IllegalArgumentException("The cookie parameter cannot be null");
-		}
-
 		removeDuplicateCookie(cookie);
-
 		cookies.add(index, cookie);
 	}
 
@@ -156,11 +143,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeCookie(HttpCookie cookie) {
-
-		if (cookie == null) {
-			throw new IllegalArgumentException("The cookie parameter cannot be null");
-		}
-
 		cookies.remove(cookie);
 	}
 
@@ -171,11 +153,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeCookie(int index) {
-
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
 		cookies.remove(index);
 	}
 
@@ -195,10 +172,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	@Override
 	public void addHeader(HttpHeader header) {
 
-		if (header == null) {
-			throw new IllegalArgumentException("The header parameter cannot be null");
-		}
-
 		removeDuplicateHeader(header);
 
 		headers.add(header);
@@ -212,14 +185,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addHeader(int index, HttpHeader header) {
-
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
-		if (header == null) {
-			throw new IllegalArgumentException("The header parameter cannot be null");
-		}
 
 		removeDuplicateHeader(header);
 
@@ -243,11 +208,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeHeader(HttpHeader header) {
-
-		if (header == null) {
-			throw new IllegalArgumentException("The header parameter cannot be null");
-		}
-
 		headers.remove(header);
 	}
 
@@ -258,11 +218,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeHeader(int index) {
-
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
 		headers.remove(index);
 	}
 
@@ -282,10 +237,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	@Override
 	public void addParameter(HttpParameter parameter) {
 
-		if (parameter == null) {
-			throw new IllegalArgumentException("The parameter object cannot be null");
-		}
-
 		removeDuplicateParameter(parameter);
 
 		params.add(parameter);
@@ -299,14 +250,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addParameter(int index, HttpParameter parameter) {
-
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
-		if (parameter == null) {
-			throw new IllegalArgumentException("The parameter object cannot be null");
-		}
 
 		removeDuplicateParameter(parameter);
 
@@ -330,11 +273,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeParameter(HttpParameter parameter) {
-
-		if (parameter == null) {
-			throw new IllegalArgumentException("The parameter object cannot be null");
-		}
-
 		params.remove(parameter);
 	}
 
@@ -345,11 +283,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void removeParameter(int index) {
-
-		if (index < 0) {
-			throw new IllegalArgumentException("Invalid index " + index);
-		}
-
 		params.remove(index);
 	}
 

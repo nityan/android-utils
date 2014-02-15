@@ -10,36 +10,36 @@ import android.content.SharedPreferences;
 /**
  * A simplified SharedPreferences class.
  */
-public class SharedPreferencesManager {
+public class SharedPreferencesService {
 
 	private final SharedPreferences sharedPreferences;
 	private final SharedPreferences.Editor editor;
 
 	/**
-	 * Initializes a new SharedPreferencesManager instance with a specified context.
+	 * Initializes a new SharedPreferencesService instance with a specified context.
 	 *
 	 * @param context The application context.
 	 */
-	public SharedPreferencesManager(Context context, String filename) {
+	public SharedPreferencesService(Context context, String filename) {
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	public SharedPreferencesManager(Context context, String filename, int mode) {
+	public SharedPreferencesService(Context context, String filename, int mode) {
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	public SharedPreferencesManager(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferencesService(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
 
-	public SharedPreferencesManager(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
+	public SharedPreferencesService(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
 		sharedPreferences = context.getSharedPreferences(filename, mode);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
 		editor = sharedPreferences.edit();
