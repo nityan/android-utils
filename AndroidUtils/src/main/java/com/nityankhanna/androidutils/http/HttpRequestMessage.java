@@ -21,9 +21,9 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	public HttpRequestMessage(String url, RequestType requestType) {
 		this.url = url;
 		this.requestType = requestType;
-		cookies = new ArrayList<HttpCookie>();
-		headers = new ArrayList<HttpHeader>();
-		params = new ArrayList<HttpParameter>();
+		cookies = new ArrayList<>();
+		headers = new ArrayList<>();
+		params = new ArrayList<>();
 	}
 
 	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding) {
@@ -65,7 +65,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	/**
 	 * Gets the content type of the message.
 	 *
-	 * @return Returns an HttpHeader with the content type.
+	 * @return Returns the content type.
 	 */
 	@Override
 	public ContentType getContentType() {
@@ -89,7 +89,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addCookie(HttpCookie cookie) {
-
 		removeDuplicateCookie(cookie);
 
 		if (!cookie.isExpired(new Date())) {
@@ -105,7 +104,6 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addCookie(int index, HttpCookie cookie) {
-
 		removeDuplicateCookie(cookie);
 		cookies.add(index, cookie);
 	}
@@ -171,9 +169,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addHeader(HttpHeader header) {
-
 		removeDuplicateHeader(header);
-
 		headers.add(header);
 	}
 
@@ -185,9 +181,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addHeader(int index, HttpHeader header) {
-
 		removeDuplicateHeader(header);
-
 		headers.add(index, header);
 	}
 
@@ -236,9 +230,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addParameter(HttpParameter parameter) {
-
 		removeDuplicateParameter(parameter);
-
 		params.add(parameter);
 	}
 
@@ -250,9 +242,7 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	 */
 	@Override
 	public void addParameter(int index, HttpParameter parameter) {
-
 		removeDuplicateParameter(parameter);
-
 		params.add(index, parameter);
 	}
 

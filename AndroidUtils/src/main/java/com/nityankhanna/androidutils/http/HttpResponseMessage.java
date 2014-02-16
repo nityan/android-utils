@@ -77,6 +77,7 @@ public final class HttpResponseMessage implements HttpMessage {
 	 */
 	@Override
 	public Encoding getEncoding() {
+		// TODO: get the encoding
 		return null;
 	}
 
@@ -87,6 +88,7 @@ public final class HttpResponseMessage implements HttpMessage {
 	 */
 	@Override
 	public List<HttpCookie> getCookies() {
+		// TODO: get the cookies
 		return null;
 	}
 
@@ -107,6 +109,7 @@ public final class HttpResponseMessage implements HttpMessage {
 	 */
 	@Override
 	public List<HttpParameter> getParameters() {
+		// TODO: get the parameters
 		return null;
 	}
 

@@ -131,7 +131,7 @@ public final class HttpClientService {
 			HttpEntity entity = httpResponse.getEntity();
 			Header[] basicHeaders = httpResponse.getAllHeaders();
 
-			List<HttpHeader> httpHeaders = new ArrayList<HttpHeader>();
+			List<HttpHeader> httpHeaders = new ArrayList<>();
 
 			for (Header header : basicHeaders) {
 				HttpHeader httpHeader = new HttpHeader(header.getName(), header.getValue());
@@ -250,7 +250,6 @@ public final class HttpClientService {
 
 					post.setParams(basicHttpParams);
 				}
-
 
 				httpResponse = client.execute(post);
 			} catch (JSONException | IOException e) {

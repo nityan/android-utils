@@ -59,11 +59,6 @@ public class ThreadPool {
 	 * @param runnable The runnable to run on the UI thread.
 	 */
 	public static void runOnUiThread(Runnable runnable) {
-
-		if (runnable == null) {
-			throw new IllegalArgumentException("The runnable parameter cannot be null");
-		}
-
 		Handler handler = new Handler(Looper.getMainLooper());
 		handler.post(runnable);
 	}

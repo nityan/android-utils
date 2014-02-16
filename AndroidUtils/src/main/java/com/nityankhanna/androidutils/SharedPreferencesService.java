@@ -3,6 +3,10 @@ package com.nityankhanna.androidutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.crypto.spec.SecretKeySpec;
+
+import com.nityankhanna.androidutils.security.EncryptionManager;
+
 /**
  * Created by Nityan Khanna on 28/06/13.
  */

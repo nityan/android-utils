@@ -41,10 +41,10 @@ public class EncryptionManagerTest extends TestCase {
 	}
 
 	private byte[] encryptData() {
-		return ENCRYPTION_MANAGER.encryptData("password", StringUtils.toByteArray("Nityan Khanna"));
+		return ENCRYPTION_MANAGER.encryptData(ENCRYPTION_MANAGER.createPassword("password"), StringUtils.toByteArray("Nityan Khanna"));
 	}
 
 	private byte[] decryptData() {
-		return ENCRYPTION_MANAGER.decryptData("password", encryptData());
+		return ENCRYPTION_MANAGER.decryptData(ENCRYPTION_MANAGER.createPassword("password"), encryptData());
 	}
 }

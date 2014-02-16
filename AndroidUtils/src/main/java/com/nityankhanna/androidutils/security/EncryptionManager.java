@@ -1,5 +1,7 @@
 package com.nityankhanna.androidutils.security;
 
+import android.content.Context;
+
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +12,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.nityankhanna.androidutils.SharedPreferencesService;
 import com.nityankhanna.androidutils.StringUtils;
 
 /**
@@ -54,23 +57,16 @@ public class EncryptionManager {
 	 *
 	 * @return Returns the encrypted data as a byte array.
 	 */
-	public synchronized byte[] encryptData(String password, byte[] dataToEncrypt) {
+	public synchronized byte[] encryptData(SecretKeySpec password, byte[] dataToEncrypt) {
 
 		byte[] encryptedData = null;
 
 		try {
 
-			MessageDigest digest = MessageDigest.getInstance("SHA");
-			digest.update(StringUtils.toByteArray(password));
-
-			byte[] hash = digest.digest();
-			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
-
-			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+			cipher.init(Cipher.ENCRYPT_MODE, password);
 			encryptedData = cipher.doFinal(dataToEncrypt);
 
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException |
-				NoSuchAlgorithmException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
 			e.printStackTrace();
 		}
 
@@ -85,26 +81,34 @@ public class EncryptionManager {
 	 *
 	 * @return Returns the data as a byte array.
 	 */
-	public synchronized byte[] decryptData(String password, byte[] encryptedData) {
+	public synchronized byte[] decryptData(SecretKeySpec password, byte[] encryptedData) {
 
 		byte[] decryptedData = null;
 
 		try {
 
-			MessageDigest digest = MessageDigest.getInstance("SHA");
-			digest.update(StringUtils.toByteArray(password));
-
-			byte[] hash = digest.digest();
-			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
-
-			cipher.init(Cipher.DECRYPT_MODE, secretKey);
+			cipher.init(Cipher.DECRYPT_MODE, password);
 			decryptedData = cipher.doFinal(encryptedData);
 
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException |
-				NoSuchAlgorithmException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
 			e.printStackTrace();
 		}
 
 		return decryptedData;
+	}
+
+	public synchronized SecretKeySpec createPassword(String password) {
+
+		SecretKeySpec secretKey = null;
+
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA");
+			digest.update(StringUtils.toByteArray(password));
+			secretKey = new SecretKeySpec(digest.digest(), 0, 16, "AES");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return secretKey;
 	}
 }

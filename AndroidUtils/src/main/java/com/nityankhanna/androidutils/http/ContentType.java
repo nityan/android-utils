@@ -29,4 +29,9 @@ public enum ContentType {
 	public int getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return "ContentType{" + "value=" + value + '}';
+	}
 }
