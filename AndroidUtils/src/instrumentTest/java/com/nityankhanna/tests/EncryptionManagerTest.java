@@ -5,7 +5,6 @@ import android.util.Log;
 import junit.framework.TestCase;
 
 import com.nityankhanna.androidutils.StringUtils;
-import com.nityankhanna.androidutils.security.EncodingManager;
 import com.nityankhanna.androidutils.security.EncryptionManager;
 
 /**

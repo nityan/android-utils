@@ -44,6 +44,7 @@ public interface HttpMessage {
 
 	/**
 	 * Gets the encoding of the message.
+	 *
 	 * @return Returns the encoding.
 	 */
 	Encoding getEncoding();

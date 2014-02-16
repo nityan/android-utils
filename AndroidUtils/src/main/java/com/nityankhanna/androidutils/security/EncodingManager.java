@@ -47,7 +47,7 @@ public class EncodingManager {
 	/**
 	 * Encodes a byte array using Base64.
 	 *
-	 * @param data       The data to be encoded.
+	 * @param data The data to be encoded.
 	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the encoded data as a byte array.
@@ -70,7 +70,7 @@ public class EncodingManager {
 	/**
 	 * Encodes a byte array using Base64.
 	 *
-	 * @param data       The data to be encoded.
+	 * @param data The data to be encoded.
 	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the encoded data as a String.
@@ -93,7 +93,7 @@ public class EncodingManager {
 	/**
 	 * Decodes a byte array using Base64.
 	 *
-	 * @param data       The data to be encoded.
+	 * @param data The data to be encoded.
 	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the decoded data as a byte array.
@@ -116,7 +116,7 @@ public class EncodingManager {
 	/**
 	 * Decodes a byte array using Base64.
 	 *
-	 * @param data       The data to be encoded.
+	 * @param data The data to be encoded.
 	 * @param mode The Base64 encoding mode.
 	 *
 	 * @return Returns the decoded data as a String.

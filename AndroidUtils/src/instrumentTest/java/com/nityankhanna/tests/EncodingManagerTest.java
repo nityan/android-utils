@@ -20,7 +20,7 @@ public class EncodingManagerTest extends TestCase {
 
 		assertEquals(expectedResult, result.getClass());
 	}
-	
+
 	public void testDecodeToByteArray() throws Exception {
 
 		String name = "Nityan Khanna";
@@ -36,7 +36,7 @@ public class EncodingManagerTest extends TestCase {
 		assertNotNull("Decoded data is null", decodedData);
 		assertNotSame("Decoded data is not equal to the original data", StringUtils.toByteArray(name), decodedData);
 	}
-	
+
 	public void testDecodeToString() throws Exception {
 
 		String name = "Nityan Khanna";

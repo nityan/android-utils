@@ -38,6 +38,7 @@ public interface HttpParameterStore {
 
 	/**
 	 * Removes the parameter at the specified index.
+	 *
 	 * @param index The index.
 	 */
 	void removeParameter(int index);

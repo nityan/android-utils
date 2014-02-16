@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.security;
 
-import android.util.Log;
-
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,7 +52,7 @@ public class EncryptionManager {
 	 * @param password      The password.
 	 * @param dataToEncrypt The data to be encrypted.
 	 *
-	 * @return Returns the encrypted data as a byte array, or null if an error occurs during the encryption process.
+	 * @return Returns the encrypted data as a byte array.
 	 */
 	public synchronized byte[] encryptData(String password, byte[] dataToEncrypt) {
 
@@ -67,9 +65,6 @@ public class EncryptionManager {
 
 			byte[] hash = digest.digest();
 			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
-
-			Log.e(getClass().getSimpleName(), "Encoded password: " + StringUtils.toString(hash));
-			Log.e(getClass().getSimpleName(), "Encoded password length: " + hash.length);
 
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			encryptedData = cipher.doFinal(dataToEncrypt);
@@ -85,10 +80,10 @@ public class EncryptionManager {
 	/**
 	 * Decrypts data.
 	 *
-	 * @param password      The password.
+	 * @param password      The password. This password must be the same as the password used to encrypt the data.
 	 * @param encryptedData The encrypted data to decrypt.
 	 *
-	 * @return Returns the data as a byte array, or null if an exception occurs during the decryption process.
+	 * @return Returns the data as a byte array.
 	 */
 	public synchronized byte[] decryptData(String password, byte[] encryptedData) {
 
@@ -101,9 +96,6 @@ public class EncryptionManager {
 
 			byte[] hash = digest.digest();
 			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
-
-			Log.e(getClass().getSimpleName(), "Encoded password: " + StringUtils.toString(hash));
-			Log.e(getClass().getSimpleName(), "Encoded password length: " + hash.length);
 
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decryptedData = cipher.doFinal(encryptedData);
