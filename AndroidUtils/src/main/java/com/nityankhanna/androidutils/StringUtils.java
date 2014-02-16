@@ -1,5 +1,7 @@
 package com.nityankhanna.androidutils;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
@@ -33,12 +35,26 @@ public class StringUtils {
 	/**
 	 * Converts a string to a byte array.
 	 *
-	 * @param string The The string to convert.
+	 * @param string The string to convert.
 	 *
 	 * @return Returns the byte array of the string.
 	 */
 	public static byte[] toByteArray(String string) {
 		return string.getBytes();
+	}
+
+	/**
+	 * Converts a string to a byte array.
+	 *
+	 * @param string   The string to convert.
+	 * @param encoding The encoding.
+	 *
+	 * @return Returns the byte array of the string.
+	 *
+	 * @throws UnsupportedEncodingException
+	 */
+	public static byte[] toByteArray(String string, String encoding) throws UnsupportedEncodingException {
+		return string.getBytes(encoding);
 	}
 
 	/**

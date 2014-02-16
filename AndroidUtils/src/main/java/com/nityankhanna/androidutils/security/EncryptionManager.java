@@ -1,24 +1,18 @@
 package com.nityankhanna.androidutils.security;
 
-import android.util.Base64;
+import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.Key;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Random;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.nityankhanna.androidutils.StringUtils;
 
 /**
  * Created by Nityan Khanna on 22/10/13.
@@ -31,26 +25,12 @@ public class EncryptionManager {
 
 	private static EncryptionManager sharedInstance;
 	private Cipher cipher;
-	private IvParameterSpec iv;
 
 	private EncryptionManager() {
 
 		try {
-
 			cipher = Cipher.getInstance("AES");
-			//cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
-
-			SecureRandom random = new SecureRandom();
-
-			byte[] data = new byte[16];
-
-			random.nextBytes(data);
-
-			iv = new IvParameterSpec(data);
-
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			e.printStackTrace();
 		}
 
@@ -82,26 +62,20 @@ public class EncryptionManager {
 
 		try {
 
-			String encodedPassword = Base64.encodeToString(password.getBytes("UTF-8"), Base64.DEFAULT);
+			MessageDigest digest = MessageDigest.getInstance("SHA");
+			digest.update(StringUtils.toByteArray(password));
 
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-			KeySpec spec = new PBEKeySpec(encodedPassword.toCharArray(), generateSalt(), 64, 256);
-			Key secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+			byte[] hash = digest.digest();
+			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
 
-			cipher.init(Cipher.ENCRYPT_MODE, secret);
+			Log.e(getClass().getSimpleName(), "Encoded password: " + StringUtils.toString(hash));
+			Log.e(getClass().getSimpleName(), "Encoded password length: " + hash.length);
+
+			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			encryptedData = cipher.doFinal(dataToEncrypt);
 
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException |
+				NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
@@ -118,62 +92,27 @@ public class EncryptionManager {
 	 */
 	public synchronized byte[] decryptData(String password, byte[] encryptedData) {
 
-		// TODO: implement the decryptData() method
-		throw new UnsupportedOperationException("This method has not been implemented yet");
-
-		/*
 		byte[] decryptedData = null;
 
 		try {
 
-			String encodedPassword = Base64.encodeToString(password.getBytes("UTF-8"), Base64.DEFAULT);
+			MessageDigest digest = MessageDigest.getInstance("SHA");
+			digest.update(StringUtils.toByteArray(password));
 
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-			KeySpec spec = new PBEKeySpec(encodedPassword.toCharArray(), generateSalt(), 64, 256);
-			Key secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+			byte[] hash = digest.digest();
+			SecretKeySpec secretKey = new SecretKeySpec(hash, 0, 16, "AES");
 
-			cipher.init(Cipher.DECRYPT_MODE, secret, iv);
+			Log.e(getClass().getSimpleName(), "Encoded password: " + StringUtils.toString(hash));
+			Log.e(getClass().getSimpleName(), "Encoded password length: " + hash.length);
+
+			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decryptedData = cipher.doFinal(encryptedData);
 
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException |
+				NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
 		return decryptedData;
-		*/
-	}
-
-	private byte[] generateSalt() {
-
-		Random random = new SecureRandom();
-
-		byte[] salt = new byte[16];
-
-		random.nextBytes(salt);
-
-		return salt;
-	}
-
-	private IvParameterSpec generateIV() {
-
-		SecureRandom random = new SecureRandom();
-
-		byte[] iv = new byte[cipher.getBlockSize()];
-
-		random.nextBytes(iv);
-
-		return new IvParameterSpec(iv);
 	}
 }
