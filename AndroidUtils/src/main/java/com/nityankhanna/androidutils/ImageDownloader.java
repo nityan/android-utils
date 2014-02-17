@@ -17,7 +17,7 @@ import java.net.URL;
  */
 
 /**
- * Downloads images in the background.
+ * A utility class for downloading images.
  */
 public class ImageDownloader {
 

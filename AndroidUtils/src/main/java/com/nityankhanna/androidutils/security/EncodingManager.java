@@ -99,7 +99,7 @@ public class EncodingManager {
 	 * @return Returns the decoded data as a byte array.
 	 */
 	public byte[] decodeToByteArray(byte[] data, Base64Mode mode) {
-		return Base64.encode(data, mode.getValue());
+		return Base64.decode(data, mode.getValue());
 	}
 
 	/**

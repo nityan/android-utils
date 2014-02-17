@@ -8,7 +8,11 @@ import java.util.List;
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
-public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStore, HttpMessage, HttpParameterStore {
+
+/**
+ * Represents an Http request message.
+ */
+public final class HttpRequestMessage extends HttpRequest {
 
 	private ContentType contentType;
 	private List<HttpCookie> cookies;
@@ -18,6 +22,14 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	private RequestType requestType;
 	private String url;
 
+	/**
+	 * Initializes a new instance of the HttpRequestMessage class with a url and request type.
+	 * <p/>
+	 * This is used for GET and DELETE Requests
+	 *
+	 * @param url         The url.
+	 * @param requestType The request type.
+	 */
 	public HttpRequestMessage(String url, RequestType requestType) {
 		this.url = url;
 		this.requestType = requestType;
@@ -26,6 +38,16 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 		params = new ArrayList<>();
 	}
 
+	/**
+	 * Initializes a new instance of the HttpRequestMessage class with a url, request type, content type and encoding.s
+	 * </p>
+	 * This is used for POST and PUT requests.
+	 *
+	 * @param url         The url.
+	 * @param requestType The request type.
+	 * @param contentType The content type.
+	 * @param encoding    The encoding.
+	 */
 	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding) {
 		this(url, requestType);
 		this.contentType = contentType;
@@ -33,53 +55,23 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Checks if the HttpRequestMessage contains cookies.
+	 * Gets the request type.
 	 *
-	 * @return Returns true if the HttpRequestMessage contains cookies.
+	 * @return Returns the request type.
 	 */
 	@Override
-	public boolean containsCookies() {
-		return cookies.size() > 0;
+	public RequestType getRequestType() {
+		return requestType;
 	}
 
 	/**
-	 * Checks if the HttpRequestMessage contains headers.
+	 * Gets the url.
 	 *
-	 * @return Returns true if the HttpRequestMessage contains headers.
+	 * @return Returns the url.
 	 */
 	@Override
-	public boolean containsHeaders() {
-		return headers.size() > 0;
-	}
-
-	/**
-	 * Checks if the HttpRequestMessage contains parameters.
-	 *
-	 * @return Returns true if the HttpRequestMessage contains parameters.
-	 */
-	@Override
-	public boolean containsParameters() {
-		return params.size() > 0;
-	}
-
-	/**
-	 * Gets the content type of the message.
-	 *
-	 * @return Returns the content type.
-	 */
-	@Override
-	public ContentType getContentType() {
-		return contentType;
-	}
-
-	/**
-	 * Gets the encoding of the message.
-	 *
-	 * @return Returns the encoding.
-	 */
-	@Override
-	public Encoding getEncoding() {
-		return encoding;
+	public String getUrl() {
+		return url;
 	}
 
 	/**
@@ -163,9 +155,25 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Adds an HTTP header to the request.
+	 * Removes a duplicate cookie.
 	 *
-	 * @param header The HTTP header to add to the collection.
+	 * @param cookie The cookie.
+	 */
+	@Override
+	public void removeDuplicateCookie(HttpCookie cookie) {
+
+		for (Iterator<HttpCookie> it = cookies.iterator(); it.hasNext(); ) {
+			if (cookie.equals(it.next())) {
+				it.remove();
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Adds an Http header to the request.
+	 *
+	 * @param header The Http header to add to the collection.
 	 */
 	@Override
 	public void addHeader(HttpHeader header) {
@@ -174,10 +182,10 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Adds an HTTP header to the collection at the specified index.
+	 * Adds an Http header to the collection at the specified index.
 	 *
 	 * @param index  The index of where to add the header.
-	 * @param header The HTTP header to add to the collection.
+	 * @param header The Http header to add to the collection.
 	 */
 	@Override
 	public void addHeader(int index, HttpHeader header) {
@@ -186,9 +194,9 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Returns a list of HTTP headers.
+	 * Returns a list of Http headers.
 	 *
-	 * @return Returns a list of HTTP headers.
+	 * @return Returns a list of Http headers.
 	 */
 	@Override
 	public List<HttpHeader> getHeaders() {
@@ -196,9 +204,9 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Removes an HTTP Header.
+	 * Removes an Http Header.
 	 *
-	 * @param header The HTTP header object to be removed.
+	 * @param header The Http header to be removed.
 	 */
 	@Override
 	public void removeHeader(HttpHeader header) {
@@ -206,9 +214,9 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Removes an HTTP header.
+	 * Removes the header at the specified index.
 	 *
-	 * @param index The index of the header to remove.
+	 * @param index The index of the header.
 	 */
 	@Override
 	public void removeHeader(int index) {
@@ -216,11 +224,27 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 	}
 
 	/**
-	 * Removes all of the current HTTP headers.
+	 * Removes all of the Http headers.
 	 */
 	@Override
 	public void removeAllHeaders() {
 		headers.clear();
+	}
+
+	/**
+	 * Removes a duplicate header.
+	 *
+	 * @param header The Http header to be removed.
+	 */
+	@Override
+	public void removeDuplicateHeader(HttpHeader header) {
+
+		for (Iterator<HttpHeader> it = headers.iterator(); it.hasNext(); ) {
+			if (header.equals(it.next())) {
+				it.remove();
+				break;
+			}
+		}
 	}
 
 	/**
@@ -284,39 +308,13 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 		params.clear();
 	}
 
-	public List<HttpParameter> getParams() {
-		return params;
-	}
-
-	public RequestType getRequestType() {
-		return requestType;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	private void removeDuplicateCookie(HttpCookie cookie) {
-
-		for (Iterator<HttpCookie> it = cookies.iterator(); it.hasNext(); ) {
-			if (cookie.equals(it.next())) {
-				it.remove();
-				break;
-			}
-		}
-	}
-
-	private void removeDuplicateHeader(HttpHeader header) {
-
-		for (Iterator<HttpHeader> it = headers.iterator(); it.hasNext(); ) {
-			if (header.equals(it.next())) {
-				it.remove();
-				break;
-			}
-		}
-	}
-
-	private void removeDuplicateParameter(HttpParameter parameter) {
+	/**
+	 * Removes a duplicate parameter.
+	 *
+	 * @param parameter The HttpParameter to be removed.
+	 */
+	@Override
+	public void removeDuplicateParameter(HttpParameter parameter) {
 
 		for (Iterator<HttpParameter> it = params.iterator(); it.hasNext(); ) {
 			if (parameter.equals(it.next())) {
@@ -324,5 +322,55 @@ public final class HttpRequestMessage implements HttpCookieStore, HttpHeaderStor
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Checks if the Http message contains cookies.
+	 *
+	 * @return Returns true if the Http message contains cookies.
+	 */
+	@Override
+	public boolean containsCookies() {
+		return cookies.size() > 0;
+	}
+
+	/**
+	 * Checks if the Http message contains headers.
+	 *
+	 * @return Returns true if the Http message contains headers.
+	 */
+	@Override
+	public boolean containsHeaders() {
+		return headers.size() > 0;
+	}
+
+	/**
+	 * Checks if the Http message contains parameters.
+	 *
+	 * @return Returns true if the Http message contains parameters.
+	 */
+	@Override
+	public boolean containsParameters() {
+		return params.size() > 0;
+	}
+
+	/**
+	 * Gets the content type of the message.
+	 *
+	 * @return Returns the content type.
+	 */
+	@Override
+	public ContentType getContentType() {
+		return contentType;
+	}
+
+	/**
+	 * Gets the encoding of the message.
+	 *
+	 * @return Returns the encoding.
+	 */
+	@Override
+	public Encoding getEncoding() {
+		return encoding;
 	}
 }

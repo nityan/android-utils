@@ -9,7 +9,7 @@ import org.apache.http.HeaderElement;
 import org.apache.http.ParseException;
 
 /**
- * Represents a Http Header.
+ * Represents an Http Header.
  */
 public class HttpHeader implements Header {
 
@@ -93,6 +93,9 @@ public class HttpHeader implements Header {
 
 	@Override
 	public String toString() {
-		return "Name: " + name + " Value: " + value;
+		return "HttpHeader{" +
+				"name='" + name + '\'' +
+				", value='" + value + '\'' +
+				'}';
 	}
 }

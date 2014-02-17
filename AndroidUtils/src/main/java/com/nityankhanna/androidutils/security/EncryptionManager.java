@@ -62,10 +62,8 @@ public class EncryptionManager {
 		byte[] encryptedData = null;
 
 		try {
-
 			cipher.init(Cipher.ENCRYPT_MODE, password);
 			encryptedData = cipher.doFinal(dataToEncrypt);
-
 		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
 			e.printStackTrace();
 		}
@@ -86,10 +84,8 @@ public class EncryptionManager {
 		byte[] decryptedData = null;
 
 		try {
-
 			cipher.init(Cipher.DECRYPT_MODE, password);
 			decryptedData = cipher.doFinal(encryptedData);
-
 		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
 			e.printStackTrace();
 		}

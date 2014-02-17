@@ -55,4 +55,11 @@ public interface HttpCookieStore {
 	 * Removes all cookies from the collection.
 	 */
 	void removeAllCookies();
+
+	/**
+	 * Removes a duplicate cookie.
+	 *
+	 * @param cookie The cookie.
+	 */
+	void removeDuplicateCookie(HttpCookie cookie);
 }

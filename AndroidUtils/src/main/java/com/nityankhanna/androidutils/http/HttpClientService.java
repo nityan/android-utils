@@ -70,7 +70,7 @@ public final class HttpClientService {
 		}
 
 		if (requestMessage.containsParameters()) {
-			params = requestMessage.getParams();
+			params = requestMessage.getParameters();
 		}
 	}
 
@@ -240,15 +240,6 @@ public final class HttpClientService {
 					}
 
 					post.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
-				} else if (requestMessage.getContentType().equals(ContentType.XML)) {
-
-					BasicHttpParams basicHttpParams = new BasicHttpParams();
-
-					for (HttpParameter parameter : params) {
-						basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
-					}
-
-					post.setParams(basicHttpParams);
 				}
 
 				httpResponse = client.execute(post);

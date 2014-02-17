@@ -3,17 +3,16 @@ package com.nityankhanna.androidutils.http;
 /**
  * Created by Nityan Khanna on Jan 19 2014.
  */
+
+/**
+ * Represents a collection of content types.
+ */
 public enum ContentType {
 
 	/**
 	 * Represents a JSON content type.
 	 */
-	JSON(0),
-
-	/**
-	 * Represents an XML content type.
-	 */
-	XML(1);
+	JSON(0);
 
 	private int value;
 

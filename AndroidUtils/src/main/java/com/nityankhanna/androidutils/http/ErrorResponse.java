@@ -35,13 +35,10 @@ public class ErrorResponse {
 		this.message = message;
 	}
 
-	/**
-	 * Returns the message.
-	 *
-	 * @return Returns the message.
-	 */
 	@Override
 	public String toString() {
-		return getMessage();
+		return "ErrorResponse{" +
+				"message='" + message + '\'' +
+				'}';
 	}
 }

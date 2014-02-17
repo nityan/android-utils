@@ -3,6 +3,10 @@ package com.nityankhanna.androidutils.http;
 /**
  * Created by Nityan Khanna on Jan 20 2014.
  */
+
+/**
+ * Represents a collection of encoding types.
+ */
 public enum Encoding {
 
 	/**

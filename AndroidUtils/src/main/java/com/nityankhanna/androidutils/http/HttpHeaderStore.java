@@ -8,45 +8,51 @@ import java.util.List;
 public interface HttpHeaderStore {
 
 	/**
-	 * Adds an HTTP header to the request.
+	 * Adds an Http header to the request.
 	 *
-	 * @param header The HTTP header to add to the collection.
+	 * @param header The Http header to add to the collection.
 	 */
 	void addHeader(HttpHeader header);
 
 	/**
-	 * Adds an HTTP header to the collection at the specified index.
+	 * Adds an Http header to the collection at the specified index.
 	 *
 	 * @param index  The index of where to add the header.
-	 * @param header The HTTP header to add to the collection.
+	 * @param header The Http header to add to the collection.
 	 */
 	void addHeader(int index, HttpHeader header);
 
 	/**
-	 * Returns a list of HTTP headers.
+	 * Returns a list of Http headers.
 	 *
-	 * @return Returns a list of HTTP headers.
+	 * @return Returns a list of Http headers.
 	 */
 	List<HttpHeader> getHeaders();
 
 	/**
-	 * Removes an HTTP Header.
+	 * Removes an Http Header.
 	 *
-	 * @param header The HTTP header object to be removed.
+	 * @param header The Http header to be removed.
 	 */
 	void removeHeader(HttpHeader header);
 
 	/**
 	 * Removes the header at the specified index.
 	 *
-	 * @param index The index of the header to be removed.
+	 * @param index The index of the header.
 	 */
 	void removeHeader(int index);
 
 	/**
-	 * Removes all of the current HTTP headers.
+	 * Removes all of the Http headers.
 	 */
 	void removeAllHeaders();
 
+	/**
+	 * Removes a duplicate header.
+	 *
+	 * @param header The Http header to be removed.
+	 */
+	void removeDuplicateHeader(HttpHeader header);
 
 }

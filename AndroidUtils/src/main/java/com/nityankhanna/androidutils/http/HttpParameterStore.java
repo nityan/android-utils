@@ -47,4 +47,12 @@ public interface HttpParameterStore {
 	 * Removes all the parameters from the collection.
 	 */
 	void removeAllParameters();
+
+	/**
+	 * Removes a duplicate parameter.
+	 *
+	 * @param parameter The HttpParameter to be removed.
+	 */
+	void removeDuplicateParameter(HttpParameter parameter);
+
 }

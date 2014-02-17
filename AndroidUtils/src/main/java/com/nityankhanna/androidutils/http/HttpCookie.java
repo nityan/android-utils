@@ -55,6 +55,11 @@ public class HttpCookie implements Cookie {
 		this.comment = comment;
 	}
 
+	/**
+	 * This method is not used an always returns null.
+	 *
+	 * @return Returns null.
+	 */
 	@Override
 	public String getCommentURL() {
 		return null;
@@ -172,7 +177,15 @@ public class HttpCookie implements Cookie {
 
 	@Override
 	public String toString() {
-		return String.format("name: %s, value: %s, comment: %s, expiryDate: %s, isPersistent: %s, domain: %s, path: %s, secure: %s, version: %s",
-				name, value, comment, expiryDate, isPersistent(), domain, path, isSecure, version);
+		return "HttpCookie{" +
+				"comment='" + comment + '\'' +
+				", domain='" + domain + '\'' +
+				", expiryDate=" + expiryDate +
+				", isSecure=" + isSecure +
+				", name='" + name + '\'' +
+				", path='" + path + '\'' +
+				", value='" + value + '\'' +
+				", version=" + version +
+				'}';
 	}
 }
