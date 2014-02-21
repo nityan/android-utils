@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +31,7 @@ import java.util.List;
  */
 public final class HttpClientService {
 
+	// TODO: implement cookies
 	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
@@ -54,7 +56,6 @@ public final class HttpClientService {
 		}
 
 		this.requestType = requestMessage.getRequestType();
-
 		this.delegate = response;
 
 		if (requestMessage.containsCookies()) {
