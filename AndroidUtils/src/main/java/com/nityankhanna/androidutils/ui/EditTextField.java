@@ -8,7 +8,7 @@ import android.widget.EditText;
 /**
  * Created by Nityan Khanna on 20/09/13.
  */
-public class EditTextField extends EditText implements FieldOperations {
+public class EditTextField extends EditText implements Field {
 
 	public EditTextField(Context context) {
 		super(context);

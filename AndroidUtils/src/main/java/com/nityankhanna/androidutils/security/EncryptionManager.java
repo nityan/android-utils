@@ -1,6 +1,6 @@
 package com.nityankhanna.androidutils.security;
 
-import android.content.Context;
+import com.nityankhanna.androidutils.StringUtils;
 
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -11,9 +11,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.nityankhanna.androidutils.SharedPreferencesService;
-import com.nityankhanna.androidutils.StringUtils;
 
 /**
  * Created by Nityan Khanna on 22/10/13.

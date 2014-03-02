@@ -13,9 +13,9 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.nityankhanna.androidutils.system.serialization.SerializeManager;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Nityan Khanna on 05/07/13.

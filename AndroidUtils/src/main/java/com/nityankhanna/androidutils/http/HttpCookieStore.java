@@ -1,5 +1,7 @@
 package com.nityankhanna.androidutils.http;
 
+import org.apache.http.client.CookieStore;
+
 import java.util.Date;
 import java.util.List;
 

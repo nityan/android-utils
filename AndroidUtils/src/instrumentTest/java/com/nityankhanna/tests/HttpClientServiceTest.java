@@ -5,6 +5,8 @@ import android.util.Log;
 import junit.framework.TestCase;
 
 import com.nityankhanna.androidutils.http.HttpClientService;
+import com.nityankhanna.androidutils.http.HttpCookie;
+import com.nityankhanna.androidutils.http.HttpHeader;
 import com.nityankhanna.androidutils.http.HttpRequestMessage;
 import com.nityankhanna.androidutils.http.HttpResponseMessage;
 import com.nityankhanna.androidutils.http.OnHttpResponseListener;
@@ -20,6 +22,12 @@ public class HttpClientServiceTest extends TestCase implements OnHttpResponseLis
 	public void testExecuteRequestAsync() throws Exception {
 
 		HttpRequestMessage requestMessage = new HttpRequestMessage("http://google.ca", RequestType.GET);
+
+		HttpHeader header = new HttpHeader("test-header", "test-header-value");
+		HttpCookie cookie = new HttpCookie("test-cookie", "test-cookie-value");
+
+		requestMessage.addHeader(header);
+		requestMessage.addCookie(cookie);
 
 		HttpClientService client = new HttpClientService(requestMessage, this);
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * A custom TextView class.
  */
-public class TextViewField extends TextView implements FieldOperations {
+public class TextViewField extends TextView implements Field {
 
 	public TextViewField(Context context) {
 		super(context);

@@ -16,9 +16,6 @@ public class HttpHeader implements Header {
 	private String name;
 	private String value;
 
-	/**
-	 * Initializes a new instance of the HttpHeader class.
-	 */
 	public HttpHeader() {
 	}
 
@@ -43,6 +40,10 @@ public class HttpHeader implements Header {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * Gets the value of the header.
 	 *
@@ -51,6 +52,10 @@ public class HttpHeader implements Header {
 	@Override
 	public String getValue() {
 		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	@Override

@@ -19,12 +19,15 @@ public class HttpCookie implements Cookie {
 	private String value;
 	private int version;
 
+	public HttpCookie() {
+	}
+
 	public HttpCookie(String name, String value) {
 		this.name = name;
 		this.value = value;
 		this.comment = "";
 		this.domain = "";
-		this.expiryDate = new Date();
+		this.expiryDate = null;
 		this.path = "";
 	}
 
@@ -56,7 +59,7 @@ public class HttpCookie implements Cookie {
 	}
 
 	/**
-	 * This method is not used an always returns null.
+	 * This method is not used and always returns null.
 	 *
 	 * @return Returns null.
 	 */

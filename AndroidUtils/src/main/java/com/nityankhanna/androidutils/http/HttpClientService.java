@@ -12,7 +12,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
