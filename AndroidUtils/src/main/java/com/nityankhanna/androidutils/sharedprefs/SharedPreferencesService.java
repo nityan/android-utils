@@ -1,11 +1,13 @@
-package com.nityankhanna.androidutils;
+package com.nityankhanna.androidutils.sharedprefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.nityankhanna.androidutils.StringUtils;
 import com.nityankhanna.androidutils.security.EncodingManager;
 import com.nityankhanna.androidutils.security.EncryptionManager;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -18,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * A simplified SharedPreferences class.
  */
-public class SharedPreferencesService {
+public class SharedPreferencesService implements SecureSharedPreferences {
 
 	private final SharedPreferences sharedPreferences;
 	private final SharedPreferences.Editor editor;
@@ -165,19 +167,77 @@ public class SharedPreferencesService {
 		editor.putString(key, value).commit();
 	}
 
+	@Override
+	public boolean getSecureBooleanForKey(String key) {
+		return StringUtils.toBoolean(getSecureStringForKey(key));
+	}
+
+	@Override
+	public void setSecureBooleanForKey(String key, boolean value) {
+		setSecureStringForKey(key, StringUtils.toString(value));
+	}
+
+	@Override
+	public float getSecureFloatForKey(String key) {
+		return StringUtils.toFloat(getSecureStringForKey(key));
+	}
+
+	@Override
+	public void setSecureFloatForKey(String key, float value) {
+		setSecureStringForKey(key, StringUtils.toString(value));
+	}
+
+	@Override
+	public int getSecureIntForKey(String key) {
+		return StringUtils.toInt(getSecureStringForKey(key));
+	}
+
+	@Override
+	public void setSecureIntForKey(String key, int value) {
+		setSecureStringForKey(key, StringUtils.toString(value));
+	}
+
+	@Override
+	public long getSecureLongForKey(String key) {
+		return StringUtils.toLong(getSecureStringForKey(key));
+	}
+
+	@Override
+	public void setSecureLongForKey(String key, long value) {
+		setSecureStringForKey(key, StringUtils.toString(value));
+	}
+
+	@Override
+	public String getSecureStringForKey(String key) {
+		return new String(ENCRYPTION_MANAGER.decryptData(getPassword(), getSecureData(key)));
+	}
+
+	@Override
+	public void setSecureStringForKey(String key, String value) {
+		setByteArrayForKey(key, ENCRYPTION_MANAGER.encryptData(getPassword(), StringUtils.toByteArray(value)));
+	}
+
+	@Override
 	public void setPassword(SecretKeySpec password) {
 		setByteArrayForKey(context.getPackageName(), password.getEncoded());
 	}
 
-	public String getSecureStringForKey(SecretKeySpec password, String key) {
-		byte[] encryptedData = getByteArrayForKey(key);
-		byte[] decryptedData = ENCRYPTION_MANAGER.decryptData(password, encryptedData);
-
-		return new String(decryptedData);
+	private synchronized byte[] getSecureData(String key) {
+		return getByteArrayForKey(key);
 	}
 
-	public void setSecureStringForKey(SecretKeySpec password, String key, String value) {
-		byte[] encryptedData = ENCRYPTION_MANAGER.encryptData(password, StringUtils.toByteArray(value));
-		setByteArrayForKey(key, encryptedData);
+	private synchronized SecretKeySpec getPassword() {
+
+		SecretKeySpec secretKey = null;
+
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA");
+			digest.update(getByteArrayForKey(context.getPackageName()));
+			secretKey = new SecretKeySpec(digest.digest(), 0, 16, "AES");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return secretKey;
 	}
 }
