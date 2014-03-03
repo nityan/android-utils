@@ -7,7 +7,6 @@ import com.nityankhanna.androidutils.StringUtils;
 import com.nityankhanna.androidutils.security.EncodingManager;
 import com.nityankhanna.androidutils.security.EncryptionManager;
 
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -43,7 +42,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a boolean from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns the value for an associated key.
 	 * Returns false if the preferences does not exist.
 	 */
@@ -54,7 +53,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a byte array from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns null if the preference does not exist.
 	 */
 	public byte[] getByteArrayForKey(String key) {
@@ -70,7 +69,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a float from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public float getFloatForKey(String key) {
@@ -80,7 +79,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a int from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public int getIntForKey(String key) {
@@ -90,7 +89,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a long from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public long getLongForKey(String key) {
@@ -100,7 +99,7 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 	/**
 	 * Returns a String from the SharedPreferences for the specified key.
 	 *
-	 * @param key The key for an associated value.
+	 * @param key The key.
 	 * @return Returns null if the preference does not exist.
 	 */
 	public String getStringForKey(String key) {
@@ -167,65 +166,141 @@ public class SharedPreferencesService implements SecureSharedPreferences {
 		editor.putString(key, value).commit();
 	}
 
+	/**
+	 * Gets a secure boolean for a key.
+	 *
+	 * @param key The key.
+	 * @return Returns a boolean.
+	 */
 	@Override
 	public boolean getSecureBooleanForKey(String key) {
 		return StringUtils.toBoolean(getSecureStringForKey(key));
 	}
 
+	/**
+	 * Sets a secure boolean for a key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
 	@Override
 	public void setSecureBooleanForKey(String key, boolean value) {
 		setSecureStringForKey(key, StringUtils.toString(value));
 	}
 
+	/**
+	 * Gets a secure float for a key.
+	 *
+	 * @param key The key.
+	 * @return Returns a float.
+	 */
 	@Override
 	public float getSecureFloatForKey(String key) {
 		return StringUtils.toFloat(getSecureStringForKey(key));
 	}
 
+	/**
+	 * Sets a secure float for a key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
 	@Override
 	public void setSecureFloatForKey(String key, float value) {
 		setSecureStringForKey(key, StringUtils.toString(value));
 	}
 
+	/**
+	 * Gets a secure int for a key.
+	 *
+	 * @param key The key.
+	 * @return Returns an int.
+	 */
 	@Override
 	public int getSecureIntForKey(String key) {
 		return StringUtils.toInt(getSecureStringForKey(key));
 	}
 
+	/**
+	 * Sets a secure int for a key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
 	@Override
 	public void setSecureIntForKey(String key, int value) {
 		setSecureStringForKey(key, StringUtils.toString(value));
 	}
 
+	/**
+	 * Gets a secure long for a key.
+	 *
+	 * @param key The key.
+	 * @return Returns a long.
+	 */
 	@Override
 	public long getSecureLongForKey(String key) {
 		return StringUtils.toLong(getSecureStringForKey(key));
 	}
 
+	/**
+	 * Sets a secure long for a key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
 	@Override
 	public void setSecureLongForKey(String key, long value) {
 		setSecureStringForKey(key, StringUtils.toString(value));
 	}
 
+	/**
+	 * Sets a secure string for a key.
+	 *
+	 * @param key The key.
+	 * @return Returns a string.
+	 */
 	@Override
 	public String getSecureStringForKey(String key) {
 		return new String(ENCRYPTION_MANAGER.decryptData(getPassword(), getSecureData(key)));
 	}
 
+	/**
+	 * Sets a secure string for a key.
+	 *
+	 * @param key   The key.
+	 * @param value The value.
+	 */
 	@Override
 	public void setSecureStringForKey(String key, String value) {
 		setByteArrayForKey(key, ENCRYPTION_MANAGER.encryptData(getPassword(), StringUtils.toByteArray(value)));
 	}
 
+	/**
+	 * Sets the password to encrypt the shared preferences with.
+	 *
+	 * @param password The password.
+	 */
 	@Override
 	public void setPassword(SecretKeySpec password) {
 		setByteArrayForKey(context.getPackageName(), password.getEncoded());
 	}
 
+	/**
+	 * Gets the secure data from the shared preferences.
+	 *
+	 * @param key The key.
+	 * @return Returns the secured data.
+	 */
 	private synchronized byte[] getSecureData(String key) {
 		return getByteArrayForKey(key);
 	}
 
+	/**
+	 * Gets the password from the shared preferences.
+	 *
+	 * @return Returns the password as a SecretKeySpec object.
+	 */
 	private synchronized SecretKeySpec getPassword() {
 
 		SecretKeySpec secretKey = null;
