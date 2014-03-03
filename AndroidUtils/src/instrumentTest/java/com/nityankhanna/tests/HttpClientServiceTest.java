@@ -4,9 +4,12 @@ import android.util.Log;
 
 import junit.framework.TestCase;
 
+import com.nityankhanna.androidutils.http.ContentType;
+import com.nityankhanna.androidutils.http.Encoding;
 import com.nityankhanna.androidutils.http.HttpClientService;
 import com.nityankhanna.androidutils.http.HttpCookie;
 import com.nityankhanna.androidutils.http.HttpHeader;
+import com.nityankhanna.androidutils.http.HttpParameter;
 import com.nityankhanna.androidutils.http.HttpRequestMessage;
 import com.nityankhanna.androidutils.http.HttpResponseMessage;
 import com.nityankhanna.androidutils.http.OnHttpResponseListener;
@@ -21,12 +24,12 @@ public class HttpClientServiceTest extends TestCase implements OnHttpResponseLis
 
 	public void testExecuteRequestAsync() throws Exception {
 
-		String params = "?token=1278153967-usUbTZhCXNE0sv0QySuaUhDB6drhEN6vu0WXfDJ&secret=QYXr5JCvKMSTRfEG1NJk8Y9WmVaZiMNolkrYzN8zVw";
+		HttpRequestMessage requestMessage = new HttpRequestMessage("http://192.168.2.11:10235/api/social/test/1", RequestType.PUT, ContentType.JSON, Encoding.UTF_8);
 
-		HttpRequestMessage requestMessage = new HttpRequestMessage("http://192.168.2.11:10235/api/social/hometimeline" + params, RequestType.GET);
+		requestMessage.addParameter(new HttpParameter("accessToken", "token here"));
+		requestMessage.addParameter(new HttpParameter("id", "this is the id"));
 
-		HttpHeader header = new HttpHeader("test-header", "test-header-value");
-
+		/*
 		HttpCookie cookie = new HttpCookie("test-cookie", "test-cookie-value");
 		cookie.setDomain("*.*");
 		cookie.setPath("/;");
@@ -38,6 +41,7 @@ public class HttpClientServiceTest extends TestCase implements OnHttpResponseLis
 		requestMessage.addHeader(header);
 		requestMessage.addCookie(cookie);
 		requestMessage.addCookie(cookie2);
+		*/
 
 		HttpClientService client = new HttpClientService(requestMessage, this);
 

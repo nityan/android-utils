@@ -14,7 +14,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -195,6 +194,11 @@ public final class HttpClientService {
 		private HttpResponse executeDeleteRequest() {
 
 			HttpDelete delete = new HttpDelete(url);
+
+			if (cookies.size() > 0) {
+				headers.add(setupCookies());
+			}
+
 			delete.setHeaders(headers.toArray(new Header[headers.size()]));
 
 			HttpResponse httpResponse = null;
@@ -214,7 +218,9 @@ public final class HttpClientService {
 
 			HttpResponse httpResponse = null;
 
-			headers.add(setupCookies());
+			if (cookies.size() > 0) {
+				headers.add(setupCookies());
+			}
 
 			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
@@ -231,7 +237,9 @@ public final class HttpClientService {
 
 			HttpPost post = new HttpPost(url);
 
-			headers.add(setupCookies());
+			if (cookies.size() > 0) {
+				headers.add(setupCookies());
+			}
 
 			HttpResponse httpResponse = null;
 
@@ -239,6 +247,7 @@ public final class HttpClientService {
 
 				if (requestMessage.getContentType().equals(ContentType.JSON)) {
 
+					headers.add(new HttpHeader("Content-Type", "application/json;charset=" + requestMessage.getEncoding().getValue()));
 					JSONObject body = new JSONObject();
 
 					for (HttpParameter parameter : params) {
@@ -270,21 +279,40 @@ public final class HttpClientService {
 		private HttpResponse executePutRequest() {
 
 			HttpPut put = new HttpPut(url);
-			put.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			if (cookies.size() > 0) {
+				headers.add(setupCookies());
+			}
 
 			HttpResponse httpResponse = null;
 
 			try {
 
-				BasicHttpParams basicHttpParams = new BasicHttpParams();
+				if (requestMessage.getContentType().equals(ContentType.JSON)) {
 
-				for (HttpParameter parameter : params) {
-					basicHttpParams.setParameter(parameter.getName(), parameter.getValue());
+					headers.add(new HttpHeader("Content-Type", "application/json;charset=" + requestMessage.getEncoding().getValue()));
+					JSONObject body = new JSONObject();
+
+					for (HttpParameter parameter : params) {
+						body.put(parameter.getName(), parameter.getValue());
+					}
+
+					put.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
+				} else {
+
+					List<NameValuePair> data = new ArrayList<>();
+
+					for (HttpParameter parameter : params) {
+						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
+					}
+
+					put.setEntity(new UrlEncodedFormEntity(data));
 				}
 
-				put.setParams(basicHttpParams);
+				put.setHeaders(headers.toArray(new Header[headers.size()]));
+
 				httpResponse = client.execute(put);
-			} catch (IOException e) {
+			} catch (JSONException | IOException e) {
 				e.printStackTrace();
 			}
 

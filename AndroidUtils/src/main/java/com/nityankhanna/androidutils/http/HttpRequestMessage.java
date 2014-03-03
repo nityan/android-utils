@@ -39,7 +39,7 @@ public final class HttpRequestMessage extends HttpRequest {
 	}
 
 	/**
-	 * Initializes a new instance of the HttpRequestMessage class with a url, request type, content type and encoding.s
+	 * Initializes a new instance of the HttpRequestMessage class with a url, request type, content type and encoding.
 	 * </p>
 	 * This is used for POST and PUT requests.
 	 *
