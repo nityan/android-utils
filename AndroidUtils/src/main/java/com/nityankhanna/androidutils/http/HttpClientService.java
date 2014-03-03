@@ -5,12 +5,15 @@ import android.os.AsyncTask;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +33,6 @@ import java.util.List;
  */
 public final class HttpClientService {
 
-	// TODO: implement cookies
 	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
@@ -142,7 +144,7 @@ public final class HttpClientService {
 
 			for (HttpHeader header : httpHeaders) {
 
-				if (header.getValue().contains("application/json")) {
+				if (header.getValue().equals("application/json")) {
 					responseMessage.setContentType(ContentType.JSON);
 					break;
 				}
@@ -209,9 +211,12 @@ public final class HttpClientService {
 		private HttpResponse executeGetRequest() {
 
 			HttpGet get = new HttpGet(url);
-			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
 			HttpResponse httpResponse = null;
+
+			headers.add(setupCookies());
+
+			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
 			try {
 				httpResponse = client.execute(get);
@@ -225,7 +230,8 @@ public final class HttpClientService {
 		private HttpResponse executePostRequest() {
 
 			HttpPost post = new HttpPost(url);
-			post.setHeaders(headers.toArray(new Header[headers.size()]));
+
+			headers.add(setupCookies());
 
 			HttpResponse httpResponse = null;
 
@@ -240,7 +246,18 @@ public final class HttpClientService {
 					}
 
 					post.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
+				} else {
+
+					List<NameValuePair> data = new ArrayList<>();
+
+					for (HttpParameter parameter : params) {
+						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
+					}
+
+					post.setEntity(new UrlEncodedFormEntity(data));
 				}
+
+				post.setHeaders(headers.toArray(new Header[headers.size()]));
 
 				httpResponse = client.execute(post);
 			} catch (JSONException | IOException e) {
@@ -272,6 +289,25 @@ public final class HttpClientService {
 			}
 
 			return httpResponse;
+		}
+
+		private HttpHeader setupCookies() {
+			HttpHeader header = new HttpHeader();
+			header.setName("Cookie");
+
+			StringBuilder stringBuilder = new StringBuilder();
+
+			String temp;
+
+			for (HttpCookie cookie : cookies) {
+				temp = cookie.getName() + "=" + cookie.getValue() + ";" + "domain=" + cookie.getDomain()
+						+ ";" + "path=" + cookie.getPath() + ";";
+				stringBuilder.append(temp);
+			}
+
+			header.setValue(stringBuilder.toString());
+
+			return header;
 		}
 	}
 }

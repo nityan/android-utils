@@ -25,10 +25,6 @@ public class HttpCookie implements Cookie {
 	public HttpCookie(String name, String value) {
 		this.name = name;
 		this.value = value;
-		this.comment = "";
-		this.domain = "";
-		this.expiryDate = null;
-		this.path = "";
 	}
 
 	@Override

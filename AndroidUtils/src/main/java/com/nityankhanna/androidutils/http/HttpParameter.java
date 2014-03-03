@@ -10,7 +10,7 @@ package com.nityankhanna.androidutils.http;
 public class HttpParameter implements Parameter {
 
 	private String name;
-	private Object value;
+	private String value;
 
 	/**
 	 * Initializes a new instance of the HttpParameter class.
@@ -24,7 +24,7 @@ public class HttpParameter implements Parameter {
 	 * @param name  The name.
 	 * @param value The value.
 	 */
-	public HttpParameter(String name, Object value) {
+	public HttpParameter(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -35,7 +35,7 @@ public class HttpParameter implements Parameter {
 	}
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		return value;
 	}
 

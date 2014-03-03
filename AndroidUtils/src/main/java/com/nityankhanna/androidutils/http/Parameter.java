@@ -17,6 +17,6 @@ public interface Parameter {
 	 *
 	 * @return Returns the value of the parameter.
 	 */
-	Object getValue();
+	String getValue();
 
 }

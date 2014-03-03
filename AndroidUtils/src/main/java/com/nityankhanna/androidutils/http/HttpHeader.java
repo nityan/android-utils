@@ -54,19 +54,13 @@ public class HttpHeader implements Header {
 		return value;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
 	@Override
 	public HeaderElement[] getElements() throws ParseException {
 		return new HeaderElement[0];
 	}
 
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		super.clone();
-		throw new CloneNotSupportedException("The clone method is not supported on HttpHeader.");
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	@Override
