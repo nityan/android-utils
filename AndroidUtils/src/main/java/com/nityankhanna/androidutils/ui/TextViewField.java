@@ -40,7 +40,7 @@ public class TextViewField extends TextView implements Field {
 		if (text == null) {
 			return value;
 		} else {
-			value = Integer.parseInt(text.toString());
+			value = Integer.parseInt(text);
 		}
 
 		return value;
@@ -56,7 +56,7 @@ public class TextViewField extends TextView implements Field {
 		if (text == null) {
 			return value;
 		} else {
-			value = Double.parseDouble(text.toString());
+			value = Double.parseDouble(text);
 		}
 
 		return value;

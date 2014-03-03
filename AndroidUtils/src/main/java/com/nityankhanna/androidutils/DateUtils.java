@@ -10,7 +10,7 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
-	private static final String ERROR_MESSAGE = "An unknown error has occurred. Please visit the stack trace for more information.";
+	private static final String ERROR_MESSAGE = "An unknown error has occurred. Please view the stack trace for more information.";
 
 	private DateUtils() {
 	}
