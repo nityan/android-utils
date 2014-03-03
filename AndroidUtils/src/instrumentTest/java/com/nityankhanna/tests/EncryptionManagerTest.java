@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 import com.nityankhanna.androidutils.StringUtils;
 import com.nityankhanna.androidutils.security.EncryptionManager;
 
+import javax.crypto.spec.SecretKeySpec;
+
 /**
  * Created by Nityan Khanna on Feb 15 2014.
  */
@@ -18,33 +20,20 @@ public class EncryptionManagerTest extends TestCase {
 	public EncryptionManagerTest() {
 	}
 
-	public void testGetInstance() throws Exception {
-		Class expectedResult = EncryptionManager.class;
+	public void testEncryption() throws Exception {
 
-		assertEquals(expectedResult, ENCRYPTION_MANAGER.getClass());
-	}
+		SecretKeySpec password = ENCRYPTION_MANAGER.createPassword("password");
 
-	public void testEncryptData() throws Exception {
-		byte[] encryptedData = encryptData();
+		byte[] encryptedData = ENCRYPTION_MANAGER.encryptData(password, StringUtils.toByteArray("Nityan Khanna"));
 
 		assertNotNull("The encrypted data is null", encryptedData);
 
 		Log.e(className, "Encrypted data: " + StringUtils.toString(encryptedData));
-	}
 
-	public void testDecryptData() throws Exception {
-		byte[] decryptedData = decryptData();
+		byte[] decryptedData = ENCRYPTION_MANAGER.decryptData(password, encryptedData);
 
 		assertNotNull("The decrypted data is null", decryptedData);
 
 		Log.e(className, "Decrypted data: " + StringUtils.toString(decryptedData));
-	}
-
-	private byte[] encryptData() {
-		return ENCRYPTION_MANAGER.encryptData(ENCRYPTION_MANAGER.createPassword("password"), StringUtils.toByteArray("Nityan Khanna"));
-	}
-
-	private byte[] decryptData() {
-		return ENCRYPTION_MANAGER.decryptData(ENCRYPTION_MANAGER.createPassword("password"), encryptData());
 	}
 }

@@ -3,6 +3,14 @@ package com.nityankhanna.androidutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.nityankhanna.androidutils.security.EncodingManager;
+import com.nityankhanna.androidutils.security.EncryptionManager;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.spec.SecretKeySpec;
+
 /**
  * Created by Nityan Khanna on 28/06/13.
  */
@@ -14,34 +22,18 @@ public class SharedPreferencesService {
 
 	private final SharedPreferences sharedPreferences;
 	private final SharedPreferences.Editor editor;
+	private final Context context;
+
+	private static final EncryptionManager ENCRYPTION_MANAGER = EncryptionManager.getInstance();
 
 	/**
 	 * Initializes a new SharedPreferencesService instance with a specified context.
 	 *
 	 * @param context The application context.
 	 */
-	public SharedPreferencesService(Context context, String filename) {
-		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
-		editor = sharedPreferences.edit();
-		editor.commit();
-	}
-
-	public SharedPreferencesService(Context context, String filename, int mode) {
-		sharedPreferences = context.getSharedPreferences(filename, mode);
-		editor = sharedPreferences.edit();
-		editor.commit();
-	}
-
-	public SharedPreferencesService(Context context, String filename, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
-		sharedPreferences = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
-		editor = sharedPreferences.edit();
-		editor.commit();
-	}
-
-	public SharedPreferencesService(Context context, String filename, int mode, SharedPreferences.OnSharedPreferenceChangeListener delegate) {
-		sharedPreferences = context.getSharedPreferences(filename, mode);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(delegate);
+	public SharedPreferencesService(Context context) {
+		this.context = context;
+		sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		editor.commit();
 	}
@@ -50,7 +42,6 @@ public class SharedPreferencesService {
 	 * Returns a boolean from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns the value for an associated key.
 	 * Returns false if the preferences does not exist.
 	 */
@@ -62,7 +53,6 @@ public class SharedPreferencesService {
 	 * Returns a byte array from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns null if the preference does not exist.
 	 */
 	public byte[] getByteArrayForKey(String key) {
@@ -72,14 +62,13 @@ public class SharedPreferencesService {
 			return null;
 		}
 
-		return value.getBytes();
+		return EncodingManager.getInstance().decodeToByteArray(value.getBytes());
 	}
 
 	/**
 	 * Returns a float from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public float getFloatForKey(String key) {
@@ -90,7 +79,6 @@ public class SharedPreferencesService {
 	 * Returns a int from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public int getIntForKey(String key) {
@@ -101,7 +89,6 @@ public class SharedPreferencesService {
 	 * Returns a long from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns 9000 if the preference does not exist.
 	 */
 	public long getLongForKey(String key) {
@@ -112,7 +99,6 @@ public class SharedPreferencesService {
 	 * Returns a String from the SharedPreferences for the specified key.
 	 *
 	 * @param key The key for an associated value.
-	 *
 	 * @return Returns null if the preference does not exist.
 	 */
 	public String getStringForKey(String key) {
@@ -136,7 +122,7 @@ public class SharedPreferencesService {
 	 * @param value The value.
 	 */
 	public void setByteArrayForKey(String key, byte[] value) {
-		editor.putString(key, new String(value)).commit();
+		editor.putString(key, EncodingManager.getInstance().encodeToString(value)).commit();
 	}
 
 	/**
@@ -177,5 +163,21 @@ public class SharedPreferencesService {
 	 */
 	public void setStringForKey(String key, String value) {
 		editor.putString(key, value).commit();
+	}
+
+	public void setPassword(SecretKeySpec password) {
+		setByteArrayForKey(context.getPackageName(), password.getEncoded());
+	}
+
+	public String getSecureStringForKey(SecretKeySpec password, String key) {
+		byte[] encryptedData = getByteArrayForKey(key);
+		byte[] decryptedData = ENCRYPTION_MANAGER.decryptData(password, encryptedData);
+
+		return new String(decryptedData);
+	}
+
+	public void setSecureStringForKey(SecretKeySpec password, String key, String value) {
+		byte[] encryptedData = ENCRYPTION_MANAGER.encryptData(password, StringUtils.toByteArray(value));
+		setByteArrayForKey(key, encryptedData);
 	}
 }
