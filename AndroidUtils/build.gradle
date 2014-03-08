@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 apply plugin: 'android-library'
@@ -26,16 +26,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
-    }
-    sourceSets {
-        main {
-            java {
-                srcDir 'src/main/java'
-            }
-            resources {
-                srcDir 'src/main/res'
-            }
-        }
     }
 
     packagingOptions {
@@ -60,5 +50,6 @@ makeJar.dependsOn(clearJar, build)
 dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile files('libs/annotations.jar')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3.1'
 }
 
