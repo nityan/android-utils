@@ -24,7 +24,19 @@ public class DateUtils {
 	 * @return Returns a string with the local date time as specified in the targetFormat parameter.
 	 */
 	public static String convertToLocalTime(Date date, DateTimeFormat targetFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat.getValue());
+		return convertToLocalTime(date, targetFormat.getValue());
+	}
+
+	/**
+	 * Converts a date to local time.
+	 *
+	 * @param date         The date to convert.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the local date time as specified in the targetFormat parameter.
+	 */
+	public static String convertToLocalTime(Date date, String targetFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat);
 		long when;
 
 		try {
@@ -52,6 +64,18 @@ public class DateUtils {
 	}
 
 	/**
+	 * Converts a date to a new format.
+	 *
+	 * @param date         The date to format.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the date time as specified in the targetFormat parameter.
+	 */
+	public static String convertToNewFormat(Date date, String targetFormat) {
+		return dateToString(date, targetFormat);
+	}
+
+	/**
 	 * Converts a date to a string.
 	 *
 	 * @param date         The date to convert.
@@ -60,7 +84,19 @@ public class DateUtils {
 	 * @return Returns a string with the date time as specified in the targetFormat parameter.
 	 */
 	public static String dateToString(Date date, DateTimeFormat targetFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat.getValue());
+		return dateToString(date, targetFormat.getValue());
+	}
+
+	/**
+	 * Converts a date to a string.
+	 *
+	 * @param date         The date to convert.
+	 * @param targetFormat The new format of the date.
+	 *
+	 * @return Returns a string with the date time as specified in the targetFormat parameter.
+	 */
+	public static String dateToString(Date date, String targetFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat);
 		return dateFormat.format(date);
 	}
 
@@ -73,7 +109,19 @@ public class DateUtils {
 	 * @return Returns a date.
 	 */
 	public static Date stringToDate(String date, DateTimeFormat currentFormat) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(currentFormat.getValue());
+		return stringToDate(date, currentFormat.getValue());
+	}
+
+	/**
+	 * Converts a string to a date.
+	 *
+	 * @param date          The string to convert.
+	 * @param currentFormat The current date time format of the string to be converted.
+	 *
+	 * @return Returns a date.
+	 */
+	public static Date stringToDate(String date, String currentFormat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(currentFormat);
 
 		try {
 			return dateFormat.parse(date);
