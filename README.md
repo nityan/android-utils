@@ -6,20 +6,7 @@ A collection of utility classes for the Android Platform.
 How to use
 =============
 
-Method One
-=============
-
 Download the JAR file, and add it as a library to your project.
-
-
-Method Two
-=============
-
-1) Download and extract the project.
-
-2) Copy the project into a folder inside your project
-
-3) Import the project following the Android Studio import wizard.
 
 
 Examples
@@ -39,15 +26,21 @@ Threading
     
     
 Http Services
-
-    HttpClientService clientService = new HttpClientService("http://example.com", RequestType.GET, this);
-    clientService.addHeader(new HttpHeader("Content-Type", "application/json;charset=UTF-8"));
-    clientService.executeRequestAsync();
+    
+    
+    HttpRequestMessage requestMessage = new HttpRequestMessage("http://example.com", RequestType.GET);
+    
+    requestMessage.addHeader(new HttpHeader("Content-Type", "application/json;charset=UTF-8");
+    requestMessage.addParameter(new HttpParameter("parameter key", "parameter value"));
+    
+    HttpClientService client = new HttpClientService(requestMessage, this);
+    
+    client.executeRequestAsync();
 
 
 System Services
 
-    ServiceManager serviceManager = ServiceManager.getInstance(getApplicationContext());
+    ServiceManager serviceManager = ServiceManager.getInstance();
     
     if (serviceManager.isBluetoothAvailable()) {
 	    Log.d("DEBUG", "Bluetooth is available");
@@ -57,11 +50,42 @@ System Services
 	    Log.d("DEBUG", "Network is available");
     }
     
+String Utility Services
+    
+    StringUtils.toByteArray("this is a string");
+    StringUtils.toInt("1234");
+    StringUtils.isNullOrEmpty("Pretend Im NULL");
+    
+Encryption Services
+    
+    EncryptionManager encryptionManager = EncryptionManager.getInstance();
+    
+    SecretKeySpec password = encryptionManager.createPassword("guest");
+    
+    byte[] encryptedData = encryptionManager.encryptData(password, StringUtils.toByteArray("this is the data to encrypt");
+    
+    byte[] decryptedData = encryptionManager.decryptData(password, encryptedData);
+    
+    
 Shared Preferences
 
-    SharedPreferences sharedPreferences = SharedPreferences.getInstance(getApplicationContext());
+    SharedPreferencesService sharedPreferences = new SharedPreferencesService(getApplicationContext());
     
     sharedPreferences.setStringForKey("I'm the key", "I'm the value");
     
     String data = sharedPreferences.getStringForKey("I'm the key");
+    
+Secure Shared Preferences
+
+    SharedPreferencesService sharedPreferences = new SharedPreferencesService(getApplicationContext());
+    
+    EncryptionManager encryptionManager = EncryptionManager.getInstance();
+    
+    SecretKeySpec password = encryptionManager.createPassword("guest");
+    
+    sharedPreferences.setPassword(password);
+    
+    sharedPreferences.setSecureStringForKey("I'm the key", "I'm the value");
+
+
 
