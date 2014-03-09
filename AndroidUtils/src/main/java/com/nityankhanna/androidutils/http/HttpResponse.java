@@ -9,8 +9,6 @@ import java.util.List;
  */
 public abstract class HttpResponse implements HttpMessage {
 
-	public abstract List<HttpCookie> getCookies();
-
 	protected abstract void setContentType(ContentType contentType);
 
 	public abstract HttpEntity getEntity();
@@ -22,8 +20,6 @@ public abstract class HttpResponse implements HttpMessage {
 	protected abstract void setError(ErrorResponse error);
 
 	public abstract List<HttpHeader> getHeaders();
-
-	public abstract List<HttpParameter> getParameters();
 
 	public abstract String getReasonPhrase();
 

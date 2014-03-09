@@ -1,5 +1,6 @@
 package com.nityankhanna.androidutils.http;
 
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
 import org.apache.http.Header;
@@ -14,6 +15,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +34,6 @@ import java.util.List;
  */
 public final class HttpClientService {
 
-	private List<HttpCookie> cookies;
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
 	private List<HttpParameter> params;
@@ -57,12 +58,6 @@ public final class HttpClientService {
 
 		this.requestType = requestMessage.getRequestType();
 		this.delegate = response;
-
-		if (requestMessage.containsCookies()) {
-			cookies = requestMessage.getCookies();
-		} else {
-			cookies = new ArrayList<>();
-		}
 
 		if (requestMessage.containsHeaders()) {
 			headers = requestMessage.getHeaders();
@@ -130,11 +125,10 @@ public final class HttpClientService {
 			}
 
 			HttpEntity entity = httpResponse.getEntity();
-			Header[] basicHeaders = httpResponse.getAllHeaders();
 
 			List<HttpHeader> httpHeaders = new ArrayList<>();
 
-			for (Header header : basicHeaders) {
+			for (Header header : httpResponse.getAllHeaders()) {
 				HttpHeader httpHeader = new HttpHeader(header.getName(), header.getValue());
 				httpHeaders.add(httpHeader);
 			}
@@ -143,7 +137,7 @@ public final class HttpClientService {
 
 			for (HttpHeader header : httpHeaders) {
 
-				if (header.getValue().equals("application/json")) {
+				if (header.getValue().contains("application/json")) {
 					responseMessage.setContentType(ContentType.JSON);
 					break;
 				}
@@ -195,10 +189,6 @@ public final class HttpClientService {
 
 			HttpDelete delete = new HttpDelete(url);
 
-			if (cookies.size() > 0) {
-				headers.add(setupCookies());
-			}
-
 			delete.setHeaders(headers.toArray(new Header[headers.size()]));
 
 			HttpResponse httpResponse = null;
@@ -218,10 +208,6 @@ public final class HttpClientService {
 
 			HttpResponse httpResponse = null;
 
-			if (cookies.size() > 0) {
-				headers.add(setupCookies());
-			}
-
 			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
 			try {
@@ -236,10 +222,6 @@ public final class HttpClientService {
 		private HttpResponse executePostRequest() {
 
 			HttpPost post = new HttpPost(url);
-
-			if (cookies.size() > 0) {
-				headers.add(setupCookies());
-			}
 
 			HttpResponse httpResponse = null;
 
@@ -280,10 +262,6 @@ public final class HttpClientService {
 
 			HttpPut put = new HttpPut(url);
 
-			if (cookies.size() > 0) {
-				headers.add(setupCookies());
-			}
-
 			HttpResponse httpResponse = null;
 
 			try {
@@ -317,25 +295,6 @@ public final class HttpClientService {
 			}
 
 			return httpResponse;
-		}
-
-		private HttpHeader setupCookies() {
-			HttpHeader header = new HttpHeader();
-			header.setName("Cookie");
-
-			StringBuilder stringBuilder = new StringBuilder();
-
-			String temp;
-
-			for (HttpCookie cookie : cookies) {
-				temp = cookie.getName() + "=" + cookie.getValue() + ";" + "domain=" + cookie.getDomain()
-						+ ";" + "path=" + cookie.getPath() + ";";
-				stringBuilder.append(temp);
-			}
-
-			header.setValue(stringBuilder.toString());
-
-			return header;
 		}
 	}
 }

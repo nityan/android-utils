@@ -17,6 +17,7 @@ public final class HttpResponseMessage extends HttpResponse {
 	private HttpEntity entity;
 	private ErrorResponse error;
 	private List<HttpHeader> headers;
+	private List<HttpParameter> parameters;
 	private String reasonPhrase;
 	private HttpRequestMessage requestMessage;
 	private int statusCode;
@@ -168,17 +169,6 @@ public final class HttpResponseMessage extends HttpResponse {
 	}
 
 	/**
-	 * Checks if the Http message contains cookies.
-	 *
-	 * @return Returns true if the Http message contains cookies.
-	 */
-	@Override
-	public boolean containsCookies() {
-		// TODO: check if the message contains cookies
-		return false;
-	}
-
-	/**
 	 * Checks if the Http message contains headers.
 	 *
 	 * @return Returns true if the Http message contains headers.
@@ -216,17 +206,6 @@ public final class HttpResponseMessage extends HttpResponse {
 	}
 
 	/**
-	 * Gets a list of HttpCookies.
-	 *
-	 * @return Returns a list of HttpCookies.
-	 */
-	@Override
-	public List<HttpCookie> getCookies() {
-		// TODO: get the cookies
-		return null;
-	}
-
-	/**
 	 * Gets a list of HttpHeaders.
 	 *
 	 * @return Returns a list of HttpHeaders.
@@ -234,16 +213,5 @@ public final class HttpResponseMessage extends HttpResponse {
 	@Override
 	public List<HttpHeader> getHeaders() {
 		return headers;
-	}
-
-	/**
-	 * Gets a list of HttpParameters.
-	 *
-	 * @return Returns a list of HttpParameters.
-	 */
-	@Override
-	public List<HttpParameter> getParameters() {
-		// TODO: get the parameters
-		return null;
 	}
 }

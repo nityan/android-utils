@@ -5,12 +5,6 @@ package com.nityankhanna.androidutils.http;
  */
 public interface HttpMessage {
 
-	/**
-	 * Checks if the Http message contains cookies.
-	 *
-	 * @return Returns true if the Http message contains cookies.
-	 */
-	boolean containsCookies();
 
 	/**
 	 * Checks if the Http message contains headers.

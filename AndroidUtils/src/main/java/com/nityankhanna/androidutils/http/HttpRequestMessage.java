@@ -15,7 +15,6 @@ import java.util.List;
 public final class HttpRequestMessage extends HttpRequest {
 
 	private ContentType contentType;
-	private List<HttpCookie> cookies;
 	private Encoding encoding;
 	private List<HttpHeader> headers;
 	private List<HttpParameter> params;
@@ -33,7 +32,6 @@ public final class HttpRequestMessage extends HttpRequest {
 	public HttpRequestMessage(String url, RequestType requestType) {
 		this.url = url;
 		this.requestType = requestType;
-		cookies = new ArrayList<>();
 		headers = new ArrayList<>();
 		params = new ArrayList<>();
 	}
@@ -72,102 +70,6 @@ public final class HttpRequestMessage extends HttpRequest {
 	@Override
 	public String getUrl() {
 		return url;
-	}
-
-	/**
-	 * Adds a cookie to the collection.
-	 *
-	 * @param cookie The cookie.
-	 */
-	@Override
-	public void addCookie(HttpCookie cookie) {
-		removeDuplicateCookie(cookie);
-
-		if (!cookie.isExpired(new Date())) {
-			cookies.add(cookie);
-		}
-	}
-
-	/**
-	 * Adds a cookie to the collection at the specified index.
-	 *
-	 * @param index  The index.
-	 * @param cookie The cookie.
-	 */
-	@Override
-	public void addCookie(int index, HttpCookie cookie) {
-		removeDuplicateCookie(cookie);
-		cookies.add(index, cookie);
-	}
-
-	/**
-	 * Gets a list of cookies.
-	 *
-	 * @return Returns a list of cookies.
-	 */
-	@Override
-	public List<HttpCookie> getCookies() {
-		return cookies;
-	}
-
-	/**
-	 * Clears the expired cookies from the collection.
-	 *
-	 * @param date The date.
-	 */
-	@Override
-	public void clearExpired(Date date) {
-
-		for (Iterator<HttpCookie> it = cookies.iterator(); it.hasNext(); ) {
-
-			if (it.next().isExpired(date)) {
-				it.remove();
-			}
-		}
-	}
-
-	/**
-	 * Removes a cookie from the collection.
-	 *
-	 * @param cookie The cookie.
-	 */
-	@Override
-	public void removeCookie(HttpCookie cookie) {
-		cookies.remove(cookie);
-	}
-
-	/**
-	 * Removes a cookie from the collection at the specified index.
-	 *
-	 * @param index The index.
-	 */
-	@Override
-	public void removeCookie(int index) {
-		cookies.remove(index);
-	}
-
-	/**
-	 * Removes all cookies from the collection.
-	 */
-	@Override
-	public void removeAllCookies() {
-		cookies.clear();
-	}
-
-	/**
-	 * Removes a duplicate cookie.
-	 *
-	 * @param cookie The cookie.
-	 */
-	@Override
-	public void removeDuplicateCookie(HttpCookie cookie) {
-
-		for (Iterator<HttpCookie> it = cookies.iterator(); it.hasNext(); ) {
-			if (cookie.equals(it.next())) {
-				it.remove();
-				break;
-			}
-		}
 	}
 
 	/**
@@ -322,16 +224,6 @@ public final class HttpRequestMessage extends HttpRequest {
 				break;
 			}
 		}
-	}
-
-	/**
-	 * Checks if the Http message contains cookies.
-	 *
-	 * @return Returns true if the Http message contains cookies.
-	 */
-	@Override
-	public boolean containsCookies() {
-		return cookies.size() > 0;
 	}
 
 	/**
