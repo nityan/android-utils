@@ -13,6 +13,7 @@ Examples
 =============
 
 Threading
+=============
 
     ThreadPool threadPool = ThreadPool.getInstance();
 
@@ -26,7 +27,7 @@ Threading
     
     
 Http Services
-    
+=============
     
     HttpRequestMessage requestMessage = new HttpRequestMessage("http://example.com", RequestType.GET);
     
@@ -39,6 +40,7 @@ Http Services
 
 
 System Services
+=============
 
     ServiceManager serviceManager = ServiceManager.getInstance();
     
@@ -51,12 +53,14 @@ System Services
     }
     
 String Utility Services
+=============
     
     StringUtils.toByteArray("this is a string");
     StringUtils.toInt("1234");
     StringUtils.isNullOrEmpty("Pretend Im NULL");
     
 Encryption Services
+=============
     
     EncryptionManager encryptionManager = EncryptionManager.getInstance();
     
@@ -68,6 +72,7 @@ Encryption Services
     
     
 Shared Preferences
+=============
 
     SharedPreferencesService sharedPreferences = new SharedPreferencesService(getApplicationContext());
     
@@ -76,6 +81,7 @@ Shared Preferences
     String data = sharedPreferences.getStringForKey("I'm the key");
     
 Secure Shared Preferences
+=============
 
     SharedPreferencesService sharedPreferences = new SharedPreferencesService(getApplicationContext());
     
