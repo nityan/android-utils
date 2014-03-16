@@ -229,14 +229,13 @@ public final class HttpClientService {
 
 				if (requestMessage.getContentType().equals(ContentType.JSON)) {
 
-					headers.add(new HttpHeader("Content-Type", "application/json;charset=" + requestMessage.getEncoding().getValue()));
 					JSONObject body = new JSONObject();
 
 					for (HttpParameter parameter : params) {
 						body.put(parameter.getName(), parameter.getValue());
 					}
 
-					post.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
+					post.setEntity(new StringEntity(body.toString()));
 				} else {
 
 					List<NameValuePair> data = new ArrayList<>();
