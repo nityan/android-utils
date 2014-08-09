@@ -3,7 +3,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
-public interface HttpMessage {
+public interface HttpMessage
+{
 
 
 	/**

@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.security;
 /**
  * Represents a collection of different Base64 encoding modes.
  */
-public enum Base64Mode {
+public enum Base64Mode
+{
 	/**
 	 * The default mode.
 	 */
@@ -35,7 +36,8 @@ public enum Base64Mode {
 
 	private int value;
 
-	private Base64Mode(int value) {
+	private Base64Mode(int value)
+	{
 		this.value = value;
 	}
 
@@ -44,7 +46,8 @@ public enum Base64Mode {
 	 *
 	 * @return Returns the Base64 mode.
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 		return value;
 	}
 }

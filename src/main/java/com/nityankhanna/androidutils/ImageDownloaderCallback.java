@@ -5,7 +5,8 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Nityan Khanna on 14/11/13.
  */
-public interface ImageDownloaderCallback {
+public interface ImageDownloaderCallback
+{
 
 	/**
 	 * A delegate method called when the image download is cancelled.

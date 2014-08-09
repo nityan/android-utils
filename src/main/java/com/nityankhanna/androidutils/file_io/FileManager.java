@@ -22,9 +22,11 @@ import java.nio.channels.FileChannel;
 /**
  * A utility class for file operations.
  */
-public class FileManager {
+public class FileManager
+{
 
-	private FileManager() {
+	private FileManager()
+	{
 	}
 
 	/**
@@ -32,7 +34,8 @@ public class FileManager {
 	 *
 	 * @return Returns true if there is the ability to write to external storage.
 	 */
-	public static boolean canWriteToExternalStorage() {
+	public static boolean canWriteToExternalStorage()
+	{
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
 
@@ -41,12 +44,11 @@ public class FileManager {
 	 *
 	 * @param source      The source file.
 	 * @param destination The destination file.
-	 *
 	 * @return Returns the destination file with the copied contents.
-	 *
 	 * @throws IOException
 	 */
-	public static File copyFile(File source, File destination) throws IOException {
+	public static File copyFile(File source, File destination) throws IOException
+	{
 
 		FileInputStream inputStream = new FileInputStream(source);
 		FileOutputStream outputStream = new FileOutputStream(destination);
@@ -54,15 +56,19 @@ public class FileManager {
 		FileChannel inChannel = inputStream.getChannel();
 		FileChannel outChannel = outputStream.getChannel();
 
-		try {
+		try
+		{
 			inChannel.transferTo(0, inChannel.size(), outChannel);
-		} finally {
+		} finally
+		{
 
-			if (inChannel != null) {
+			if (inChannel != null)
+			{
 				inChannel.close();
 			}
 
-			if (outChannel != null) {
+			if (outChannel != null)
+			{
 				outChannel.close();
 			}
 
@@ -78,33 +84,40 @@ public class FileManager {
 	 *
 	 * @param context  The application context.
 	 * @param fileName The name of the file to read from.
-	 *
 	 * @return Returns the object from the file.
 	 */
-	public static Object readObjectFromFile(Context context, String fileName) {
+	public static Object readObjectFromFile(Context context, String fileName)
+	{
 
 		ObjectInputStream inputStream = null;
 		Object object = null;
 
-		try {
+		try
+		{
 
 			FileInputStream fileIn = context.openFileInput(fileName);
 			inputStream = new ObjectInputStream(fileIn);
 
 			object = inputStream.readObject();
 
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			ex.printStackTrace();
 			throw new FileReadException(ex.getMessage());
-		} catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException ex)
+		{
 			ex.printStackTrace();
-		} finally {
+		} finally
+		{
 
-			try {
-				if (inputStream != null) {
+			try
+			{
+				if (inputStream != null)
+				{
 					inputStream.close();
 				}
-			} catch (IOException ex) {
+			} catch (IOException ex)
+			{
 				ex.printStackTrace();
 			}
 		}
@@ -117,41 +130,49 @@ public class FileManager {
 	 *
 	 * @param context    The application context.
 	 * @param resourceId The id of the resource to find.
-	 *
 	 * @return Returns a string containing the text from the file.
 	 */
-	public static String readTextFileFromResources(Context context, int resourceId) {
+	public static String readTextFileFromResources(Context context, int resourceId)
+	{
 
 		InputStream inputStream = null;
 		BufferedReader bufferedReader = null;
 
-		try {
+		try
+		{
 			inputStream = context.getResources().openRawResource(resourceId);
 			bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
 			String line;
 			StringBuilder text = new StringBuilder();
 
-			while ((line = bufferedReader.readLine()) != null) {
+			while ((line = bufferedReader.readLine()) != null)
+			{
 				text.append(line);
 				text.append('\n');
 			}
 
 			return text.toString();
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			ex.printStackTrace();
 			throw new FileReadException(ex.getMessage());
-		} finally {
+		} finally
+		{
 
-			try {
-				if (bufferedReader != null) {
+			try
+			{
+				if (bufferedReader != null)
+				{
 					bufferedReader.close();
 				}
 
-				if (inputStream != null) {
+				if (inputStream != null)
+				{
 					inputStream.close();
 				}
-			} catch (IOException ex) {
+			} catch (IOException ex)
+			{
 				ex.printStackTrace();
 			}
 		}
@@ -165,36 +186,45 @@ public class FileManager {
 	 * @param filename The The name of the file to write to.
 	 * @param mode     The mode in which to write the file.
 	 */
-	public static void writeObjectToFile(Context context, Object object, String filename, FileMode mode) {
+	public static void writeObjectToFile(Context context, Object object, String filename, FileMode mode)
+	{
 
 		ObjectOutputStream outputStream = null;
 		FileOutputStream fileOutputStream = null;
 
-		if (!(object instanceof Serializable)) {
+		if (!(object instanceof Serializable))
+		{
 			throw new FileWriteException("The object " + object.getClass().getSimpleName() + " must implement java.io.Serializable");
 		}
 
-		try {
+		try
+		{
 
 			fileOutputStream = context.openFileOutput(filename, mode.getValue());
 			outputStream = new ObjectOutputStream(fileOutputStream);
 			outputStream.writeObject(object);
 			fileOutputStream.getFD().sync();
 
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			ex.printStackTrace();
 			throw new FileWriteException(ex.getMessage());
-		} finally {
+		} finally
+		{
 
-			try {
-				if (outputStream != null) {
+			try
+			{
+				if (outputStream != null)
+				{
 					outputStream.close();
 				}
 
-				if (fileOutputStream != null) {
+				if (fileOutputStream != null)
+				{
 					fileOutputStream.close();
 				}
-			} catch (IOException e) {
+			} catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}

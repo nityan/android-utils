@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * Represents a collection of content types.
  */
-public enum ContentType {
+public enum ContentType
+{
 
 	/**
 	 * Represents a JSON content type.
@@ -16,7 +17,8 @@ public enum ContentType {
 
 	private int value;
 
-	private ContentType(int value) {
+	private ContentType(int value)
+	{
 		this.value = value;
 	}
 
@@ -25,12 +27,14 @@ public enum ContentType {
 	 *
 	 * @return Returns the content type.
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 		return value;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "ContentType{" + "value=" + value + '}';
 	}
 }

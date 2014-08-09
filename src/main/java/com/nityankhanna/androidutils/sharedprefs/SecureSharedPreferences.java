@@ -5,7 +5,8 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Created by Nityan on 02/03/14.
  */
-public interface SecureSharedPreferences {
+public interface SecureSharedPreferences
+{
 
 	/**
 	 * Gets a secure boolean for a key.

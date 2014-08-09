@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * Represents a collection of encoding types.
  */
-public enum Encoding {
+public enum Encoding
+{
 
 	/**
 	 * Represents UTF-8 encoding.
@@ -16,7 +17,8 @@ public enum Encoding {
 
 	private String value;
 
-	private Encoding(String value) {
+	private Encoding(String value)
+	{
 		this.value = value;
 	}
 
@@ -25,7 +27,8 @@ public enum Encoding {
 	 *
 	 * @return Returns the type of encoding.
 	 */
-	public String getValue() {
+	public String getValue()
+	{
 		return value;
 	}
 }

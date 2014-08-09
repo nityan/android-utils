@@ -7,12 +7,14 @@ package com.nityankhanna.androidutils.system.services;
 /**
  * An exception which is thrown when an unavailable service is trying to be accessed.
  */
-public class ServiceUnavailableException extends Exception {
+public class ServiceUnavailableException extends Exception
+{
 
 	/**
 	 * Initializes a new ServiceUnavailableException with null as the message.
 	 */
-	public ServiceUnavailableException() {
+	public ServiceUnavailableException()
+	{
 		super();
 	}
 
@@ -21,7 +23,8 @@ public class ServiceUnavailableException extends Exception {
 	 *
 	 * @param message The message for the exception.
 	 */
-	public ServiceUnavailableException(String message) {
+	public ServiceUnavailableException(String message)
+	{
 		super(message);
 	}
 }

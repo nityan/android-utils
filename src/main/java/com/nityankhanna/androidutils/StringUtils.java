@@ -5,9 +5,11 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
-public class StringUtils {
+public class StringUtils
+{
 
-	private StringUtils() {
+	private StringUtils()
+	{
 	}
 
 	/**
@@ -16,7 +18,8 @@ public class StringUtils {
 	 * @param string The string to check.
 	 * @return Returns true if the string is null or empty.
 	 */
-	public static boolean isNullOrEmpty(String string) {
+	public static boolean isNullOrEmpty(String string)
+	{
 		return string == null || string.trim().isEmpty();
 	}
 
@@ -26,7 +29,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the boolean value of the string.
 	 */
-	public static boolean toBoolean(String string) {
+	public static boolean toBoolean(String string)
+	{
 		return Boolean.valueOf(string);
 	}
 
@@ -36,7 +40,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the byte array of the string.
 	 */
-	public static byte[] toByteArray(String string) {
+	public static byte[] toByteArray(String string)
+	{
 		return string.getBytes();
 	}
 
@@ -48,7 +53,8 @@ public class StringUtils {
 	 * @return Returns the byte array of the string.
 	 * @throws UnsupportedEncodingException
 	 */
-	public static byte[] toByteArray(String string, String encoding) throws UnsupportedEncodingException {
+	public static byte[] toByteArray(String string, String encoding) throws UnsupportedEncodingException
+	{
 		return string.getBytes(encoding);
 	}
 
@@ -58,7 +64,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the double value of the string.
 	 */
-	public static double toDouble(String string) {
+	public static double toDouble(String string)
+	{
 		return Double.parseDouble(string);
 	}
 
@@ -68,7 +75,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the float value of the string.
 	 */
-	public static float toFloat(String string) {
+	public static float toFloat(String string)
+	{
 		return Float.parseFloat(string);
 	}
 
@@ -78,7 +86,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the int value of the string.
 	 */
-	public static int toInt(String string) {
+	public static int toInt(String string)
+	{
 		return Integer.parseInt(string);
 	}
 
@@ -88,7 +97,8 @@ public class StringUtils {
 	 * @param string The string to convert.
 	 * @return Returns the long value of the string.
 	 */
-	public static long toLong(String string) {
+	public static long toLong(String string)
+	{
 		return Long.parseLong(string);
 	}
 
@@ -98,7 +108,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(boolean value) {
+	public static String toString(boolean value)
+	{
 		return String.valueOf(value);
 	}
 
@@ -108,7 +119,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(byte[] value) {
+	public static String toString(byte[] value)
+	{
 		return new String(value);
 	}
 
@@ -118,7 +130,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(double value) {
+	public static String toString(double value)
+	{
 		return String.valueOf(value);
 	}
 
@@ -128,7 +141,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(float value) {
+	public static String toString(float value)
+	{
 		return String.valueOf(value);
 	}
 
@@ -138,7 +152,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(int value) {
+	public static String toString(int value)
+	{
 		return String.valueOf(value);
 	}
 
@@ -148,7 +163,8 @@ public class StringUtils {
 	 * @param value The value to convert.
 	 * @return Returns the string value.
 	 */
-	public static String toString(long value) {
+	public static String toString(long value)
+	{
 		return String.valueOf(value);
 	}
 
@@ -158,7 +174,8 @@ public class StringUtils {
 	 * @param string The string to count.
 	 * @return Returns the number of words in the string.
 	 */
-	public static int wordCount(String string) {
+	public static int wordCount(String string)
+	{
 		return wordCount(string, "\\s+");
 	}
 
@@ -168,7 +185,8 @@ public class StringUtils {
 	 * @param string  The string to count.
 	 * @param pattern The pattern to use as a delimiter.
 	 */
-	public static int wordCount(String string, String pattern) {
+	public static int wordCount(String string, String pattern)
+	{
 		String trimmed = string.trim();
 		return trimmed.isEmpty() ? 0 : trimmed.split(pattern).length;
 	}

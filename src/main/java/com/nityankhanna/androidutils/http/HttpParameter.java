@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * Represents an Http parameter.
  */
-public class HttpParameter implements Parameter {
+public class HttpParameter implements Parameter
+{
 
 	private String name;
 	private String value;
@@ -15,7 +16,8 @@ public class HttpParameter implements Parameter {
 	/**
 	 * Initializes a new instance of the HttpParameter class.
 	 */
-	public HttpParameter() {
+	public HttpParameter()
+	{
 	}
 
 	/**
@@ -24,29 +26,35 @@ public class HttpParameter implements Parameter {
 	 * @param name  The name.
 	 * @param value The value.
 	 */
-	public HttpParameter(String name, String value) {
+	public HttpParameter(String name, String value)
+	{
 		this.name = name;
 		this.value = value;
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	@Override
-	public String getValue() {
+	public String getValue()
+	{
 		return value;
 	}
 
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals(Object object)
+	{
 
-		if (this == object) {
+		if (this == object)
+		{
 			return true;
 		}
 
-		if (!(object instanceof HttpParameter)) {
+		if (!(object instanceof HttpParameter))
+		{
 			return false;
 		}
 
@@ -56,7 +64,8 @@ public class HttpParameter implements Parameter {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 
 		int result = 17;
 
@@ -67,7 +76,8 @@ public class HttpParameter implements Parameter {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "HttpParameter{" +
 				"name='" + name + '\'' +
 				", value=" + value +

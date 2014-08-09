@@ -7,12 +7,14 @@ package com.nityankhanna.androidutils.file_io;
 /**
  * Represents an exception that occurs when reading from a file.
  */
-public class FileReadException extends RuntimeException {
+public class FileReadException extends RuntimeException
+{
 
 	/**
 	 * Initializes a new instance of the FileReadException.
 	 */
-	public FileReadException() {
+	public FileReadException()
+	{
 	}
 
 	/**
@@ -20,7 +22,8 @@ public class FileReadException extends RuntimeException {
 	 *
 	 * @param detailMessage The message of the exception.
 	 */
-	public FileReadException(String detailMessage) {
+	public FileReadException(String detailMessage)
+	{
 		super(detailMessage);
 	}
 }

@@ -1,6 +1,5 @@
 package com.nityankhanna.androidutils.http;
 
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
 import org.apache.http.Header;
@@ -15,7 +14,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +30,8 @@ import java.util.List;
 /**
  * A utility class to execute and handle HTTP requests and responses.
  */
-public final class HttpClientService {
+public final class HttpClientService
+{
 
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
@@ -47,25 +46,31 @@ public final class HttpClientService {
 	 * @param requestMessage The request message.
 	 * @param response       The response listener used to listen for the HTTP response.
 	 */
-	public HttpClientService(HttpRequestMessage requestMessage, OnHttpResponseListener response) {
+	public HttpClientService(HttpRequestMessage requestMessage, OnHttpResponseListener response)
+	{
 		this.requestMessage = requestMessage;
 
-		try {
+		try
+		{
 			this.url = new URI(requestMessage.getUrl());
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException e)
+		{
 			throw new IllegalArgumentException("Bad URL: " + url);
 		}
 
 		this.requestType = requestMessage.getRequestType();
 		this.delegate = response;
 
-		if (requestMessage.containsHeaders()) {
+		if (requestMessage.containsHeaders())
+		{
 			headers = requestMessage.getHeaders();
-		} else {
+		} else
+		{
 			headers = new ArrayList<>();
 		}
 
-		if (requestMessage.containsParameters()) {
+		if (requestMessage.containsParameters())
+		{
 			params = requestMessage.getParameters();
 		}
 	}
@@ -73,21 +78,25 @@ public final class HttpClientService {
 	/**
 	 * Executes an HTTP request on a background thread.
 	 */
-	public void executeRequestAsync() {
+	public void executeRequestAsync()
+	{
 		new HttpClientTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse> {
+	private class HttpClientTask extends AsyncTask<Void, Void, HttpResponse>
+	{
 
 		private DefaultHttpClient client;
 
 		@Override
-		protected HttpResponse doInBackground(Void... voids) {
+		protected HttpResponse doInBackground(Void... voids)
+		{
 
 			client = new DefaultHttpClient();
 			HttpResponse httpResponse;
 
-			switch (requestType) {
+			switch (requestType)
+			{
 
 				case GET:
 					httpResponse = executeGetRequest();
@@ -113,13 +122,15 @@ public final class HttpClientService {
 		}
 
 		@Override
-		protected void onPostExecute(HttpResponse httpResponse) {
+		protected void onPostExecute(HttpResponse httpResponse)
+		{
 			super.onPostExecute(httpResponse);
 
 			String reasonPhrase = null;
 			int statusCode = -1;
 
-			if (httpResponse.getStatusLine() != null) {
+			if (httpResponse.getStatusLine() != null)
+			{
 				reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
 				statusCode = httpResponse.getStatusLine().getStatusCode();
 			}
@@ -128,16 +139,19 @@ public final class HttpClientService {
 
 			List<HttpHeader> httpHeaders = new ArrayList<>();
 
-			for (Header header : httpResponse.getAllHeaders()) {
+			for (Header header : httpResponse.getAllHeaders())
+			{
 				HttpHeader httpHeader = new HttpHeader(header.getName(), header.getValue());
 				httpHeaders.add(httpHeader);
 			}
 
 			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
 
-			for (HttpHeader header : httpHeaders) {
+			for (HttpHeader header : httpHeaders)
+			{
 
-				if (header.getValue().contains("application/json")) {
+				if (header.getValue().contains("application/json"))
+				{
 					responseMessage.setContentType(ContentType.JSON);
 					break;
 				}
@@ -145,23 +159,27 @@ public final class HttpClientService {
 
 			responseMessage.setRequestMessage(requestMessage);
 
-			if (statusCode >= 500) {
+			if (statusCode >= 500)
+			{
 				ErrorResponse error = new ErrorResponse();
 
 				error.setMessage(statusCode + " " + reasonPhrase);
 				responseMessage.setError(error);
 
 				delegate.onServerError(responseMessage);
-			} else if (statusCode >= 400) {
+			} else if (statusCode >= 400)
+			{
 				ErrorResponse error = new ErrorResponse();
 
 				error.setMessage(statusCode + " " + reasonPhrase);
 				responseMessage.setError(error);
 
 				delegate.onClientError(responseMessage);
-			} else {
+			} else
+			{
 
-				switch (requestType) {
+				switch (requestType)
+				{
 
 					case GET:
 						delegate.onGetCompleted(responseMessage);
@@ -185,7 +203,8 @@ public final class HttpClientService {
 			}
 		}
 
-		private HttpResponse executeDeleteRequest() {
+		private HttpResponse executeDeleteRequest()
+		{
 
 			HttpDelete delete = new HttpDelete(url);
 
@@ -193,16 +212,19 @@ public final class HttpClientService {
 
 			HttpResponse httpResponse = null;
 
-			try {
+			try
+			{
 				httpResponse = client.execute(delete);
-			} catch (IOException e) {
+			} catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 
 			return httpResponse;
 		}
 
-		private HttpResponse executeGetRequest() {
+		private HttpResponse executeGetRequest()
+		{
 
 			HttpGet get = new HttpGet(url);
 
@@ -210,37 +232,45 @@ public final class HttpClientService {
 
 			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
-			try {
+			try
+			{
 				httpResponse = client.execute(get);
-			} catch (IOException e) {
+			} catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 
 			return httpResponse;
 		}
 
-		private HttpResponse executePostRequest() {
+		private HttpResponse executePostRequest()
+		{
 
 			HttpPost post = new HttpPost(url);
 
 			HttpResponse httpResponse = null;
 
-			try {
+			try
+			{
 
-				if (requestMessage.getContentType().equals(ContentType.JSON)) {
+				if (requestMessage.getContentType().equals(ContentType.JSON))
+				{
 
 					JSONObject body = new JSONObject();
 
-					for (HttpParameter parameter : params) {
+					for (HttpParameter parameter : params)
+					{
 						body.put(parameter.getName(), parameter.getValue());
 					}
 
 					post.setEntity(new StringEntity(body.toString()));
-				} else {
+				} else
+				{
 
 					List<NameValuePair> data = new ArrayList<>();
 
-					for (HttpParameter parameter : params) {
+					for (HttpParameter parameter : params)
+					{
 						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
 					}
 
@@ -250,36 +280,43 @@ public final class HttpClientService {
 				post.setHeaders(headers.toArray(new Header[headers.size()]));
 
 				httpResponse = client.execute(post);
-			} catch (JSONException | IOException e) {
+			} catch (JSONException | IOException e)
+			{
 				e.printStackTrace();
 			}
 
 			return httpResponse;
 		}
 
-		private HttpResponse executePutRequest() {
+		private HttpResponse executePutRequest()
+		{
 
 			HttpPut put = new HttpPut(url);
 
 			HttpResponse httpResponse = null;
 
-			try {
+			try
+			{
 
-				if (requestMessage.getContentType().equals(ContentType.JSON)) {
+				if (requestMessage.getContentType().equals(ContentType.JSON))
+				{
 
 					headers.add(new HttpHeader("Content-Type", "application/json;charset=" + requestMessage.getEncoding().getValue()));
 					JSONObject body = new JSONObject();
 
-					for (HttpParameter parameter : params) {
+					for (HttpParameter parameter : params)
+					{
 						body.put(parameter.getName(), parameter.getValue());
 					}
 
 					put.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
-				} else {
+				} else
+				{
 
 					List<NameValuePair> data = new ArrayList<>();
 
-					for (HttpParameter parameter : params) {
+					for (HttpParameter parameter : params)
+					{
 						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
 					}
 
@@ -289,7 +326,8 @@ public final class HttpClientService {
 				put.setHeaders(headers.toArray(new Header[headers.size()]));
 
 				httpResponse = client.execute(put);
-			} catch (JSONException | IOException e) {
+			} catch (JSONException | IOException e)
+			{
 				e.printStackTrace();
 			}
 

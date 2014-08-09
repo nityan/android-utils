@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * An interface for containing methods to handle an HTTP response.
  */
-public interface OnHttpResponseListener {
+public interface OnHttpResponseListener
+{
 
 	/**
 	 * A delegate method called when a GET request is completed.

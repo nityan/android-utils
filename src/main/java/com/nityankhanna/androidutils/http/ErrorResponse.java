@@ -7,14 +7,16 @@ package com.nityankhanna.androidutils.http;
 /**
  * Represents an error response.
  */
-public class ErrorResponse {
+public class ErrorResponse
+{
 
 	private String message;
 
 	/**
 	 * Initializes a new instance of the ErrorResponse class.
 	 */
-	public ErrorResponse() {
+	public ErrorResponse()
+	{
 	}
 
 	/**
@@ -22,7 +24,8 @@ public class ErrorResponse {
 	 *
 	 * @return Returns the message.
 	 */
-	public String getMessage() {
+	public String getMessage()
+	{
 		return message;
 	}
 
@@ -31,12 +34,14 @@ public class ErrorResponse {
 	 *
 	 * @param message The message.
 	 */
-	public void setMessage(String message) {
+	public void setMessage(String message)
+	{
 		this.message = message;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "ErrorResponse{" +
 				"message='" + message + '\'' +
 				'}';

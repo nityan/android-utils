@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Created by Nityan Khanna on Feb 16 2014.
  */
-public abstract class HttpResponse implements HttpMessage {
+public abstract class HttpResponse implements HttpMessage
+{
 
 	protected abstract void setContentType(ContentType contentType);
 

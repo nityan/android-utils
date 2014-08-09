@@ -5,7 +5,8 @@ import java.util.List;
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
-public interface HttpParameterStore {
+public interface HttpParameterStore
+{
 
 	/**
 	 * Adds an HttpParameter to the collection.

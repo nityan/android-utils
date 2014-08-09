@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 
 import com.nityankhanna.androidutils.system.serialization.SerializeManager;
 
@@ -24,26 +23,32 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A Service Manager providing methods to determine certain service connectivity.
  */
-public class ServiceManager extends Service {
+public class ServiceManager extends Service
+{
 
 	private static ServiceManager sharedInstance;
 	private final Context context;
 
-	private ServiceManager() {
+	private ServiceManager()
+	{
 		this.context = getApplicationContext();
 	}
 
 	@Nullable
 	@Override
-	public IBinder onBind(Intent intent) {
+	public IBinder onBind(Intent intent)
+	{
 		return null;
 	}
 
-	public static ServiceManager getInstance() {
+	public static ServiceManager getInstance()
+	{
 
-		synchronized (SerializeManager.class) {
+		synchronized (SerializeManager.class)
+		{
 
-			if (sharedInstance == null) {
+			if (sharedInstance == null)
+			{
 				sharedInstance = new ServiceManager();
 			}
 		}
@@ -55,17 +60,19 @@ public class ServiceManager extends Service {
 	 * Determines if Android Beam is available on the device.
 	 *
 	 * @return Returns true if Android Beam is available.
-	 *
 	 * @throws ServiceUnavailableException If the device does not support Android beam.
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	public boolean isAndroidBeamAvailable() throws ServiceUnavailableException {
+	public boolean isAndroidBeamAvailable() throws ServiceUnavailableException
+	{
 
 		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
 
-		if (nfcAdapter == null) {
+		if (nfcAdapter == null)
+		{
 			throw new ServiceUnavailableException("The device does not support NFC.");
-		} else {
+		} else
+		{
 			return nfcAdapter.isNdefPushEnabled();
 		}
 	}
@@ -74,16 +81,18 @@ public class ServiceManager extends Service {
 	 * Determines if Bluetooth is available on the device.
 	 *
 	 * @return Returns true if bluetooth is available.
-	 *
 	 * @throws ServiceUnavailableException If the device does not support bluetooth.
 	 */
-	public boolean isBluetoothAvailable() throws ServiceUnavailableException {
+	public boolean isBluetoothAvailable() throws ServiceUnavailableException
+	{
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-		if (bluetoothAdapter == null) {
+		if (bluetoothAdapter == null)
+		{
 			throw new ServiceUnavailableException("The device does not support Bluetooth.");
-		} else {
+		} else
+		{
 			return bluetoothAdapter.isEnabled();
 		}
 	}
@@ -93,7 +102,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if GPS is enabled.
 	 */
-	public boolean isGPSEnabled() {
+	public boolean isGPSEnabled()
+	{
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
@@ -103,7 +113,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if there is internet connectivity.
 	 */
-	public boolean isNetworkAvailable() {
+	public boolean isNetworkAvailable()
+	{
 
 		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -117,7 +128,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if Network Provider is available.
 	 */
-	public boolean isNetworkProviderAvailable() {
+	public boolean isNetworkProviderAvailable()
+	{
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
@@ -126,16 +138,18 @@ public class ServiceManager extends Service {
 	 * Determines if NFC is available on the device.
 	 *
 	 * @return Returns true if NFC is available.
-	 *
 	 * @throws ServiceUnavailableException If the device does not support NFC.
 	 */
-	public boolean isNFCAvailable() throws ServiceUnavailableException {
+	public boolean isNFCAvailable() throws ServiceUnavailableException
+	{
 
 		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
 
-		if (nfcAdapter == null) {
+		if (nfcAdapter == null)
+		{
 			throw new ServiceUnavailableException("The device does not support NFC.");
-		} else {
+		} else
+		{
 			return nfcAdapter.isEnabled();
 		}
 	}
@@ -145,7 +159,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the user is connected to Wi-Fi.
 	 */
-	public boolean isOnWiFi() {
+	public boolean isOnWiFi()
+	{
 		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -157,7 +172,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is running JellyBean or higher.
 	 */
-	public boolean isJellyBeanOrHigher() {
+	public boolean isJellyBeanOrHigher()
+	{
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 	}
 
@@ -166,7 +182,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is running IceCreamSandwich or higher.
 	 */
-	public boolean isICSOrHigher() {
+	public boolean isICSOrHigher()
+	{
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 	}
 
@@ -175,7 +192,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is running HoneyComb or higher.
 	 */
-	public boolean isHoneycombOrHigher() {
+	public boolean isHoneycombOrHigher()
+	{
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	}
 
@@ -184,7 +202,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is running Gingerbread or higher.
 	 */
-	public boolean isGingerbreadOrHigher() {
+	public boolean isGingerbreadOrHigher()
+	{
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
 	}
 
@@ -193,7 +212,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is running Froyo or higher.
 	 */
-	public boolean isFroyoOrHigher() {
+	public boolean isFroyoOrHigher()
+	{
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
 	}
 
@@ -202,7 +222,8 @@ public class ServiceManager extends Service {
 	 *
 	 * @return Returns true if the device is a GoogleTV.
 	 */
-	public boolean isGoogleTV(Context context) {
+	public boolean isGoogleTV(Context context)
+	{
 		return context.getPackageManager().hasSystemFeature("com.google.android.tv");
 	}
 

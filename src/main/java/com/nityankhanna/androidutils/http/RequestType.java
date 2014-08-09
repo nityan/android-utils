@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.http;
 /**
  * An enum for different HTTP request types.
  */
-public enum RequestType {
+public enum RequestType
+{
 	/**
 	 * Represents an HTTP GET request.
 	 */
@@ -30,7 +31,8 @@ public enum RequestType {
 
 	private String value;
 
-	private RequestType(String value) {
+	private RequestType(String value)
+	{
 		this.value = value;
 	}
 
@@ -39,7 +41,8 @@ public enum RequestType {
 	 *
 	 * @return Returns the value of the RequestType.
 	 */
-	public String getValue() {
+	public String getValue()
+	{
 		return value;
 	}
 }

@@ -19,26 +19,33 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * A utility class for encrypting data.
  */
-public class EncryptionManager {
+public class EncryptionManager
+{
 
 	private static EncryptionManager sharedInstance;
 	private Cipher cipher;
 
-	private EncryptionManager() {
+	private EncryptionManager()
+	{
 
-		try {
+		try
+		{
 			cipher = Cipher.getInstance("AES");
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+		{
 			e.printStackTrace();
 		}
 
 	}
 
-	public static EncryptionManager getInstance() {
+	public static EncryptionManager getInstance()
+	{
 
-		synchronized (EncryptionManager.class) {
+		synchronized (EncryptionManager.class)
+		{
 
-			if (sharedInstance == null) {
+			if (sharedInstance == null)
+			{
 				sharedInstance = new EncryptionManager();
 			}
 
@@ -51,17 +58,19 @@ public class EncryptionManager {
 	 *
 	 * @param password      The password.
 	 * @param dataToEncrypt The data to be encrypted.
-	 *
 	 * @return Returns the encrypted data as a byte array.
 	 */
-	public synchronized byte[] encryptData(SecretKeySpec password, byte[] dataToEncrypt) {
+	public synchronized byte[] encryptData(SecretKeySpec password, byte[] dataToEncrypt)
+	{
 
 		byte[] encryptedData = null;
 
-		try {
+		try
+		{
 			cipher.init(Cipher.ENCRYPT_MODE, password);
 			encryptedData = cipher.doFinal(dataToEncrypt);
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -73,32 +82,37 @@ public class EncryptionManager {
 	 *
 	 * @param password      The password. This password must be the same as the password used to encrypt the data.
 	 * @param encryptedData The encrypted data to decrypt.
-	 *
 	 * @return Returns the data as a byte array.
 	 */
-	public synchronized byte[] decryptData(SecretKeySpec password, byte[] encryptedData) {
+	public synchronized byte[] decryptData(SecretKeySpec password, byte[] encryptedData)
+	{
 
 		byte[] decryptedData = null;
 
-		try {
+		try
+		{
 			cipher.init(Cipher.DECRYPT_MODE, password);
 			decryptedData = cipher.doFinal(encryptedData);
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e) {
+		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
+		{
 			e.printStackTrace();
 		}
 
 		return decryptedData;
 	}
 
-	public synchronized SecretKeySpec createPassword(String password) {
+	public synchronized SecretKeySpec createPassword(String password)
+	{
 
 		SecretKeySpec secretKey = null;
 
-		try {
+		try
+		{
 			MessageDigest digest = MessageDigest.getInstance("SHA");
 			digest.update(StringUtils.toByteArray(password));
 			secretKey = new SecretKeySpec(digest.digest(), 0, 16, "AES");
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e)
+		{
 			e.printStackTrace();
 		}
 

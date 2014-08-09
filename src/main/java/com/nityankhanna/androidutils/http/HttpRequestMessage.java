@@ -1,7 +1,6 @@
 package com.nityankhanna.androidutils.http;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +11,8 @@ import java.util.List;
 /**
  * Represents an Http request message.
  */
-public final class HttpRequestMessage extends HttpRequest {
+public final class HttpRequestMessage extends HttpRequest
+{
 
 	private ContentType contentType;
 	private Encoding encoding;
@@ -23,13 +23,14 @@ public final class HttpRequestMessage extends HttpRequest {
 
 	/**
 	 * Initializes a new instance of the HttpRequestMessage class with a url and request type.
-	 * <p/>
+	 * <p>
 	 * This is used for GET and DELETE Requests
 	 *
 	 * @param url         The url.
 	 * @param requestType The request type.
 	 */
-	public HttpRequestMessage(String url, RequestType requestType) {
+	public HttpRequestMessage(String url, RequestType requestType)
+	{
 		this.url = url;
 		this.requestType = requestType;
 		headers = new ArrayList<>();
@@ -46,7 +47,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param contentType The content type.
 	 * @param encoding    The encoding.
 	 */
-	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding) {
+	public HttpRequestMessage(String url, RequestType requestType, ContentType contentType, Encoding encoding)
+	{
 		this(url, requestType);
 		this.contentType = contentType;
 		this.encoding = encoding;
@@ -58,7 +60,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns the request type.
 	 */
 	@Override
-	public RequestType getRequestType() {
+	public RequestType getRequestType()
+	{
 		return requestType;
 	}
 
@@ -68,7 +71,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns the url.
 	 */
 	@Override
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
@@ -78,7 +82,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param header The Http header to add to the collection.
 	 */
 	@Override
-	public void addHeader(HttpHeader header) {
+	public void addHeader(HttpHeader header)
+	{
 		removeDuplicateHeader(header);
 		headers.add(header);
 	}
@@ -90,7 +95,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param header The Http header to add to the collection.
 	 */
 	@Override
-	public void addHeader(int index, HttpHeader header) {
+	public void addHeader(int index, HttpHeader header)
+	{
 		removeDuplicateHeader(header);
 		headers.add(index, header);
 	}
@@ -101,7 +107,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns a list of Http headers.
 	 */
 	@Override
-	public List<HttpHeader> getHeaders() {
+	public List<HttpHeader> getHeaders()
+	{
 		return headers;
 	}
 
@@ -111,7 +118,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param header The Http header to be removed.
 	 */
 	@Override
-	public void removeHeader(HttpHeader header) {
+	public void removeHeader(HttpHeader header)
+	{
 		headers.remove(header);
 	}
 
@@ -121,7 +129,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param index The index of the header.
 	 */
 	@Override
-	public void removeHeader(int index) {
+	public void removeHeader(int index)
+	{
 		headers.remove(index);
 	}
 
@@ -129,7 +138,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * Removes all of the Http headers.
 	 */
 	@Override
-	public void removeAllHeaders() {
+	public void removeAllHeaders()
+	{
 		headers.clear();
 	}
 
@@ -139,10 +149,13 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param header The Http header to be removed.
 	 */
 	@Override
-	public void removeDuplicateHeader(HttpHeader header) {
+	public void removeDuplicateHeader(HttpHeader header)
+	{
 
-		for (Iterator<HttpHeader> it = headers.iterator(); it.hasNext(); ) {
-			if (header.equals(it.next())) {
+		for (Iterator<HttpHeader> it = headers.iterator(); it.hasNext(); )
+		{
+			if (header.equals(it.next()))
+			{
 				it.remove();
 				break;
 			}
@@ -155,7 +168,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param parameter The HttpParameter to add.
 	 */
 	@Override
-	public void addParameter(HttpParameter parameter) {
+	public void addParameter(HttpParameter parameter)
+	{
 		removeDuplicateParameter(parameter);
 		params.add(parameter);
 	}
@@ -167,7 +181,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param parameter The HttpParameter to add.
 	 */
 	@Override
-	public void addParameter(int index, HttpParameter parameter) {
+	public void addParameter(int index, HttpParameter parameter)
+	{
 		removeDuplicateParameter(parameter);
 		params.add(index, parameter);
 	}
@@ -178,7 +193,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns a list of HttpParameters.
 	 */
 	@Override
-	public List<HttpParameter> getParameters() {
+	public List<HttpParameter> getParameters()
+	{
 		return params;
 	}
 
@@ -188,7 +204,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param parameter The HttpParameter to be removed.
 	 */
 	@Override
-	public void removeParameter(HttpParameter parameter) {
+	public void removeParameter(HttpParameter parameter)
+	{
 		params.remove(parameter);
 	}
 
@@ -198,7 +215,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param index The index.
 	 */
 	@Override
-	public void removeParameter(int index) {
+	public void removeParameter(int index)
+	{
 		params.remove(index);
 	}
 
@@ -206,7 +224,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * Removes all the parameters from the collection.
 	 */
 	@Override
-	public void removeAllParameters() {
+	public void removeAllParameters()
+	{
 		params.clear();
 	}
 
@@ -216,10 +235,13 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @param parameter The HttpParameter to be removed.
 	 */
 	@Override
-	public void removeDuplicateParameter(HttpParameter parameter) {
+	public void removeDuplicateParameter(HttpParameter parameter)
+	{
 
-		for (Iterator<HttpParameter> it = params.iterator(); it.hasNext(); ) {
-			if (parameter.equals(it.next())) {
+		for (Iterator<HttpParameter> it = params.iterator(); it.hasNext(); )
+		{
+			if (parameter.equals(it.next()))
+			{
 				it.remove();
 				break;
 			}
@@ -232,7 +254,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns true if the Http message contains headers.
 	 */
 	@Override
-	public boolean containsHeaders() {
+	public boolean containsHeaders()
+	{
 		return headers.size() > 0;
 	}
 
@@ -242,7 +265,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns true if the Http message contains parameters.
 	 */
 	@Override
-	public boolean containsParameters() {
+	public boolean containsParameters()
+	{
 		return params.size() > 0;
 	}
 
@@ -252,7 +276,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns the content type.
 	 */
 	@Override
-	public ContentType getContentType() {
+	public ContentType getContentType()
+	{
 		return contentType;
 	}
 
@@ -262,7 +287,8 @@ public final class HttpRequestMessage extends HttpRequest {
 	 * @return Returns the encoding.
 	 */
 	@Override
-	public Encoding getEncoding() {
+	public Encoding getEncoding()
+	{
 		return encoding;
 	}
 }

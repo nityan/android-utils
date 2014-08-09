@@ -7,12 +7,14 @@ package com.nityankhanna.androidutils.file_io;
 /**
  * Represents an exception that occurs when writing to a file.
  */
-public class FileWriteException extends RuntimeException {
+public class FileWriteException extends RuntimeException
+{
 
 	/**
 	 * Initializes a new instance of the FileWriteException.
 	 */
-	public FileWriteException() {
+	public FileWriteException()
+	{
 	}
 
 	/**
@@ -20,7 +22,8 @@ public class FileWriteException extends RuntimeException {
 	 *
 	 * @param detailMessage The message of the exception.
 	 */
-	public FileWriteException(String detailMessage) {
+	public FileWriteException(String detailMessage)
+	{
 		super(detailMessage);
 	}
 }

@@ -3,7 +3,8 @@ package com.nityankhanna.androidutils;
 /**
  * Created by Nityan Khanna on Jan 14 2014.
  */
-public enum DateTimeFormat {
+public enum DateTimeFormat
+{
 	DAY_MONTH_YEAR("dd/MM/yyyy"),
 	MONTH_DAY_YEAR("MM/dd/yyyy"),
 	YEAR_MONTH_DAY("yyyy/MM/dd"),
@@ -22,11 +23,13 @@ public enum DateTimeFormat {
 
 	private String value;
 
-	private DateTimeFormat(String value) {
+	private DateTimeFormat(String value)
+	{
 		this.value = value;
 	}
 
-	public String getValue() {
+	public String getValue()
+	{
 		return value;
 	}
 }

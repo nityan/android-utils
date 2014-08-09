@@ -7,7 +7,8 @@ package com.nityankhanna.androidutils.ui;
 /**
  * An interface containing methods to perform operations on text fields.
  */
-public interface Field {
+public interface Field
+{
 
 	int badValue = -65536;
 

@@ -8,7 +8,8 @@ import android.os.Build;
  * Created by Nityan Khanna on 11/10/13.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public enum FileMode {
+public enum FileMode
+{
 
 	/**
 	 * Append mode.
@@ -35,7 +36,8 @@ public enum FileMode {
 
 	private int value;
 
-	private FileMode(int value) {
+	private FileMode(int value)
+	{
 		this.value = value;
 	}
 
@@ -44,7 +46,8 @@ public enum FileMode {
 	 *
 	 * @return Returns an int as the file mode.
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 		return value;
 	}
 }

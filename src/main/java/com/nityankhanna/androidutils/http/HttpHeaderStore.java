@@ -5,7 +5,8 @@ import java.util.List;
 /**
  * Created by Nityan Khanna on 10/11/13.
  */
-public interface HttpHeaderStore {
+public interface HttpHeaderStore
+{
 
 	/**
 	 * Adds an Http header to the request.

@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Represents an Http response message.
  */
-public final class HttpResponseMessage extends HttpResponse {
+public final class HttpResponseMessage extends HttpResponse
+{
 
 	private ContentType contentType;
 	private HttpEntity entity;
@@ -28,7 +29,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param statusCode   The status code.
 	 * @param reasonPhrase The reason phrase.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase) {
+	public HttpResponseMessage(int statusCode, String reasonPhrase)
+	{
 		this.statusCode = statusCode;
 		this.reasonPhrase = reasonPhrase;
 	}
@@ -40,7 +42,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param reasonPhrase The reason phrase.
 	 * @param entity       The entity.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity) {
+	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity)
+	{
 		this(statusCode, reasonPhrase);
 		this.entity = entity;
 	}
@@ -53,7 +56,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param entity       The entity.
 	 * @param headers      The http headers.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers) {
+	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers)
+	{
 		this(statusCode, reasonPhrase, entity);
 		this.headers = headers;
 	}
@@ -64,7 +68,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param contentType The content type.
 	 */
 	@Override
-	protected void setContentType(ContentType contentType) {
+	protected void setContentType(ContentType contentType)
+	{
 		this.contentType = contentType;
 	}
 
@@ -74,7 +79,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns the entity.
 	 */
 	@Override
-	public HttpEntity getEntity() {
+	public HttpEntity getEntity()
+	{
 		return entity;
 	}
 
@@ -84,7 +90,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param entity The entity.
 	 */
 	@Override
-	protected void setEntity(HttpEntity entity) {
+	protected void setEntity(HttpEntity entity)
+	{
 		this.entity = entity;
 	}
 
@@ -94,7 +101,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns the error response.
 	 */
 	@Override
-	public ErrorResponse getError() {
+	public ErrorResponse getError()
+	{
 		return error;
 	}
 
@@ -104,7 +112,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param error The error response.
 	 */
 	@Override
-	protected void setError(ErrorResponse error) {
+	protected void setError(ErrorResponse error)
+	{
 		this.error = error;
 	}
 
@@ -114,7 +123,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return The reason phrase.
 	 */
 	@Override
-	public String getReasonPhrase() {
+	public String getReasonPhrase()
+	{
 		return reasonPhrase;
 	}
 
@@ -124,7 +134,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param reasonPhrase The reason phrase.
 	 */
 	@Override
-	protected void setReasonPhrase(String reasonPhrase) {
+	protected void setReasonPhrase(String reasonPhrase)
+	{
 		this.reasonPhrase = reasonPhrase;
 	}
 
@@ -134,7 +145,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns the request message.
 	 */
 	@Override
-	public HttpRequestMessage getRequestMessage() {
+	public HttpRequestMessage getRequestMessage()
+	{
 		return requestMessage;
 	}
 
@@ -144,7 +156,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param requestMessage The request message.
 	 */
 	@Override
-	protected void setRequestMessage(HttpRequestMessage requestMessage) {
+	protected void setRequestMessage(HttpRequestMessage requestMessage)
+	{
 		this.requestMessage = requestMessage;
 	}
 
@@ -154,7 +167,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns the status code.
 	 */
 	@Override
-	public int getStatusCode() {
+	public int getStatusCode()
+	{
 		return statusCode;
 	}
 
@@ -164,7 +178,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @param statusCode The status code.
 	 */
 	@Override
-	protected void setStatusCode(int statusCode) {
+	protected void setStatusCode(int statusCode)
+	{
 		this.statusCode = statusCode;
 	}
 
@@ -174,7 +189,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns true if the Http message contains headers.
 	 */
 	@Override
-	public boolean containsHeaders() {
+	public boolean containsHeaders()
+	{
 		return headers.size() > 0;
 	}
 
@@ -184,13 +200,15 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns true if the Http message contains parameters.
 	 */
 	@Override
-	public boolean containsParameters() {
+	public boolean containsParameters()
+	{
 		// TODO: implement a check to see if the response body has parameters
 		return false;
 	}
 
 	@Override
-	public ContentType getContentType() {
+	public ContentType getContentType()
+	{
 		return contentType;
 	}
 
@@ -200,7 +218,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns the encoding.
 	 */
 	@Override
-	public Encoding getEncoding() {
+	public Encoding getEncoding()
+	{
 		// TODO: get the encoding
 		return null;
 	}
@@ -211,7 +230,8 @@ public final class HttpResponseMessage extends HttpResponse {
 	 * @return Returns a list of HttpHeaders.
 	 */
 	@Override
-	public List<HttpHeader> getHeaders() {
+	public List<HttpHeader> getHeaders()
+	{
 		return headers;
 	}
 }

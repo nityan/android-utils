@@ -11,35 +11,43 @@ import android.widget.TextView;
 /**
  * A custom TextView class.
  */
-public class TextViewField extends TextView implements Field {
+public class TextViewField extends TextView implements Field
+{
 
-	public TextViewField(Context context) {
+	public TextViewField(Context context)
+	{
 		super(context);
 	}
 
-	public TextViewField(Context context, AttributeSet attrs) {
+	public TextViewField(Context context, AttributeSet attrs)
+	{
 		super(context, attrs);
 	}
 
-	public TextViewField(Context context, AttributeSet attrs, int defStyle) {
+	public TextViewField(Context context, AttributeSet attrs, int defStyle)
+	{
 		super(context, attrs, defStyle);
 	}
 
 	@Override
-	public void clear() {
+	public void clear()
+	{
 		setText("");
 	}
 
 	@Override
-	public int getTextAsInt() {
+	public int getTextAsInt()
+	{
 
 		String text = String.valueOf(getText());
 
 		int value = badValue;
 
-		if (text == null) {
+		if (text == null)
+		{
 			return value;
-		} else {
+		} else
+		{
 			value = Integer.parseInt(text);
 		}
 
@@ -47,15 +55,18 @@ public class TextViewField extends TextView implements Field {
 	}
 
 	@Override
-	public double getTextAsDouble() {
+	public double getTextAsDouble()
+	{
 
 		String text = String.valueOf(getText());
 
 		double value = badValue;
 
-		if (text == null) {
+		if (text == null)
+		{
 			return value;
-		} else {
+		} else
+		{
 			value = Double.parseDouble(text);
 		}
 
@@ -63,11 +74,13 @@ public class TextViewField extends TextView implements Field {
 	}
 
 	@Override
-	public String getTextAsString() {
+	public String getTextAsString()
+	{
 
 		String text = String.valueOf(getText());
 
-		if (text != null && !text.isEmpty()) {
+		if (text != null && !text.isEmpty())
+		{
 			return text;
 		}
 
@@ -75,36 +88,44 @@ public class TextViewField extends TextView implements Field {
 	}
 
 	@Override
-	public void setGone() {
+	public void setGone()
+	{
 		setVisibility(GONE);
 	}
 
 	@Override
-	public void setHidden(boolean flag) {
-		if (flag) {
+	public void setHidden(boolean flag)
+	{
+		if (flag)
+		{
 			setVisibility(INVISIBLE);
-		} else {
+		} else
+		{
 			setVisibility(VISIBLE);
 		}
 	}
 
 	@Override
-	public void setText(boolean value) {
+	public void setText(boolean value)
+	{
 		setText(String.valueOf(value));
 	}
 
 	@Override
-	public void setText(double value) {
+	public void setText(double value)
+	{
 		setText(String.valueOf(value));
 	}
 
 	@Override
-	public void setText(long value) {
+	public void setText(long value)
+	{
 		setText(String.valueOf(value));
 	}
 
 	@Override
-	public void setText(String value) {
+	public void setText(String value)
+	{
 		super.setText(value);
 	}
 }

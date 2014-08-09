@@ -17,12 +17,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * An ThreadPoolExecutor service that queues tasks to be executed.
  */
-public class ThreadPool {
+public class ThreadPool
+{
 
 	private static ThreadPool sharedInstance;
 	private ThreadPoolExecutor service;
 
-	private ThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
+	private ThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue)
+	{
 		service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory());
 		service.allowCoreThreadTimeOut(true);
 	}
@@ -32,11 +34,14 @@ public class ThreadPool {
 	 *
 	 * @return Returns a shared instance of the ThreadPool class.
 	 */
-	public static ThreadPool getInstance() {
+	public static ThreadPool getInstance()
+	{
 
-		synchronized (ThreadPool.class) {
+		synchronized (ThreadPool.class)
+		{
 
-			if (sharedInstance == null) {
+			if (sharedInstance == null)
+			{
 				sharedInstance = new ThreadPool(15, 20, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(15, true));
 			}
 		}
@@ -49,7 +54,8 @@ public class ThreadPool {
 	 *
 	 * @return Returns true is the current thread is the main thread.
 	 */
-	public static boolean isCurrentThreadMain() {
+	public static boolean isCurrentThreadMain()
+	{
 		return (Looper.getMainLooper().getThread() == Thread.currentThread());
 	}
 
@@ -58,7 +64,8 @@ public class ThreadPool {
 	 *
 	 * @param runnable The runnable to run on the UI thread.
 	 */
-	public static void runOnUiThread(Runnable runnable) {
+	public static void runOnUiThread(Runnable runnable)
+	{
 		Handler handler = new Handler(Looper.getMainLooper());
 		handler.post(runnable);
 	}
@@ -66,7 +73,8 @@ public class ThreadPool {
 	/**
 	 * Clears the queue of the thread pool.
 	 */
-	public void clearQueue() {
+	public void clearQueue()
+	{
 		service.getQueue().clear();
 	}
 
@@ -75,7 +83,8 @@ public class ThreadPool {
 	 *
 	 * @return Returns the max pool size of the ThreadPool.
 	 */
-	public int getMaxPoolSize() {
+	public int getMaxPoolSize()
+	{
 		return service.getMaximumPoolSize();
 	}
 
@@ -84,7 +93,8 @@ public class ThreadPool {
 	 *
 	 * @return Returns the active task count of the ThreadPool.
 	 */
-	public int getActiveTaskCount() {
+	public int getActiveTaskCount()
+	{
 		return service.getActiveCount();
 	}
 
@@ -93,7 +103,8 @@ public class ThreadPool {
 	 *
 	 * @return Returns the queued task count of the thread pool.
 	 */
-	public int getQueuedTaskCount() {
+	public int getQueuedTaskCount()
+	{
 		return service.getQueue().size();
 	}
 
@@ -102,7 +113,8 @@ public class ThreadPool {
 	 *
 	 * @return Returns the uncompleted task count of the ThreadPool.
 	 */
-	public int getUncompletedTaskCount() {
+	public int getUncompletedTaskCount()
+	{
 		return service.getQueue().size() - service.getActiveCount();
 	}
 
@@ -111,7 +123,8 @@ public class ThreadPool {
 	 *
 	 * @param runnable The task to remove.
 	 */
-	public boolean remove(Runnable runnable) {
+	public boolean remove(Runnable runnable)
+	{
 		return service.remove(runnable);
 	}
 
@@ -120,7 +133,8 @@ public class ThreadPool {
 	 *
 	 * @return The rejected execution handler.
 	 */
-	public RejectedExecutionHandler getRejectedExecutionHandler() {
+	public RejectedExecutionHandler getRejectedExecutionHandler()
+	{
 		return service.getRejectedExecutionHandler();
 	}
 
@@ -129,7 +143,8 @@ public class ThreadPool {
 	 *
 	 * @param rejectedExecutionHandler The rejected execution handler.
 	 */
-	public void setRejectedExecutionHandler(RejectedExecutionHandler rejectedExecutionHandler) {
+	public void setRejectedExecutionHandler(RejectedExecutionHandler rejectedExecutionHandler)
+	{
 		service.setRejectedExecutionHandler(rejectedExecutionHandler);
 	}
 
@@ -138,7 +153,8 @@ public class ThreadPool {
 	 *
 	 * @param runnable The runnable to be run on a background thread.
 	 */
-	public void submit(Runnable runnable) {
+	public void submit(Runnable runnable)
+	{
 		service.submit(runnable);
 	}
 
@@ -147,7 +163,8 @@ public class ThreadPool {
 	 *
 	 * @throws InterruptedException
 	 */
-	public void terminateThreadPool() throws InterruptedException {
+	public void terminateThreadPool() throws InterruptedException
+	{
 		terminateThreadPool(false);
 	}
 
@@ -155,14 +172,16 @@ public class ThreadPool {
 	 * Terminates the thread pool.
 	 *
 	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
-	 *
 	 * @throws InterruptedException
 	 */
-	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException {
+	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException
+	{
 
-		if (shouldFinishQueue) {
+		if (shouldFinishQueue)
+		{
 			service.awaitTermination(30000, TimeUnit.MILLISECONDS);
-		} else {
+		} else
+		{
 			service.shutdownNow();
 		}
 	}

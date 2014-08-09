@@ -19,11 +19,13 @@ import java.net.URL;
 /**
  * A utility class for downloading images.
  */
-public class ImageDownloader {
+public class ImageDownloader
+{
 
 	private static ImageDownloaderTask imageDownloaderTask;
 
-	private ImageDownloader() {
+	private ImageDownloader()
+	{
 	}
 
 	/**
@@ -32,7 +34,8 @@ public class ImageDownloader {
 	 * @param url      The url of the image.
 	 * @param callback The callback.
 	 */
-	public static void loadImageFromUrlAsync(String url, ImageDownloaderCallback callback) {
+	public static void loadImageFromUrlAsync(String url, ImageDownloaderCallback callback)
+	{
 		imageDownloaderTask = new ImageDownloaderTask(url, callback);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
@@ -43,45 +46,55 @@ public class ImageDownloader {
 	 * @param url       The url of the image.
 	 * @param imageView The image view to set the image in.
 	 */
-	public static void loadImageFromUrlAsync(String url, ImageView imageView) {
+	public static void loadImageFromUrlAsync(String url, ImageView imageView)
+	{
 		imageDownloaderTask = new ImageDownloaderTask(url, imageView);
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
-	public static void cancelImageDownload() {
+	public static void cancelImageDownload()
+	{
 		cancelImageDownload(true);
 	}
 
-	public static void cancelImageDownload(boolean mayInterruptIfRunning) {
+	public static void cancelImageDownload(boolean mayInterruptIfRunning)
+	{
 		imageDownloaderTask.cancel(mayInterruptIfRunning);
 	}
 
-	private static class ImageDownloaderTask extends AsyncTask<String, Void, Drawable> {
+	private static class ImageDownloaderTask extends AsyncTask<String, Void, Drawable>
+	{
 
 		private String url;
 		private ImageView imageView;
 		private ImageDownloaderCallback callback;
 
-		private ImageDownloaderTask(String url) {
+		private ImageDownloaderTask(String url)
+		{
 			this.url = url;
 		}
 
-		private ImageDownloaderTask(String url, ImageView imageView) {
+		private ImageDownloaderTask(String url, ImageView imageView)
+		{
 			this(url);
 			this.imageView = imageView;
 		}
 
-		private ImageDownloaderTask(String url, ImageDownloaderCallback callback) {
+		private ImageDownloaderTask(String url, ImageDownloaderCallback callback)
+		{
 			this(url);
 			this.callback = callback;
 		}
 
 		@Override
-		protected Drawable doInBackground(String... strings) {
+		protected Drawable doInBackground(String... strings)
+		{
 
-			try {
+			try
+			{
 				return downloadImage(url);
-			} catch (IOException e) {
+			} catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 
@@ -89,21 +102,26 @@ public class ImageDownloader {
 		}
 
 		@Override
-		protected void onPostExecute(Drawable drawable) {
+		protected void onPostExecute(Drawable drawable)
+		{
 			super.onPostExecute(drawable);
 
-			if (callback == null) {
+			if (callback == null)
+			{
 				imageView.setImageDrawable(drawable);
-			} else {
+			} else
+			{
 				callback.onImageDownloadComplete(drawable);
 			}
 		}
 
 		@Override
-		protected void onCancelled() {
+		protected void onCancelled()
+		{
 			super.onCancelled();
 
-			if (callback != null) {
+			if (callback != null)
+			{
 				callback.onImageDownloadCancelled();
 			}
 		}
@@ -112,12 +130,11 @@ public class ImageDownloader {
 		 * Downloads an image.
 		 *
 		 * @param url The url of the image.
-		 *
 		 * @return Returns the drawable image.
-		 *
 		 * @throws IOException
 		 */
-		private Drawable downloadImage(String url) throws IOException {
+		private Drawable downloadImage(String url) throws IOException
+		{
 			InputStream inputStream = (InputStream) new URL(url).getContent();
 
 			Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
