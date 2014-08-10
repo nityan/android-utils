@@ -46,7 +46,8 @@ public class TextViewField extends TextView implements Field
 		if (text == null)
 		{
 			return value;
-		} else
+		}
+		else
 		{
 			value = Integer.parseInt(text);
 		}
@@ -65,7 +66,8 @@ public class TextViewField extends TextView implements Field
 		if (text == null)
 		{
 			return value;
-		} else
+		}
+		else
 		{
 			value = Double.parseDouble(text);
 		}
@@ -99,7 +101,8 @@ public class TextViewField extends TextView implements Field
 		if (flag)
 		{
 			setVisibility(INVISIBLE);
-		} else
+		}
+		else
 		{
 			setVisibility(VISIBLE);
 		}

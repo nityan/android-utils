@@ -71,7 +71,8 @@ public class ServiceManager extends Service
 		if (nfcAdapter == null)
 		{
 			throw new ServiceUnavailableException("The device does not support NFC.");
-		} else
+		}
+		else
 		{
 			return nfcAdapter.isNdefPushEnabled();
 		}
@@ -91,7 +92,8 @@ public class ServiceManager extends Service
 		if (bluetoothAdapter == null)
 		{
 			throw new ServiceUnavailableException("The device does not support Bluetooth.");
-		} else
+		}
+		else
 		{
 			return bluetoothAdapter.isEnabled();
 		}
@@ -148,7 +150,8 @@ public class ServiceManager extends Service
 		if (nfcAdapter == null)
 		{
 			throw new ServiceUnavailableException("The device does not support NFC.");
-		} else
+		}
+		else
 		{
 			return nfcAdapter.isEnabled();
 		}

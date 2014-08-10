@@ -65,7 +65,8 @@ public final class HttpClientService
 		if (requestMessage.containsHeaders())
 		{
 			headers = requestMessage.getHeaders();
-		} else
+		}
+		else
 		{
 			headers = new ArrayList<>();
 		}
@@ -168,7 +169,8 @@ public final class HttpClientService
 				responseMessage.setError(error);
 
 				delegate.onServerError(responseMessage);
-			} else if (statusCode >= 400)
+			}
+			else if (statusCode >= 400)
 			{
 				ErrorResponse error = new ErrorResponse();
 
@@ -176,7 +178,8 @@ public final class HttpClientService
 				responseMessage.setError(error);
 
 				delegate.onClientError(responseMessage);
-			} else
+			}
+			else
 			{
 
 				switch (requestType)
@@ -267,7 +270,8 @@ public final class HttpClientService
 					}
 
 					post.setEntity(new StringEntity(body.toString()));
-				} else
+				}
+				else
 				{
 
 					List<NameValuePair> data = new ArrayList<>();
@@ -314,7 +318,8 @@ public final class HttpClientService
 					}
 
 					put.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
-				} else
+				}
+				else
 				{
 
 					List<NameValuePair> data = new ArrayList<>();

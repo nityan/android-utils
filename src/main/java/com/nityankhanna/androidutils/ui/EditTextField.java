@@ -43,7 +43,8 @@ public class EditTextField extends EditText implements Field
 		if (editable == null)
 		{
 			return value;
-		} else
+		}
+		else
 		{
 			value = Integer.parseInt(editable.toString());
 		}
@@ -62,7 +63,8 @@ public class EditTextField extends EditText implements Field
 		if (editable == null)
 		{
 			return value;
-		} else
+		}
+		else
 		{
 			value = Double.parseDouble(editable.toString());
 		}
@@ -98,7 +100,8 @@ public class EditTextField extends EditText implements Field
 		if (flag)
 		{
 			setVisibility(INVISIBLE);
-		} else
+		}
+		else
 		{
 			setVisibility(VISIBLE);
 		}

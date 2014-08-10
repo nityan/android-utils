@@ -156,7 +156,8 @@ public class ThreadPool
 		if (shouldFinishQueue)
 		{
 			service.awaitTermination(30000, TimeUnit.MILLISECONDS);
-		} else
+		}
+		else
 		{
 			service.shutdownNow();
 		}

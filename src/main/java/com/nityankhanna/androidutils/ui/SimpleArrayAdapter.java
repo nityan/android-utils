@@ -50,7 +50,8 @@ public class SimpleArrayAdapter<T> extends ArrayAdapter<T>
 		{
 			Handler handler = new Handler(Looper.getMainLooper());
 			handler.post(SimpleArrayAdapter.super::notifyDataSetChanged);
-		} else
+		}
+		else
 		{
 			super.notifyDataSetChanged();
 		}

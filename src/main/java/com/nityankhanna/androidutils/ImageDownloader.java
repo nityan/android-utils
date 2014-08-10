@@ -110,7 +110,8 @@ public class ImageDownloader
 			if (callback == null)
 			{
 				imageView.setImageDrawable(drawable);
-			} else
+			}
+			else
 			{
 				callback.onImageDownloadComplete(drawable);
 			}
