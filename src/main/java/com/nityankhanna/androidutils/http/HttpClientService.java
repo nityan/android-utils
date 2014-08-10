@@ -53,7 +53,8 @@ public final class HttpClientService
 		try
 		{
 			this.url = new URI(requestMessage.getUrl());
-		} catch (URISyntaxException e)
+		}
+		catch (URISyntaxException e)
 		{
 			throw new IllegalArgumentException("Bad URL: " + url);
 		}
@@ -215,7 +216,8 @@ public final class HttpClientService
 			try
 			{
 				httpResponse = client.execute(delete);
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -235,7 +237,8 @@ public final class HttpClientService
 			try
 			{
 				httpResponse = client.execute(get);
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -280,7 +283,8 @@ public final class HttpClientService
 				post.setHeaders(headers.toArray(new Header[headers.size()]));
 
 				httpResponse = client.execute(post);
-			} catch (JSONException | IOException e)
+			}
+			catch (JSONException | IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -326,7 +330,8 @@ public final class HttpClientService
 				put.setHeaders(headers.toArray(new Header[headers.size()]));
 
 				httpResponse = client.execute(put);
-			} catch (JSONException | IOException e)
+			}
+			catch (JSONException | IOException e)
 			{
 				e.printStackTrace();
 			}

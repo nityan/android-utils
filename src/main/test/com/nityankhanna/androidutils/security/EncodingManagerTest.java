@@ -8,12 +8,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.model.EachTestNotifier;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Nityan Khanna on 10-08-14.

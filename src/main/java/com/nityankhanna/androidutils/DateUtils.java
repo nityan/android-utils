@@ -48,7 +48,8 @@ public class DateUtils
 			Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + (TimeZone.getDefault().inDaylightTime(new Date())
 					? TimeZone.getDefault().getDSTSavings() : 0));
 			return convertToNewFormat(localDate, targetFormat);
-		} catch (ParseException e)
+		}
+		catch (ParseException e)
 		{
 			e.printStackTrace();
 			throw new IllegalArgumentException(ERROR_MESSAGE);
@@ -130,7 +131,8 @@ public class DateUtils
 		try
 		{
 			return dateFormat.parse(date);
-		} catch (ParseException e)
+		}
+		catch (ParseException e)
 		{
 			e.printStackTrace();
 			throw new IllegalArgumentException(ERROR_MESSAGE);

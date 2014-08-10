@@ -58,7 +58,8 @@ public class FileManager
 		try (FileChannel outChannel = outputStream.getChannel())
 		{
 			inChannel.transferTo(0, inChannel.size(), outChannel);
-		} finally
+		}
+		finally
 		{
 			if (inChannel != null)
 			{
@@ -94,14 +95,17 @@ public class FileManager
 
 			object = inputStream.readObject();
 
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			throw new FileReadException(ex.getMessage());
-		} catch (ClassNotFoundException ex)
+		}
+		catch (ClassNotFoundException ex)
 		{
 			ex.printStackTrace();
-		} finally
+		}
+		finally
 		{
 
 			try
@@ -110,7 +114,8 @@ public class FileManager
 				{
 					inputStream.close();
 				}
-			} catch (IOException ex)
+			}
+			catch (IOException ex)
 			{
 				ex.printStackTrace();
 			}
@@ -147,11 +152,13 @@ public class FileManager
 			}
 
 			return text.toString();
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			throw new FileReadException(ex.getMessage());
-		} finally
+		}
+		finally
 		{
 
 			try
@@ -165,7 +172,8 @@ public class FileManager
 				{
 					inputStream.close();
 				}
-			} catch (IOException ex)
+			}
+			catch (IOException ex)
 			{
 				ex.printStackTrace();
 			}
@@ -199,11 +207,13 @@ public class FileManager
 			outputStream.writeObject(object);
 			fileOutputStream.getFD().sync();
 
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			throw new FileWriteException(ex.getMessage());
-		} finally
+		}
+		finally
 		{
 
 			try
@@ -217,7 +227,8 @@ public class FileManager
 				{
 					fileOutputStream.close();
 				}
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}

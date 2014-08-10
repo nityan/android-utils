@@ -31,7 +31,8 @@ public class EncryptionManager
 		try
 		{
 			cipher = Cipher.getInstance("AES");
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+		}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
 		{
 			e.printStackTrace();
 		}
@@ -69,7 +70,8 @@ public class EncryptionManager
 		{
 			cipher.init(Cipher.ENCRYPT_MODE, password);
 			encryptedData = cipher.doFinal(dataToEncrypt);
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
+		}
+		catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
 		{
 			e.printStackTrace();
 		}
@@ -93,7 +95,8 @@ public class EncryptionManager
 		{
 			cipher.init(Cipher.DECRYPT_MODE, password);
 			decryptedData = cipher.doFinal(encryptedData);
-		} catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
+		}
+		catch (BadPaddingException | InvalidKeyException | IllegalBlockSizeException e)
 		{
 			e.printStackTrace();
 		}
@@ -111,7 +114,8 @@ public class EncryptionManager
 			MessageDigest digest = MessageDigest.getInstance("SHA");
 			digest.update(StringUtils.toByteArray(password));
 			secretKey = new SecretKeySpec(digest.digest(), 0, 16, "AES");
-		} catch (NoSuchAlgorithmException e)
+		}
+		catch (NoSuchAlgorithmException e)
 		{
 			e.printStackTrace();
 		}

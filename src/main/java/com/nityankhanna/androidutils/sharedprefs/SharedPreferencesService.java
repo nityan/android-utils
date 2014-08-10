@@ -338,7 +338,8 @@ public class SharedPreferencesService implements SecureSharedPreferences
 			MessageDigest digest = MessageDigest.getInstance("SHA");
 			digest.update(getByteArrayForKey(context.getPackageName()));
 			secretKey = new SecretKeySpec(digest.digest(), 0, 16, "AES");
-		} catch (NoSuchAlgorithmException e)
+		}
+		catch (NoSuchAlgorithmException e)
 		{
 			e.printStackTrace();
 		}

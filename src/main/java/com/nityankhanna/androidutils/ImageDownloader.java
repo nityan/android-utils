@@ -93,7 +93,8 @@ public class ImageDownloader
 			try
 			{
 				return downloadImage(url);
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
