@@ -1,5 +1,6 @@
 package com.nityankhanna.androidutils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,7 +16,6 @@ import java.util.TimeZone;
  */
 public class DateUtils
 {
-
 	private static final String ERROR_MESSAGE = "An unknown error has occurred. Please view the stack trace for more information.";
 
 	private DateUtils()
@@ -56,21 +56,18 @@ public class DateUtils
 	public static String convertToLocalTime(Date date, String targetFormat)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat);
-		long when;
+//		long when;
 
-		try
-		{
-			when = dateFormat.parse(dateToString(date, targetFormat)).getTime();
+		/*	when = dateFormat.parse(dateToString(date, targetFormat)).getTime();
 
 			Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + (TimeZone.getDefault().inDaylightTime(new Date())
-					? TimeZone.getDefault().getDSTSavings() : 0));
-			return convertToNewFormat(localDate, targetFormat);
-		}
-		catch (ParseException e)
-		{
-			e.printStackTrace();
-			throw new IllegalArgumentException(ERROR_MESSAGE);
-		}
+					? TimeZone.getDefault().getDSTSavings() : 0));*/
+
+		dateFormat.setTimeZone(TimeZone.getDefault());
+
+		return dateFormat.format(date);
+
+		//return convertToNewFormat(localDate, targetFormat);
 	}
 
 	/**

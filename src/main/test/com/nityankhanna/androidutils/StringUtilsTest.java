@@ -7,8 +7,9 @@ import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.Assert.*;
-
+/**
+ * Created by Nityan on 2014-08-10.
+ */
 public class StringUtilsTest
 {
 	@Before
@@ -64,5 +65,17 @@ public class StringUtilsTest
 	public void toByteArray_NullEncoding() throws UnsupportedEncodingException
 	{
 		StringUtils.toByteArray("Test", null);
+	}
+
+	@Test
+	public void toByteArray_ValidData()
+	{
+		Assert.assertNotNull(StringUtils.toByteArray("Test"));
+	}
+
+	@Test
+	public void toByteArray_ValidEncoding() throws UnsupportedEncodingException
+	{
+		Assert.assertNotNull(StringUtils.toByteArray("Test", "UTF-8"));
 	}
 }
