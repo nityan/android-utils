@@ -32,7 +32,6 @@ import java.util.List;
  */
 public final class HttpClientService
 {
-
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
 	private List<HttpParameter> params;
@@ -158,6 +157,8 @@ public final class HttpClientService
 					break;
 				}
 			}
+
+
 
 			responseMessage.setRequestMessage(requestMessage);
 

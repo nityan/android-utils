@@ -3,6 +3,7 @@ package com.nityankhanna.androidutils.system.serialization;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -47,14 +48,14 @@ public class SerializeManager
 	 *
 	 * @param object The object to be serialized.
 	 * @return Returns a byte array.
-	 * @throws IOException
+	 * @throws NotSerializableException
 	 */
 	public byte[] serialize(Object object) throws IOException
 	{
 
 		if (!(object instanceof Serializable))
 		{
-			throw new IllegalArgumentException("Class" + object.getClass().getName() + " must implement java.io.Serializable to be serialized");
+			throw new NotSerializableException("Class" + object.getClass().getName() + " must implement java.io.Serializable to be serialized");
 		}
 
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
