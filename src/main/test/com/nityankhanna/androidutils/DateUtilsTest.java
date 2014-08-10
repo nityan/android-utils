@@ -27,10 +27,16 @@ public class DateUtilsTest
 
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_DD_MM_YYYY()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR);
+	}
+
 	@Test
 	public void convertToLocalTime_ValidData_DD_MM_YYYY()
 	{
-
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
@@ -45,10 +51,16 @@ public class DateUtilsTest
 		Assert.assertEquals(expected, actual);
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_DD_MM_YYYY_HH_MM_SS_AA()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM_PM);
+	}
+
 	@Test
 	public void convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA()
 	{
-
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
 
 		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
@@ -63,33 +75,155 @@ public class DateUtilsTest
 		Assert.assertEquals(expected, actual);
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_DD_MM_YYYY_KK_MM_SS()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM_PM);
+	}
+
+	@Test
+	public void convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy kk:mm:ss");
+
+		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
+
+		Date nonLocalTime = getMoscowTime();
+
+		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_24);
+
+		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS expected: " + expected);
+		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS actual: " + actual);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_MM_DD_YYYY()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR);
+	}
+
+	@Test
+	public void convertToLocalTime_ValidData_MM_DD_YYYY()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
+
+		Date nonLocalTime = getNewZealandTime();
+
+		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR);
+
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY expected: " + expected);
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY actual: " + actual);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_MM_DD_YYYY_HH_MM_SS_AA()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_AM_PM);
+	}
+
+	@Test
+	public void convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
+
+		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
+
+		Date nonLocalTime = getTokyoTime();
+
+		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_AM_PM);
+
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA expected: " + expected);
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA actual: " + actual);
+
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void convertToLocalTime_NullData_MM_DD_YYYY_KK_MM_SS()
+	{
+		Date nonLocalTime = null;
+		DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_24);
+	}
+
+	@Test
+	public void convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy kk:mm:ss");
+
+		String expected = simpleDateFormat.format(Calendar.getInstance().getTime());
+
+		Date nonLocalTime = getMoscowTime();
+
+		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_24);
+
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS expected: " + expected);
+		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS actual: " + actual);
+	}
+
 	private Date getMadridTime()
 	{
 		Calendar testValue = Calendar.getInstance();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
 
-		sdf.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
 
-		String madridTime = sdf.format(testValue.getTime());
+		String madridTime = simpleDateFormat.format(testValue.getTime());
 
 		System.out.println("Madrid time: " + madridTime);
 
-		return sdf.getCalendar().getTime();
+		return simpleDateFormat.getCalendar().getTime();
+	}
+
+	private Date getMoscowTime()
+	{
+		Calendar testValue = Calendar.getInstance();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+
+		String moscowTime = simpleDateFormat.format(testValue.getTime());
+
+		System.out.println("Moscow time: " + moscowTime);
+
+		return simpleDateFormat.getCalendar().getTime();
+	}
+
+	private Date getNewZealandTime()
+	{
+		Calendar testValue = Calendar.getInstance();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Pacific/Auckland"));
+
+		String madridTime = simpleDateFormat.format(testValue.getTime());
+
+		System.out.println("New Zealand time: " + madridTime);
+
+		return simpleDateFormat.getCalendar().getTime();
 	}
 
 	private Date getTokyoTime()
 	{
 		Calendar testValue = Calendar.getInstance();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
 
-		sdf.setTimeZone(TimeZone.getTimeZone("Tokyo/Japan"));
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 
-		String tokyoTime = sdf.format(testValue.getTime());
+		String tokyoTime = simpleDateFormat.format(testValue.getTime());
 
 		System.out.println("Tokyo time: " + tokyoTime);
 
-		return sdf.getCalendar().getTime();
+		return simpleDateFormat.getCalendar().getTime();
 	}
 }
