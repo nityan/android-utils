@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 /**
- * An ThreadPoolExecutor service that queues tasks to be executed.
+ * A thread pool service that queues tasks to be executed.
  */
 public class ThreadPool
 {

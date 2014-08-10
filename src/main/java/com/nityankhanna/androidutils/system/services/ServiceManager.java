@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  */
 
 /**
- * A Service Manager providing methods to determine certain service connectivity.
+ * A service manager providing methods to determine certain service connectivity.
  */
 public class ServiceManager extends Service
 {
