@@ -5,6 +5,10 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by Nityan Khanna on Jan 18 2014.
  */
+
+/**
+ * Contains utility methods for processing strings.
+ */
 public class StringUtils
 {
 

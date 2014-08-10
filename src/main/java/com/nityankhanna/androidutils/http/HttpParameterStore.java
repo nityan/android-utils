@@ -7,7 +7,6 @@ import java.util.List;
  */
 public interface HttpParameterStore
 {
-
 	/**
 	 * Adds an HttpParameter to the collection.
 	 *

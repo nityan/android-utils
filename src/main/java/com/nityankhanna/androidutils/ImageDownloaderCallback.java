@@ -5,6 +5,10 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Nityan Khanna on 14/11/13.
  */
+
+/**
+ * Contains callback methods for downloading images.
+ */
 public interface ImageDownloaderCallback
 {
 

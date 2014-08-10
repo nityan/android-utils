@@ -2,11 +2,16 @@ package com.nityankhanna.androidutils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
  * Created by Nityan Khanna on Jan 03 2014.
+ */
+
+/**
+ * Contains utility methods for processing dates.
  */
 public class DateUtils
 {
@@ -15,6 +20,18 @@ public class DateUtils
 
 	private DateUtils()
 	{
+	}
+
+	/**
+	 * Converts a date to local time.
+	 *
+	 * @param calendar     The date to convert.
+	 * @param targetFormat The new format of the date.
+	 * @return Returns a string with the local date time as specified in the target format.
+	 */
+	public static String convertToLocalTime(Calendar calendar, DateTimeFormat targetFormat)
+	{
+		return convertToLocalTime(calendar.getTime(), targetFormat.getValue());
 	}
 
 	/**

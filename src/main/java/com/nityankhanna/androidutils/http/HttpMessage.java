@@ -5,8 +5,6 @@ package com.nityankhanna.androidutils.http;
  */
 public interface HttpMessage
 {
-
-
 	/**
 	 * Checks if the Http message contains headers.
 	 *

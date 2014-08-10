@@ -21,7 +21,6 @@ import java.net.URL;
  */
 public class ImageDownloader
 {
-
 	private static ImageDownloaderTask imageDownloaderTask;
 
 	private ImageDownloader()
@@ -52,11 +51,19 @@ public class ImageDownloader
 		imageDownloaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
+	/**
+	 * Cancels the downloading of an image.
+	 */
 	public static void cancelImageDownload()
 	{
 		cancelImageDownload(true);
 	}
 
+	/**
+	 * Cancels the downloading of an image.
+	 *
+	 * @param mayInterruptIfRunning Interrupt the download task if running.
+	 */
 	public static void cancelImageDownload(boolean mayInterruptIfRunning)
 	{
 		imageDownloaderTask.cancel(mayInterruptIfRunning);
