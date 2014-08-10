@@ -19,9 +19,8 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * A simplified SharedPreferences class.
  */
-public class SharedPreferencesService implements SecureSharedPreferences
+public final class SharedPreferencesService implements SecureSharedPreferences
 {
-
 	private final SharedPreferences sharedPreferences;
 	private final SharedPreferences.Editor editor;
 	private final Context context;
@@ -330,8 +329,7 @@ public class SharedPreferencesService implements SecureSharedPreferences
 	 */
 	private synchronized SecretKeySpec getPassword()
 	{
-
-		SecretKeySpec secretKey = null;
+		SecretKeySpec secretKey;
 
 		try
 		{
@@ -341,7 +339,7 @@ public class SharedPreferencesService implements SecureSharedPreferences
 		}
 		catch (NoSuchAlgorithmException e)
 		{
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		return secretKey;
