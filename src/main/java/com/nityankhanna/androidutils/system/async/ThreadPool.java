@@ -1,8 +1,5 @@
 package com.nityankhanna.androidutils.system.async;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -47,27 +44,6 @@ public class ThreadPool
 		}
 
 		return sharedInstance;
-	}
-
-	/**
-	 * Checks if the current thread is the main thread (The UI thread).
-	 *
-	 * @return Returns true is the current thread is the main thread.
-	 */
-	public static boolean isCurrentThreadMain()
-	{
-		return (Looper.getMainLooper().getThread() == Thread.currentThread());
-	}
-
-	/**
-	 * Runs an item on the UI thread.
-	 *
-	 * @param runnable The runnable to run on the UI thread.
-	 */
-	public static void runOnUiThread(Runnable runnable)
-	{
-		Handler handler = new Handler(Looper.getMainLooper());
-		handler.post(runnable);
 	}
 
 	/**

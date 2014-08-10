@@ -54,23 +54,17 @@ public class FileManager
 		FileOutputStream outputStream = new FileOutputStream(destination);
 
 		FileChannel inChannel = inputStream.getChannel();
-		FileChannel outChannel = outputStream.getChannel();
 
-		try
+		try (FileChannel outChannel = outputStream.getChannel())
 		{
 			inChannel.transferTo(0, inChannel.size(), outChannel);
 		} finally
 		{
-
 			if (inChannel != null)
 			{
 				inChannel.close();
 			}
 
-			if (outChannel != null)
-			{
-				outChannel.close();
-			}
 
 			inputStream.close();
 			outputStream.close();

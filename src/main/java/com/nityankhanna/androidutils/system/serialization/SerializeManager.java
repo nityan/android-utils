@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.system.serialization;
 
-import android.util.Log;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,9 +10,12 @@ import java.io.Serializable;
 /**
  * Created by Nityan Khanna on Dec 16 2013.
  */
+
+/**
+ * Contains utility methods to serialize and deserialize objects.
+ */
 public class SerializeManager
 {
-
 	private static SerializeManager sharedInstance;
 
 	private SerializeManager()
@@ -46,8 +47,9 @@ public class SerializeManager
 	 *
 	 * @param object The object to be serialized.
 	 * @return Returns a byte array.
+	 * @throws IOException
 	 */
-	public byte[] serialize(Object object)
+	public byte[] serialize(Object object) throws IOException
 	{
 
 		if (!(object instanceof Serializable))
@@ -56,28 +58,9 @@ public class SerializeManager
 		}
 
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		ObjectOutputStream objectOutputStream = null;
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 
-		try
-		{
-			objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-			objectOutputStream.writeObject(object);
-		} catch (IOException ex)
-		{
-			Log.e("ERROR", "Unable to close the output stream");
-			ex.printStackTrace();
-		} finally
-		{
-			try
-			{
-				byteArrayOutputStream.close();
-				objectOutputStream.close();
-			} catch (IOException e)
-			{
-				Log.e("ERROR", "Unable to close the output stream");
-				e.printStackTrace();
-			}
-		}
+		objectOutputStream.writeObject(object);
 
 		return byteArrayOutputStream.toByteArray();
 	}
@@ -87,38 +70,14 @@ public class SerializeManager
 	 *
 	 * @param data The data to be recreated into an object.
 	 * @return Returns the object.
+	 * @throws IOException
+	 * @throws ClassCastException
 	 */
-	public Object deserialize(byte[] data)
+	public Object deserialize(byte[] data) throws IOException, ClassNotFoundException
 	{
-
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-		ObjectInputStream objectInputStream = null;
+		ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
-		try
-		{
-			objectInputStream = new ObjectInputStream(byteArrayInputStream);
-			return objectInputStream.readObject();
-		} catch (IOException ex)
-		{
-			Log.e("ERROR", "Unable to close the output stream");
-			ex.printStackTrace();
-		} catch (ClassNotFoundException e)
-		{
-			Log.e("ERROR", "Class not found exception.");
-			e.printStackTrace();
-		} finally
-		{
-			try
-			{
-				byteArrayInputStream.close();
-				objectInputStream.close();
-			} catch (IOException e)
-			{
-				Log.e("ERROR", "Unable to close the output stream");
-				e.printStackTrace();
-			}
-		}
-
-		return null;
+		return objectInputStream.readObject();
 	}
 }

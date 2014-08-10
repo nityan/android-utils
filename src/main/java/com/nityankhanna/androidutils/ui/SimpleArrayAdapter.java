@@ -1,6 +1,9 @@
 package com.nityankhanna.androidutils.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ArrayAdapter;
 
 import com.nityankhanna.androidutils.system.async.ThreadPool;
@@ -46,22 +49,12 @@ public class SimpleArrayAdapter<T> extends ArrayAdapter<T>
 	@Override
 	public void notifyDataSetChanged()
 	{
-
-		if (!ThreadPool.isCurrentThreadMain())
+		if (!Looper.getMainLooper().getThread().equals(Thread.currentThread()))
 		{
-
-			ThreadPool.runOnUiThread(new Runnable()
-			{
-
-				@Override
-				public void run()
-				{
-
-					SimpleArrayAdapter.super.notifyDataSetChanged();
-				}
-			});
-
-		} else
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.post(SimpleArrayAdapter.super::notifyDataSetChanged);
+		}
+		else
 		{
 			super.notifyDataSetChanged();
 		}
