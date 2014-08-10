@@ -209,12 +209,11 @@ public final class HttpClientService
 
 		private HttpResponse executeDeleteRequest()
 		{
-
 			HttpDelete delete = new HttpDelete(url);
 
 			delete.setHeaders(headers.toArray(new Header[headers.size()]));
 
-			HttpResponse httpResponse = null;
+			HttpResponse httpResponse;
 
 			try
 			{
@@ -222,7 +221,7 @@ public final class HttpClientService
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 
 			return httpResponse;
@@ -230,10 +229,9 @@ public final class HttpClientService
 
 		private HttpResponse executeGetRequest()
 		{
-
 			HttpGet get = new HttpGet(url);
 
-			HttpResponse httpResponse = null;
+			HttpResponse httpResponse;
 
 			get.setHeaders(headers.toArray(new Header[headers.size()]));
 
@@ -243,7 +241,7 @@ public final class HttpClientService
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 
 			return httpResponse;
@@ -251,10 +249,9 @@ public final class HttpClientService
 
 		private HttpResponse executePostRequest()
 		{
-
 			HttpPost post = new HttpPost(url);
 
-			HttpResponse httpResponse = null;
+			HttpResponse httpResponse;
 
 			try
 			{
@@ -290,7 +287,7 @@ public final class HttpClientService
 			}
 			catch (JSONException | IOException e)
 			{
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 
 			return httpResponse;
@@ -298,10 +295,9 @@ public final class HttpClientService
 
 		private HttpResponse executePutRequest()
 		{
-
 			HttpPut put = new HttpPut(url);
 
-			HttpResponse httpResponse = null;
+			HttpResponse httpResponse;
 
 			try
 			{
@@ -338,7 +334,7 @@ public final class HttpClientService
 			}
 			catch (JSONException | IOException e)
 			{
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 
 			return httpResponse;

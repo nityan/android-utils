@@ -9,7 +9,6 @@ package com.nityankhanna.androidutils.http;
  */
 public class ErrorResponse
 {
-
 	private String message;
 
 	/**
@@ -17,6 +16,15 @@ public class ErrorResponse
 	 */
 	public ErrorResponse()
 	{
+	}
+
+	/**
+	 * Initializes a new instance of the ErrorResponse class with a specified message.
+	 * @param message The message.
+	 */
+	public ErrorResponse(String message)
+	{
+		this.message = message;
 	}
 
 	/**

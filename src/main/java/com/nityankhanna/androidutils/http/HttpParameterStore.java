@@ -54,5 +54,4 @@ public interface HttpParameterStore
 	 * @param parameter The HttpParameter to be removed.
 	 */
 	void removeDuplicateParameter(HttpParameter parameter);
-
 }

@@ -5,7 +5,6 @@ package com.nityankhanna.androidutils.http;
  */
 public abstract class HttpRequest implements HttpHeaderStore, HttpParameterStore, HttpMessage
 {
-
 	public abstract RequestType getRequestType();
 
 	public abstract String getUrl();
