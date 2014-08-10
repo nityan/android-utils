@@ -35,3 +35,4 @@ gradle/
 *.iml
 atlassian-ide-plugin.xml
 AndroidUtils/build/
+target/
