@@ -1,7 +1,5 @@
 package com.nityankhanna.androidutils.system.serialization;
 
-import com.nityankhanna.androidutils.StringUtils;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,13 +32,13 @@ public class SerializeManagerTest
 	@Test(expected = NullPointerException.class)
 	public void deserialize_NullData() throws IOException, ClassNotFoundException
 	{
-		serializeManager.deserialize(StringUtils.toByteArray(null));
+		serializeManager.deserialize(null);
 	}
 
 	@Test(expected = StreamCorruptedException.class)
 	public void deserialize_UnserializedData() throws IOException, ClassNotFoundException
 	{
-		serializeManager.deserialize(StringUtils.toByteArray(UUID.randomUUID().toString()));
+		serializeManager.deserialize(UUID.randomUUID().toString().getBytes());
 	}
 
 	@Test(expected = NotSerializableException.class)
