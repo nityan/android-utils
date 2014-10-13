@@ -1,8 +1,6 @@
 package com.nityankhanna.androidutils;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -15,17 +13,6 @@ import java.util.TimeZone;
  */
 public class DateUtilsTest
 {
-	@Before
-	public void setUp()
-	{
-
-	}
-
-	@After
-	public void tearDown()
-	{
-
-	}
 
 	@Test(expected = NullPointerException.class)
 	public void convertToLocalTime_NullData_DD_MM_YYYY()

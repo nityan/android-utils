@@ -1,8 +1,6 @@
 package com.nityankhanna.androidutils;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -12,17 +10,6 @@ import java.io.UnsupportedEncodingException;
  */
 public class StringUtilsTest
 {
-	@Before
-	public void setUp()
-	{
-
-	}
-
-	@After
-	public void tearDown()
-	{
-
-	}
 
 	@Test
 	public void isNullOrEmpty_ValidData()
