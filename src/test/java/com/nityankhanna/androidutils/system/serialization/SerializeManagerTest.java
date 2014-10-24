@@ -1,4 +1,6 @@
-package com.nityankhanna.androidutils.system.serialization;
+package androidutils.system.serialization;
+
+import com.nityankhanna.androidutils.system.serialization.SerializeManager;
 
 import org.junit.After;
 import org.junit.Assert;

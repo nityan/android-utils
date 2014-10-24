@@ -1,4 +1,6 @@
-package com.nityankhanna.androidutils;
+package androidutils;
+
+import com.nityankhanna.androidutils.StringUtils;
 
 import org.junit.Assert;
 import org.junit.Test;

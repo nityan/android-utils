@@ -18,8 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public final class HttpClientService
 	private List<HttpParameter> params;
 	private HttpRequestMessage requestMessage;
 	private RequestType requestType;
-	private URI url;
+	private URL url;
 
 	/**
 	 * Initializes a new instance of the HttpClientService class with a specified context, URL, request type and response listener.
@@ -51,9 +51,9 @@ public final class HttpClientService
 
 		try
 		{
-			this.url = new URI(requestMessage.getUrl());
+			this.url = new URL(requestMessage.getUrl());
 		}
-		catch (URISyntaxException e)
+		catch (MalformedURLException e)
 		{
 			throw new IllegalArgumentException("Bad URL: " + url);
 		}
@@ -159,7 +159,6 @@ public final class HttpClientService
 			}
 
 
-
 			responseMessage.setRequestMessage(requestMessage);
 
 			if (statusCode >= 500)
@@ -210,7 +209,7 @@ public final class HttpClientService
 
 		private HttpResponse executeDeleteRequest()
 		{
-			HttpDelete delete = new HttpDelete(url);
+			HttpDelete delete = new HttpDelete(url.toString());
 
 			delete.setHeaders(headers.toArray(new Header[headers.size()]));
 
@@ -230,7 +229,7 @@ public final class HttpClientService
 
 		private HttpResponse executeGetRequest()
 		{
-			HttpGet get = new HttpGet(url);
+			HttpGet get = new HttpGet(url.toString());
 
 			HttpResponse httpResponse;
 
@@ -250,7 +249,7 @@ public final class HttpClientService
 
 		private HttpResponse executePostRequest()
 		{
-			HttpPost post = new HttpPost(url);
+			HttpPost post = new HttpPost(url.toString());
 
 			HttpResponse httpResponse;
 
@@ -296,7 +295,7 @@ public final class HttpClientService
 
 		private HttpResponse executePutRequest()
 		{
-			HttpPut put = new HttpPut(url);
+			HttpPut put = new HttpPut(url.toString());
 
 			HttpResponse httpResponse;
 
