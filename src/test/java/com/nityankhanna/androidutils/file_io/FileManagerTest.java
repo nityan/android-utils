@@ -1,10 +1,7 @@
-package androidutils.file_io;
+package com.nityankhanna.androidutils.file_io;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
-
-import com.nityankhanna.androidutils.file_io.FileManager;
-import com.nityankhanna.androidutils.file_io.FileMode;
 
 import org.junit.After;
 import org.junit.Before;

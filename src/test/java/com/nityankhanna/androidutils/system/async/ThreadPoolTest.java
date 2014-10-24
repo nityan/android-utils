@@ -1,7 +1,6 @@
-package androidutils.system.async;
+package com.nityankhanna.androidutils.system.async;
 
 import com.nityankhanna.androidutils.StringUtils;
-import com.nityankhanna.androidutils.system.async.ThreadPool;
 
 import org.junit.After;
 import org.junit.Before;

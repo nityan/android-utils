@@ -1,7 +1,4 @@
-package androidutils;
-
-import com.nityankhanna.androidutils.DateTimeFormat;
-import com.nityankhanna.androidutils.DateUtils;
+package com.nityankhanna.androidutils;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;

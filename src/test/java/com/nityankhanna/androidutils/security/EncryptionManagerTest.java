@@ -1,7 +1,6 @@
-package androidutils.security;
+package com.nityankhanna.androidutils.security;
 
 import com.nityankhanna.androidutils.StringUtils;
-import com.nityankhanna.androidutils.security.EncryptionManager;
 
 import org.apache.log4j.Logger;
 import org.junit.After;

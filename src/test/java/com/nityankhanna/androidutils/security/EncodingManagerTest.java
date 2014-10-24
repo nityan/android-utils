@@ -1,7 +1,6 @@
-package androidutils.security;
+package com.nityankhanna.androidutils.security;
 
 import com.nityankhanna.androidutils.StringUtils;
-import com.nityankhanna.androidutils.security.EncodingManager;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
