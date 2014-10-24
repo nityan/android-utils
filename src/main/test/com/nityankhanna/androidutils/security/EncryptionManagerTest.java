@@ -2,6 +2,7 @@ package com.nityankhanna.androidutils.security;
 
 import com.nityankhanna.androidutils.StringUtils;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +19,7 @@ public class EncryptionManagerTest
 	private String data;
 	private String password;
 	private EncryptionManager encryptionManager;
+	private static final Logger logger = Logger.getLogger(EncryptionManagerTest.class.getSimpleName());
 
 	@Before
 	public void setUp()
@@ -47,12 +49,12 @@ public class EncryptionManagerTest
 
 		Assert.assertNotNull(encryptedData);
 
-		System.out.println(StringUtils.toString(encryptedData));
+		logger.info(StringUtils.toString(encryptedData));
 
 		byte[] decryptedData = encryptionManager.decryptData(secretKeySpec, encryptedData);
 
 		Assert.assertNotNull(decryptedData);
 
-		System.out.println(StringUtils.toString(decryptedData));
+		logger.info(StringUtils.toString(decryptedData));
 	}
 }

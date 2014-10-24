@@ -4,6 +4,7 @@ import com.nityankhanna.androidutils.StringUtils;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class EncodingManagerTest
 {
+	private static final Logger logger = Logger.getLogger(EncodingManagerTest.class.getSimpleName());
 	private EncodingManager encodingManager;
 
 	@Before
@@ -46,14 +48,14 @@ public class EncodingManagerTest
 		assertNotNull(regData);
 		assertNotNull(larData);
 
-		System.out.println(StringUtils.toString(regData));
-		System.out.println(StringUtils.toString(larData));
+		logger.info(StringUtils.toString(regData));
+		logger.info(StringUtils.toString(larData));
 
 		byte[] actual = encodingManager.decodeToByteArray(regData);
 		byte[] actual2 = encodingManager.decodeToByteArray(larData);
 
-		System.out.println(StringUtils.toString(regData));
-		System.out.println(StringUtils.toString(larData));
+		logger.info(StringUtils.toString(regData));
+		logger.info(StringUtils.toString(larData));
 
 		Assert.assertEquals(expected, StringUtils.toString(actual));
 		Assert.assertEquals(expected2, StringUtils.toString(actual2));
@@ -71,14 +73,14 @@ public class EncodingManagerTest
 		assertNotNull(regData);
 		assertNotNull(larData);
 
-		System.out.println(regData);
-		System.out.println(larData);
+		logger.info(regData);
+		logger.info(larData);
 
 		String actual = encodingManager.decodeToString(StringUtils.toByteArray(regData));
 		String actual2 = encodingManager.decodeToString(StringUtils.toByteArray(larData));
 
-		System.out.println(regData);
-		System.out.println(larData);
+		logger.info(regData);
+		logger.info(larData);
 
 		Assert.assertEquals(expected.intValue(), Integer.parseInt(actual));
 		Assert.assertEquals(expected2, actual2);

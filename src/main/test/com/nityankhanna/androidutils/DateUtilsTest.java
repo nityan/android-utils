@@ -1,5 +1,6 @@
 package com.nityankhanna.androidutils;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ import java.util.TimeZone;
  */
 public class DateUtilsTest
 {
+	private static final Logger logger = Logger.getLogger(DateUtilsTest.class.getSimpleName());
 
 	@Test(expected = NullPointerException.class)
 	public void convertToLocalTime_NullData_DD_MM_YYYY()
@@ -32,8 +34,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR);
 
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY actual: " + actual);
 
 		Assert.assertEquals(expected, actual);
 	}
@@ -56,8 +58,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM_PM);
 
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA actual: " + actual);
 
 		Assert.assertEquals(expected, actual);
 	}
@@ -80,8 +82,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_24);
 
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS actual: " + actual);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -102,8 +104,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR);
 
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY actual: " + actual);
 
 		Assert.assertEquals(expected, actual);
 	}
@@ -126,8 +128,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_AM_PM);
 
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA actual: " + actual);
 
 		Assert.assertEquals(expected, actual);
 	}
@@ -150,8 +152,8 @@ public class DateUtilsTest
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_24);
 
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS expected: " + expected);
-		System.out.println("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS actual: " + actual);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS expected: " + expected);
+		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS actual: " + actual);
 	}
 
 	private Date getMadridTime()
@@ -164,7 +166,7 @@ public class DateUtilsTest
 
 		String madridTime = simpleDateFormat.format(testValue.getTime());
 
-		System.out.println("Madrid time: " + madridTime);
+		logger.info("Madrid time: " + madridTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
@@ -179,7 +181,7 @@ public class DateUtilsTest
 
 		String moscowTime = simpleDateFormat.format(testValue.getTime());
 
-		System.out.println("Moscow time: " + moscowTime);
+		logger.info("Moscow time: " + moscowTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
@@ -194,7 +196,7 @@ public class DateUtilsTest
 
 		String madridTime = simpleDateFormat.format(testValue.getTime());
 
-		System.out.println("New Zealand time: " + madridTime);
+		logger.info("New Zealand time: " + madridTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
@@ -209,7 +211,7 @@ public class DateUtilsTest
 
 		String tokyoTime = simpleDateFormat.format(testValue.getTime());
 
-		System.out.println("Tokyo time: " + tokyoTime);
+		logger.info("Tokyo time: " + tokyoTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
