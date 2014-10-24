@@ -1,6 +1,5 @@
 package com.nityankhanna.androidutils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,18 +55,22 @@ public class DateUtils
 	public static String convertToLocalTime(Date date, String targetFormat)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat);
-//		long when;
-
-		/*	when = dateFormat.parse(dateToString(date, targetFormat)).getTime();
-
-			Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + (TimeZone.getDefault().inDaylightTime(new Date())
-					? TimeZone.getDefault().getDSTSavings() : 0));*/
 
 		dateFormat.setTimeZone(TimeZone.getDefault());
 
 		return dateFormat.format(date);
+	}
 
-		//return convertToNewFormat(localDate, targetFormat);
+	/**
+	 * Converts a calendar to a new format.
+	 *
+	 * @param calendar     The calendar to format.
+	 * @param targetFormat The new format of the date.
+	 * @return Returns a string with the calendar as specified in the targetFormat parameter.
+	 */
+	public static String convertToNewFormat(Calendar calendar, DateTimeFormat targetFormat)
+	{
+		return dateToString(calendar.getTime(), targetFormat.getValue());
 	}
 
 	/**
@@ -79,7 +82,7 @@ public class DateUtils
 	 */
 	public static String convertToNewFormat(Date date, DateTimeFormat targetFormat)
 	{
-		return dateToString(date, targetFormat);
+		return dateToString(date, targetFormat.getValue());
 	}
 
 	/**
@@ -92,6 +95,18 @@ public class DateUtils
 	public static String convertToNewFormat(Date date, String targetFormat)
 	{
 		return dateToString(date, targetFormat);
+	}
+
+	/**
+	 * Converts a calendar to a string.
+	 *
+	 * @param calendar     The calendar to format.
+	 * @param targetFormat The new The new format of the date.
+	 * @return Returns a string with the calendar as specified in the targetFormat parameter.
+	 */
+	public static String calendarToString(Calendar calendar, DateTimeFormat targetFormat)
+	{
+		return dateToString(calendar.getTime(), targetFormat.getValue());
 	}
 
 	/**
@@ -117,6 +132,24 @@ public class DateUtils
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(targetFormat);
 		return dateFormat.format(date);
+	}
+
+	/**
+	 * Converts a string to a calendar.
+	 *
+	 * @param date          The string to convert.
+	 * @param currentFormat The current date time format of the string to be converted.
+	 * @return Returns a calendar.
+	 */
+	public static Calendar stringToCalendar(String date, DateTimeFormat currentFormat)
+	{
+		Date convertedDate = stringToDate(date, currentFormat.getValue());
+
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.setTime(convertedDate);
+
+		return calendar;
 	}
 
 	/**
