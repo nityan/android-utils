@@ -50,8 +50,6 @@ public class ErrorResponse
 	@Override
 	public String toString()
 	{
-		return "ErrorResponse{" +
-				"message='" + message + '\'' +
-				'}';
+		return message;
 	}
 }

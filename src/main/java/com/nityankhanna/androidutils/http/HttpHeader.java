@@ -13,7 +13,6 @@ import org.apache.http.ParseException;
  */
 public class HttpHeader implements Header
 {
-
 	private String name;
 	private String value;
 
