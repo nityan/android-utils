@@ -11,9 +11,8 @@ import java.util.List;
 /**
  * Represents an Http request message.
  */
-public final class HttpRequestMessage extends HttpRequest
+public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterStore, HttpMessage
 {
-
 	private ContentType contentType;
 	private Encoding encoding;
 	private List<HttpHeader> headers;
@@ -59,7 +58,6 @@ public final class HttpRequestMessage extends HttpRequest
 	 *
 	 * @return Returns the request type.
 	 */
-	@Override
 	public RequestType getRequestType()
 	{
 		return requestType;
@@ -70,7 +68,6 @@ public final class HttpRequestMessage extends HttpRequest
 	 *
 	 * @return Returns the url.
 	 */
-	@Override
 	public String getUrl()
 	{
 		return url;
