@@ -1,9 +1,11 @@
 package com.nityankhanna.androidutils.http;
 
-import org.apache.http.HttpStatus;
-
 /**
  * Created by Nityan on 2014-10-30.
+ */
+
+/**
+ * Represents a collection of Http Status Codes.
  */
 public enum HttpStatusCode
 {
