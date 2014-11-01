@@ -4,6 +4,8 @@ package com.nityankhanna.androidutils.http;
  * Created by Nityan on 2014-10-30.
  */
 
+import static com.nityankhanna.androidutils.http.HttpStatusCode.BadGateway;
+
 /**
  * Represents a collection of Http Status Codes.
  */
@@ -136,7 +138,7 @@ public enum HttpStatusCode
 	NotFound(404),
 
 	/**
-	 * A request was made of a resource using a request method not supported by that resource;
+	 * Code 405. A request was made of a resource using a request method not supported by that resource;
 	 * for example, using GET on a form which requires data to be presented via POST, or using PUT on a read-only resource.
 	 */
 	MethodNotAllowed(405),
@@ -246,6 +248,156 @@ public enum HttpStatusCode
 		this.statusCode = statusCode;
 	}
 
+	public HttpStatusCode fromInt(int statusCode)
+	{
+		HttpStatusCode code = null;
+
+		switch (statusCode)
+		{
+			case 100:
+				code = Continue;
+				break;
+			case 101:
+				code = SwitchingProtocols;
+				break;
+			case 200:
+				code = OK;
+				break;
+			case 201:
+				code = Created;
+				break;
+			case 202:
+				code = Accepted;
+				break;
+			case 203:
+				code = NonAuthoritativeInformation;
+				break;
+			case 204:
+				code = Created;
+				break;
+			case 205:
+				code = ResetContent;
+				break;
+			case 206:
+				code = PartialContent;
+				break;
+			case 300:
+				code = MultipleChoices;
+				break;
+			case 301:
+				code = MovedPermanently;
+				break;
+			case 302:
+				code = Found;
+				break;
+			case 303:
+				code = SeeOther;
+				break;
+			case 304:
+				code = NotModified;
+				break;
+			case 305:
+				code = UseProxy;
+				break;
+			case 306:
+				code = Unused;
+				break;
+			case 307:
+				code = TemporaryRedirect;
+				break;
+			case 400:
+				code = BadRequest;
+				break;
+			case 401:
+				code = Unauthorized;
+				break;
+			case 402:
+				code = PaymentRequired;
+				break;
+			case 403:
+				code = Forbidden;
+				break;
+			case 404:
+				code = NotFound;
+				break;
+			case 405:
+				code = MethodNotAllowed;
+				break;
+			case 406:
+				code = NotAcceptable;
+				break;
+			case 407:
+				code = ProxyAuthenticationRequired;
+				break;
+			case 408:
+				code = RequestTimeout;
+				break;
+			case 409:
+				code = Conflict;
+				break;
+			case 410:
+				code = Gone;
+				break;
+			case 411:
+				code = LengthRequired;
+				break;
+			case 412:
+				code = PreconditionFailed;
+				break;
+			case 413:
+				code = RequestEntityTooLarge;
+				break;
+			case 414:
+				code = RequestUriTooLong;
+				break;
+			case 415:
+				code = UnsupportedMediaType;
+				break;
+			case 416:
+				code = RequestedRangeNotSatisfiable;
+				break;
+			case 417:
+				code = ExpectationFailed;
+				break;
+			case 426:
+				code = UpgradeRequired;
+				break;
+			case 500:
+				code = InternalServerError;
+				break;
+			case 501:
+				code = NotImplemented;
+				break;
+			case 502:
+				code = BadGateway;
+				break;
+			case 503:
+				code = ServiceUnavailable;
+				break;
+			case 504:
+				code = GatewayTimeout;
+				break;
+			case 505:
+				code = HttpVersionNotSupported;
+				break;
+		}
+
+		return code;
+	}
+
+	/**
+	 * Gets the status code.
+	 * @return Returns the status code.
+	 */
+	public int getStatusCode()
+	{
+		return statusCode;
+	}
+
+	/**
+	 * Returns the int value of the status code as a string.
+	 * @return Returns a String.
+	 */
 	@Override
 	public String toString()
 	{
