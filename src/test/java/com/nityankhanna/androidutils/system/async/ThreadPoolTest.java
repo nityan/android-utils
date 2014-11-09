@@ -32,10 +32,13 @@ public class ThreadPoolTest
 	{
 		for (int i = 0; i < Integer.MAX_VALUE; i++)
 		{
-			threadPool.submit(() -> {
-				for (int j = 0; j < Integer.MAX_VALUE; j++)
-				{
-					StringUtils.toByteArray("Test");
+			threadPool.submit(new Runnable() {
+				@Override
+				public void run() {
+					for (int j = 0; j < Integer.MAX_VALUE; j++)
+					{
+						StringUtils.toByteArray("Test");
+					}
 				}
 			});
 		}

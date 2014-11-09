@@ -49,7 +49,12 @@ public class SimpleArrayAdapter<T> extends ArrayAdapter<T>
 		if (!Looper.getMainLooper().getThread().equals(Thread.currentThread()))
 		{
 			Handler handler = new Handler(Looper.getMainLooper());
-			handler.post(SimpleArrayAdapter.super::notifyDataSetChanged);
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					SimpleArrayAdapter.super.notifyDataSetChanged();
+				}
+			});
 		}
 		else
 		{

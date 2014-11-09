@@ -146,11 +146,10 @@ public final class HttpClientService
 				httpHeaders.add(httpHeader);
 			}
 
-			HttpResponseMessage responseMessage = new HttpResponseMessage(statusCode, reasonPhrase, entity, httpHeaders);
+			HttpResponseMessage responseMessage = new HttpResponseMessage(HttpStatusCode.fromInt(statusCode), reasonPhrase, entity, httpHeaders);
 
 			for (HttpHeader header : httpHeaders)
 			{
-
 				if (header.getValue().contains("application/json"))
 				{
 					responseMessage.setContentType(ContentType.JSON);
@@ -158,14 +157,13 @@ public final class HttpClientService
 				}
 			}
 
-
 			responseMessage.setRequestMessage(requestMessage);
 
 			if (statusCode >= 500)
 			{
 				ErrorResponse error = new ErrorResponse();
 
-				error.setMessage(statusCode + " " + reasonPhrase);
+				error.setMessage(reasonPhrase);
 				responseMessage.setError(error);
 
 				delegate.onServerError(responseMessage);
@@ -174,7 +172,7 @@ public final class HttpClientService
 			{
 				ErrorResponse error = new ErrorResponse();
 
-				error.setMessage(statusCode + " " + reasonPhrase);
+				error.setMessage(reasonPhrase);
 				responseMessage.setError(error);
 
 				delegate.onClientError(responseMessage);

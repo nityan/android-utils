@@ -21,7 +21,7 @@ public final class HttpResponseMessage implements HttpMessage
 	private List<HttpParameter> parameters;
 	private String reasonPhrase;
 	private HttpRequestMessage requestMessage;
-	private int statusCode;
+	private HttpStatusCode statusCode;
 
 	/**
 	 * Initializes a new instance of the HttpResponseMessage class with a status code and reason phrase.
@@ -29,7 +29,7 @@ public final class HttpResponseMessage implements HttpMessage
 	 * @param statusCode   The status code.
 	 * @param reasonPhrase The reason phrase.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase)
+	protected HttpResponseMessage(HttpStatusCode statusCode, String reasonPhrase)
 	{
 		this.statusCode = statusCode;
 		this.reasonPhrase = reasonPhrase;
@@ -42,7 +42,7 @@ public final class HttpResponseMessage implements HttpMessage
 	 * @param reasonPhrase The reason phrase.
 	 * @param entity       The entity.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity)
+	public HttpResponseMessage(HttpStatusCode statusCode, String reasonPhrase, HttpEntity entity)
 	{
 		this(statusCode, reasonPhrase);
 		this.entity = entity;
@@ -56,7 +56,7 @@ public final class HttpResponseMessage implements HttpMessage
 	 * @param entity       The entity.
 	 * @param headers      The http headers.
 	 */
-	public HttpResponseMessage(int statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers)
+	public HttpResponseMessage(HttpStatusCode statusCode, String reasonPhrase, HttpEntity entity, List<HttpHeader> headers)
 	{
 		this(statusCode, reasonPhrase, entity);
 		this.headers = headers;
@@ -157,7 +157,7 @@ public final class HttpResponseMessage implements HttpMessage
 	 *
 	 * @return Returns the status code.
 	 */
-	public int getStatusCode()
+	public HttpStatusCode getStatusCode()
 	{
 		return statusCode;
 	}
@@ -167,7 +167,7 @@ public final class HttpResponseMessage implements HttpMessage
 	 *
 	 * @param statusCode The status code.
 	 */
-	protected void setStatusCode(int statusCode)
+	protected void setStatusCode(HttpStatusCode statusCode)
 	{
 		this.statusCode = statusCode;
 	}

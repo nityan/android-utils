@@ -39,7 +39,7 @@ public class ThreadPool
 
 			if (sharedInstance == null)
 			{
-				sharedInstance = new ThreadPool(15, 20, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<>(15, true));
+				sharedInstance = new ThreadPool(15, 20, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(15, true));
 			}
 		}
 

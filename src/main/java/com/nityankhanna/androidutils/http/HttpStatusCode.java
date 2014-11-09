@@ -248,7 +248,7 @@ public enum HttpStatusCode
 		this.statusCode = statusCode;
 	}
 
-	public HttpStatusCode fromInt(int statusCode)
+	public static HttpStatusCode fromInt(int statusCode)
 	{
 		HttpStatusCode code = null;
 
