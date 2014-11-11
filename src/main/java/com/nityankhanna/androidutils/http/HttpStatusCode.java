@@ -4,8 +4,6 @@ package com.nityankhanna.androidutils.http;
  * Created by Nityan on 2014-10-30.
  */
 
-import static com.nityankhanna.androidutils.http.HttpStatusCode.BadGateway;
-
 /**
  * Represents a collection of Http Status Codes.
  */
@@ -70,7 +68,8 @@ public enum HttpStatusCode
 
 	/**
 	 * Code 302.
-	 * The requested information is located at the URI specified in the Location header. The default action when this status is received is to follow the Location header associated with the response.
+	 * The requested information is located at the URI specified in the Location header. The default action when this status is received is to follow the
+	 * Location header associated with the response.
 	 * When the original request method was POST, the redirected request will use the GET method.
 	 */
 	Found(302),
@@ -211,7 +210,8 @@ public enum HttpStatusCode
 	UpgradeRequired(426),
 
 	/**
-	 * Code 500. A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
+	 * Code 500. A generic error message, given when an unexpected condition was encountered
+	 * and no more specific message is suitable.
 	 */
 	InternalServerError(500),
 
@@ -227,12 +227,14 @@ public enum HttpStatusCode
 	BadGateway(502),
 
 	/**
-	 * Code 503. The server is currently unavailable (because it is overloaded or down for maintenance). Generally, this is a temporary state.
+	 * Code 503. The server is currently unavailable (because it is overloaded or down for maintenance).
+	 * Generally, this is a temporary state.
 	 */
 	ServiceUnavailable(503),
 
 	/**
-	 * Code 504. The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.
+	 * Code 504. The server was acting as a gateway or proxy and did not receive a timely response from
+	 * the upstream server.
 	 */
 	GatewayTimeout(504),
 
@@ -387,6 +389,7 @@ public enum HttpStatusCode
 
 	/**
 	 * Gets the status code.
+	 *
 	 * @return Returns the status code.
 	 */
 	public int getStatusCode()
@@ -396,6 +399,7 @@ public enum HttpStatusCode
 
 	/**
 	 * Returns the int value of the status code as a string.
+	 *
 	 * @return Returns a String.
 	 */
 	@Override

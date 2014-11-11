@@ -223,6 +223,7 @@ public class ServiceManager extends Service
 	/**
 	 * Determines if the device is a GoogleTV.
 	 *
+	 * @param context The application context.
 	 * @return Returns true if the device is a GoogleTV.
 	 */
 	public boolean isGoogleTV(Context context)
