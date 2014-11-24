@@ -8,6 +8,13 @@ How to use
 
 Download the JAR file, and add it as a library to your project.
 
+Alternate -> Maven
+=============
+
+Download the project,
+
+Run mvn clean install -Dmaven.test.skip=true source:jar install
+
 
 Examples
 =============
@@ -32,7 +39,13 @@ Http Services
     HttpRequestMessage requestMessage = new HttpRequestMessage("http://example.com", RequestType.GET);
     
     requestMessage.addHeader(new HttpHeader("Content-Type", "application/json;charset=UTF-8");
-    requestMessage.addParameter(new HttpParameter("parameter key", "parameter value"));
+	
+	JSONObject body = new JSONObject();
+	
+	body.put("key", "value");
+	body.put("key2", 1);
+	
+    requestMessage.setJsonBody(body);
     
     HttpClientService client = new HttpClientService(requestMessage, this);
     
