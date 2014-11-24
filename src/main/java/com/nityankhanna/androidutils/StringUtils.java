@@ -173,17 +173,6 @@ public class StringUtils
 	}
 
 	/**
-	 * Counts the number of words in a string delimited by a space.
-	 *
-	 * @param string The string to count.
-	 * @return Returns the number of words in the string.
-	 */
-	public static int wordCount(String string)
-	{
-		return wordCount(string, "\\s+");
-	}
-
-	/**
 	 * Counts the number of words in a string.
 	 *
 	 * @param string  The string to count.
