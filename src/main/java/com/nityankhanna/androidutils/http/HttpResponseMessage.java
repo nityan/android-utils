@@ -13,12 +13,10 @@ import java.util.List;
  */
 public final class HttpResponseMessage implements HttpMessage
 {
-
 	private ContentType contentType;
 	private HttpEntity entity;
 	private ErrorResponse error;
 	private List<HttpHeader> headers;
-	private List<HttpParameter> parameters;
 	private String reasonPhrase;
 	private HttpRequestMessage requestMessage;
 	private HttpStatusCode statusCode;
@@ -173,6 +171,16 @@ public final class HttpResponseMessage implements HttpMessage
 	}
 
 	/**
+	 * Gets a list of HttpHeaders.
+	 *
+	 * @return Returns a list of HttpHeaders.
+	 */
+	public List<HttpHeader> getHeaders()
+	{
+		return headers;
+	}
+
+	/**
 	 * Checks if the Http message contains headers.
 	 *
 	 * @return Returns true if the Http message contains headers.
@@ -181,18 +189,6 @@ public final class HttpResponseMessage implements HttpMessage
 	public boolean containsHeaders()
 	{
 		return headers.size() > 0;
-	}
-
-	/**
-	 * Checks if the Http message contains parameters.
-	 *
-	 * @return Returns true if the Http message contains parameters.
-	 */
-	@Override
-	public boolean containsParameters()
-	{
-		// TODO: implement a check to see if the response body has parameters
-		return false;
 	}
 
 	@Override
@@ -211,15 +207,5 @@ public final class HttpResponseMessage implements HttpMessage
 	{
 		// TODO: get the encoding
 		return null;
-	}
-
-	/**
-	 * Gets a list of HttpHeaders.
-	 *
-	 * @return Returns a list of HttpHeaders.
-	 */
-	public List<HttpHeader> getHeaders()
-	{
-		return headers;
 	}
 }

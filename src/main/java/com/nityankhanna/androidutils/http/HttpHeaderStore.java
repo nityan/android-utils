@@ -48,12 +48,4 @@ public interface HttpHeaderStore
 	 * Removes all of the Http headers.
 	 */
 	void removeAllHeaders();
-
-	/**
-	 * Removes a duplicate header.
-	 *
-	 * @param header The Http header to be removed.
-	 */
-	void removeDuplicateHeader(HttpHeader header);
-
 }

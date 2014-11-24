@@ -11,9 +11,14 @@ public enum ContentType
 {
 
 	/**
-	 * Represents a JSON content type.
+	 * Represents the JSON content type.
 	 */
-	JSON(0);
+	JSON(0),
+
+	/**
+	 * Represents the XML content type.
+	 */
+	XML(1);
 
 	private int value;
 

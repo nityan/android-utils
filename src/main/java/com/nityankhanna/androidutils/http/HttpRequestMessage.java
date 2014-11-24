@@ -1,7 +1,9 @@
 package com.nityankhanna.androidutils.http;
 
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,12 +13,13 @@ import java.util.List;
 /**
  * Represents an Http request message.
  */
-public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterStore, HttpMessage
+public final class HttpRequestMessage implements HttpHeaderStore, HttpMessage
 {
 	private ContentType contentType;
 	private Encoding encoding;
 	private List<HttpHeader> headers;
-	private List<HttpParameter> params;
+	private JSONObject jsonBody;
+	private Document xmlBody;
 	private RequestType requestType;
 	private String url;
 
@@ -33,7 +36,6 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 		this.url = url;
 		this.requestType = requestType;
 		headers = new ArrayList<>();
-		params = new ArrayList<>();
 	}
 
 	/**
@@ -74,6 +76,46 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 	}
 
 	/**
+	 * Gets the JSON body.
+	 *
+	 * @return Returns the JSON body.
+	 */
+	public JSONObject getJsonBody()
+	{
+		return jsonBody;
+	}
+
+	/**
+	 * Sets the JSON body.
+	 *
+	 * @param body The JSON body.
+	 */
+	public void setJsonBody(JSONObject body)
+	{
+		this.jsonBody = body;
+	}
+
+	/**
+	 * Gets the XML body.
+	 *
+	 * @return Returns the XML body.
+	 */
+	public Document getXmlBody()
+	{
+		return xmlBody;
+	}
+
+	/**
+	 * Sets the XML body.
+	 *
+	 * @param xmlBody The XML body.
+	 */
+	public void setXmlBody(Document xmlBody)
+	{
+		this.xmlBody = xmlBody;
+	}
+
+	/**
 	 * Adds an Http header to the request.
 	 *
 	 * @param header The Http header to add to the collection.
@@ -81,7 +123,6 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 	@Override
 	public void addHeader(HttpHeader header)
 	{
-		removeDuplicateHeader(header);
 		headers.add(header);
 	}
 
@@ -94,7 +135,6 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 	@Override
 	public void addHeader(int index, HttpHeader header)
 	{
-		removeDuplicateHeader(header);
 		headers.add(index, header);
 	}
 
@@ -141,111 +181,6 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 	}
 
 	/**
-	 * Removes a duplicate header.
-	 *
-	 * @param header The Http header to be removed.
-	 */
-	@Override
-	public void removeDuplicateHeader(HttpHeader header)
-	{
-
-		for (Iterator<HttpHeader> it = headers.iterator(); it.hasNext(); )
-		{
-			if (header.equals(it.next()))
-			{
-				it.remove();
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Adds an HttpParameter to the collection.
-	 *
-	 * @param parameter The HttpParameter to add.
-	 */
-	@Override
-	public void addParameter(HttpParameter parameter)
-	{
-		removeDuplicateParameter(parameter);
-		params.add(parameter);
-	}
-
-	/**
-	 * Adds an HttpParameter to the collection at the specified index.
-	 *
-	 * @param index     The index.
-	 * @param parameter The HttpParameter to add.
-	 */
-	@Override
-	public void addParameter(int index, HttpParameter parameter)
-	{
-		removeDuplicateParameter(parameter);
-		params.add(index, parameter);
-	}
-
-	/**
-	 * Gets a list of HttpParameters.
-	 *
-	 * @return Returns a list of HttpParameters.
-	 */
-	@Override
-	public List<HttpParameter> getParameters()
-	{
-		return params;
-	}
-
-	/**
-	 * Removes a parameter.
-	 *
-	 * @param parameter The HttpParameter to be removed.
-	 */
-	@Override
-	public void removeParameter(HttpParameter parameter)
-	{
-		params.remove(parameter);
-	}
-
-	/**
-	 * Removes the parameter at the specified index.
-	 *
-	 * @param index The index.
-	 */
-	@Override
-	public void removeParameter(int index)
-	{
-		params.remove(index);
-	}
-
-	/**
-	 * Removes all the parameters from the collection.
-	 */
-	@Override
-	public void removeAllParameters()
-	{
-		params.clear();
-	}
-
-	/**
-	 * Removes a duplicate parameter.
-	 *
-	 * @param parameter The HttpParameter to be removed.
-	 */
-	@Override
-	public void removeDuplicateParameter(HttpParameter parameter)
-	{
-
-		for (Iterator<HttpParameter> it = params.iterator(); it.hasNext(); )
-		{
-			if (parameter.equals(it.next()))
-			{
-				it.remove();
-				break;
-			}
-		}
-	}
-
-	/**
 	 * Checks if the Http message contains headers.
 	 *
 	 * @return Returns true if the Http message contains headers.
@@ -254,17 +189,6 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpParameterS
 	public boolean containsHeaders()
 	{
 		return headers.size() > 0;
-	}
-
-	/**
-	 * Checks if the Http message contains parameters.
-	 *
-	 * @return Returns true if the Http message contains parameters.
-	 */
-	@Override
-	public boolean containsParameters()
-	{
-		return params.size() > 0;
 	}
 
 	/**

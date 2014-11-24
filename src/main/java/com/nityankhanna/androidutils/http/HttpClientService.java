@@ -5,23 +5,29 @@ import android.os.AsyncTask;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 
 /**
  * Created by Nityan Khanna on 01/07/13.
@@ -32,9 +38,13 @@ import java.util.List;
  */
 public final class HttpClientService
 {
+	private static final String APPLICATION_JSON = "application/json";
+	private static final String APPLICATION_XML = "application/xml";
+	private static final String TEXT_JSON = "text/json";
+	private static final String TEXT_XML = "text/xml";
+
 	private OnHttpResponseListener delegate;
 	private List<HttpHeader> headers;
-	private List<HttpParameter> params;
 	private HttpRequestMessage requestMessage;
 	private RequestType requestType;
 	private URL url;
@@ -68,11 +78,6 @@ public final class HttpClientService
 		else
 		{
 			headers = new ArrayList<>();
-		}
-
-		if (requestMessage.containsParameters())
-		{
-			params = requestMessage.getParameters();
 		}
 	}
 
@@ -150,9 +155,14 @@ public final class HttpClientService
 
 			for (HttpHeader header : httpHeaders)
 			{
-				if (header.getValue().contains("application/json"))
+				if (header.getValue().contains(APPLICATION_JSON) || header.getValue().contains(TEXT_JSON))
 				{
 					responseMessage.setContentType(ContentType.JSON);
+					break;
+				}
+				else if (header.getValue().contains(APPLICATION_XML) || header.getValue().contains(TEXT_XML))
+				{
+					responseMessage.setContentType(ContentType.XML);
 					break;
 				}
 			}
@@ -253,37 +263,36 @@ public final class HttpClientService
 
 			try
 			{
+				String output = null;
 
 				if (requestMessage.getContentType().equals(ContentType.JSON))
 				{
-
-					JSONObject body = new JSONObject();
-
-					for (HttpParameter parameter : params)
-					{
-						body.put(parameter.getName(), parameter.getValue());
-					}
-
-					post.setEntity(new StringEntity(body.toString()));
+					JSONObject body = requestMessage.getJsonBody();
+					output = body.toString();
 				}
-				else
+				else if (requestMessage.getContentType().equals(ContentType.XML))
 				{
+					Document document = requestMessage.getXmlBody();
 
-					List<NameValuePair> data = new ArrayList<>();
+					TransformerFactory tf = TransformerFactory.newInstance();
+					Transformer transformer = tf.newTransformer();
+					transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+					StringWriter writer = new StringWriter();
+					transformer.transform(new DOMSource(document), new StreamResult(writer));
 
-					for (HttpParameter parameter : params)
-					{
-						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
-					}
-
-					post.setEntity(new UrlEncodedFormEntity(data));
+					output = writer.getBuffer().toString().replaceAll("\n|\r", "");
 				}
 
 				post.setHeaders(headers.toArray(new Header[headers.size()]));
 
+				if (output != null)
+				{
+					post.setEntity(new StringEntity(output));
+				}
+
 				httpResponse = client.execute(post);
 			}
-			catch (JSONException | IOException e)
+			catch (IOException | TransformerException e)
 			{
 				throw new RuntimeException(e);
 			}
@@ -299,38 +308,36 @@ public final class HttpClientService
 
 			try
 			{
+				String output = null;
 
 				if (requestMessage.getContentType().equals(ContentType.JSON))
 				{
-
-					headers.add(new HttpHeader("Content-Type", "application/json;charset=" + requestMessage.getEncoding().getValue()));
-					JSONObject body = new JSONObject();
-
-					for (HttpParameter parameter : params)
-					{
-						body.put(parameter.getName(), parameter.getValue());
-					}
-
-					put.setEntity(new StringEntity(body.toString(), requestMessage.getEncoding().getValue()));
+					JSONObject body = requestMessage.getJsonBody();
+					output = body.toString();
 				}
-				else
+				else if (requestMessage.getContentType().equals(ContentType.XML))
 				{
+					Document document = requestMessage.getXmlBody();
 
-					List<NameValuePair> data = new ArrayList<>();
+					TransformerFactory tf = TransformerFactory.newInstance();
+					Transformer transformer = tf.newTransformer();
+					transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+					StringWriter writer = new StringWriter();
+					transformer.transform(new DOMSource(document), new StreamResult(writer));
 
-					for (HttpParameter parameter : params)
-					{
-						data.add(new BasicNameValuePair(parameter.getName(), parameter.getValue()));
-					}
-
-					put.setEntity(new UrlEncodedFormEntity(data));
+					output = writer.getBuffer().toString().replaceAll("\n|\r", "");
 				}
 
 				put.setHeaders(headers.toArray(new Header[headers.size()]));
 
+				if (output != null)
+				{
+					put.setEntity(new StringEntity(output));
+				}
+
 				httpResponse = client.execute(put);
 			}
-			catch (JSONException | IOException e)
+			catch (IOException | TransformerException e)
 			{
 				throw new RuntimeException(e);
 			}

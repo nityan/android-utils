@@ -13,13 +13,6 @@ public interface HttpMessage
 	boolean containsHeaders();
 
 	/**
-	 * Checks if the Http message contains parameters.
-	 *
-	 * @return Returns true if the Http message contains parameters.
-	 */
-	boolean containsParameters();
-
-	/**
 	 * Gets the content type of the message.
 	 *
 	 * @return Returns the content type.
