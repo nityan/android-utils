@@ -14,7 +14,6 @@
         <url>https://github.com/nityan/android-utils</url>
         <connection>scm:git:git://github.com/nityan/android-utils.git</connection>
         <developerConnection>scm:git:git://github.com/nityan/android-utils.git</developerConnection>
-        <tag>androidutils-1.1</tag>
     </scm>
 
     <repositories>
@@ -102,7 +101,7 @@
                             <source>1.7</source>
                             <target>1.7</target>
                         </configuration>
-                        <version>3.2</version>
+                        <version>3.1</version>
                     </plugin>
 
                     <plugin>
