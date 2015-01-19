@@ -164,6 +164,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skipSource>${source.skip}</skipSource>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -176,10 +179,12 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>jar</goal>
-                            <goal>javadoc-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>${javadoc.skip}</skip>
+                </configuration>
             </plugin>
 
 
@@ -196,32 +201,18 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>${gpg.skip}</skip>
+                </configuration>
             </plugin>
 
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <!-- via this activation the profile is automatically used when the release
-                is done with the maven release plugin -->
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- the signed apk then needs to be zipaligned and we activate proguard
-                        and we run the manifest update -->
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gpg.skip>false</gpg.skip>
+        <javadoc.skip>false</javadoc.skip>
+        <source.skip>false</source.skip>
     </properties>
 </project>
