@@ -48,7 +48,7 @@ public class SerializeManager
 	 *
 	 * @param object The object to be serialized.
 	 * @return Returns a byte array.
-	 * @throws NotSerializableException
+	 * @throws IOException IOException
 	 */
 	public byte[] serialize(Object object) throws IOException
 	{
@@ -71,8 +71,8 @@ public class SerializeManager
 	 *
 	 * @param data The data to be recreated into an object.
 	 * @return Returns the object.
-	 * @throws IOException
-	 * @throws ClassCastException
+	 * @throws IOException IOException
+	 * @throws ClassCastException Class Cast Exception
 	 */
 	public Object deserialize(byte[] data) throws IOException, ClassNotFoundException
 	{

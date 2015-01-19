@@ -55,7 +55,7 @@ public class StringUtils
 	 * @param string   The string to convert.
 	 * @param encoding The encoding.
 	 * @return Returns the byte array of the string.
-	 * @throws UnsupportedEncodingException
+	 * @throws UnsupportedEncodingException Unsupported Encoding
 	 */
 	public static byte[] toByteArray(String string, String encoding) throws UnsupportedEncodingException
 	{
@@ -170,18 +170,6 @@ public class StringUtils
 	public static String toString(long value)
 	{
 		return String.valueOf(value);
-	}
-
-	/**
-	 * Counts the number of words in a string.
-	 *
-	 * @param string  The string to count.
-	 * @param pattern The pattern to use as a delimiter.
-	 */
-	public static int wordCount(String string, String pattern)
-	{
-		String trimmed = string.trim();
-		return trimmed.isEmpty() ? 0 : trimmed.split(pattern).length;
 	}
 
 

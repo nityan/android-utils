@@ -137,7 +137,7 @@ public class ThreadPool
 	/**
 	 * Terminates the thread pool.
 	 *
-	 * @throws InterruptedException
+	 * @throws InterruptedException Interrupted Exception
 	 */
 	public void terminateThreadPool() throws InterruptedException
 	{
@@ -148,7 +148,7 @@ public class ThreadPool
 	 * Terminates the thread pool.
 	 *
 	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
-	 * @throws InterruptedException
+	 * @throws InterruptedException Interrupted Exception
 	 */
 	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException
 	{

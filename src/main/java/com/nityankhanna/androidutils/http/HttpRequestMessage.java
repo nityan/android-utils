@@ -40,7 +40,7 @@ public final class HttpRequestMessage implements HttpHeaderStore, HttpMessage
 
 	/**
 	 * Initializes a new instance of the HttpRequestMessage class with a url, request type, content type and encoding.
-	 * </p>
+	 *
 	 * This is used for POST and PUT requests.
 	 *
 	 * @param url         The url.

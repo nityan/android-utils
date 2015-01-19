@@ -45,7 +45,7 @@ public class FileManager
 	 * @param source      The source file.
 	 * @param destination The destination file.
 	 * @return Returns the destination file with the copied contents.
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	public static File copyFile(File source, File destination) throws IOException
 	{
