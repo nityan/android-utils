@@ -5,12 +5,13 @@ A collection of utility classes for the Android Platform.
 
 How to use
 =============
-
+```xml
 <dependency>
   <groupId>com.nityankhanna</groupId>
   <artifactId>androidutils</artifactId>
   <version>1.1</version>
 </dependency>
+```
 
 
 Examples
