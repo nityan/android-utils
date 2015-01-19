@@ -5,15 +5,13 @@ A collection of utility classes for the Android Platform.
 
 How to use
 =============
-
-Download the JAR file, and add it as a library to your project.
-
-Alternate -> Maven
-=============
-
-Download the project,
-
-Run mvn clean install -Dmaven.test.skip=true source:jar install
+```xml
+<dependency>
+  <groupId>com.nityankhanna</groupId>
+  <artifactId>androidutils</artifactId>
+  <version>1.1</version>
+</dependency>
+```
 
 
 Examples
