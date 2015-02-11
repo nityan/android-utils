@@ -1,5 +1,7 @@
 package com.nityankhanna.androidutils;
 
+import com.nityankhanna.androidutils.security.EncodingManager;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.NotSerializableException;
@@ -50,6 +52,16 @@ public class Convert
 		objectOutputStream.writeObject(object);
 
 		return byteArrayOutputStream.toByteArray();
+	}
+
+	/**
+	 * Converts a byte array to a Base64 encoded string.
+	 * @param value The value to convert.
+	 * @return Returns a Base64 encoded string.
+	 */
+	public static String toBase64String(byte[] value)
+	{
+		return EncodingManager.getInstance().encodeToString(value);
 	}
 
 	/**
