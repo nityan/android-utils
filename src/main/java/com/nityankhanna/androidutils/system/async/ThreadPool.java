@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPool
 {
-
 	private static ThreadPool sharedInstance;
 	private ThreadPoolExecutor service;
 
@@ -33,10 +32,8 @@ public class ThreadPool
 	 */
 	public static ThreadPool getInstance()
 	{
-
 		synchronized (ThreadPool.class)
 		{
-
 			if (sharedInstance == null)
 			{
 				sharedInstance = new ThreadPool(15, 20, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(15, true));
@@ -136,26 +133,38 @@ public class ThreadPool
 
 	/**
 	 * Terminates the thread pool.
-	 *
+	 * Defaults to 30 seconds for timeout.
 	 * @throws InterruptedException Interrupted Exception
 	 */
 	public void terminateThreadPool() throws InterruptedException
 	{
-		terminateThreadPool(false);
+		terminateThreadPool(false, 30000, TimeUnit.MILLISECONDS);
 	}
 
 	/**
 	 * Terminates the thread pool.
 	 *
 	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
+	 * Defaults to 30 seconds for timeout.
 	 * @throws InterruptedException Interrupted Exception
 	 */
 	public void terminateThreadPool(boolean shouldFinishQueue) throws InterruptedException
 	{
+		terminateThreadPool(shouldFinishQueue, 30000, TimeUnit.MILLISECONDS);
+	}
 
+	/**
+	 * Terminates the thread pool.
+	 * @param shouldFinishQueue Should the pool wait for tasks to finish before terminating.
+	 * @param timeout The time to wait before the thread pool shuts down.
+	 * @param timeUnit The time unit.
+	 * @throws InterruptedException
+	 */
+	public void terminateThreadPool(boolean shouldFinishQueue, int timeout, TimeUnit timeUnit) throws InterruptedException
+	{
 		if (shouldFinishQueue)
 		{
-			service.awaitTermination(30000, TimeUnit.MILLISECONDS);
+			service.awaitTermination(timeout, timeUnit);
 		}
 		else
 		{
