@@ -24,4 +24,4 @@ android:
     - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-17
 script:
-    mvn install -Dmaven.tests.skip=true -e
+    mvn clean install -Dmaven.test.skip=true -e
