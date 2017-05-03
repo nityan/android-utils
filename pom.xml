@@ -211,7 +211,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gpg.skip>false</gpg.skip>
+        <gpg.skip>true</gpg.skip>
         <javadoc.skip>false</javadoc.skip>
         <source.skip>false</source.skip>
     </properties>
