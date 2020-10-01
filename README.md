@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nityan/android-utils.svg?branch=master)](https://travis-ci.org/nityan/android-utils)
+![Build](https://github.com/nityan/android-utils/workflows/Build/badge.svg)
 
 android-utils
 =============
