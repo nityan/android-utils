@@ -19,7 +19,7 @@ public class EncryptionManagerTest
 	private String data;
 	private String password;
 	private EncryptionManager encryptionManager;
-	private static final Logger logger = Logger.getLogger(EncryptionManagerTest.class.getSimpleName());
+	private static final Logger logger = Logger.getContext().getLogger(EncryptionManagerTest.class.getSimpleName());
 
 	@Before
 	public void setUp()
