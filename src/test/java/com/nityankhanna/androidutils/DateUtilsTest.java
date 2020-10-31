@@ -14,7 +14,7 @@ import java.util.TimeZone;
  */
 public class DateUtilsTest
 {
-	private static final Logger logger = Logger.getLogger(DateUtilsTest.class.getSimpleName());
+	private static final Logger logger = Logger.getContext().getLogger(DateUtilsTest.class.getSimpleName());
 
 	@Test(expected = NullPointerException.class)
 	public void convertToLocalTime_NullData_DD_MM_YYYY()
