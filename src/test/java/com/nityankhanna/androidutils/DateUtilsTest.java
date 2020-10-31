@@ -1,6 +1,6 @@
 package com.nityankhanna.androidutils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 

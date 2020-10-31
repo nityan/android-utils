@@ -2,7 +2,7 @@ package com.nityankhanna.androidutils.security;
 
 import com.nityankhanna.androidutils.StringUtils;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
