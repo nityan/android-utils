@@ -4,7 +4,7 @@ import com.nityankhanna.androidutils.StringUtils;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
