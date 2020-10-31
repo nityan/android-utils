@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class EncodingManagerTest
 {
-	private static final Logger logger = Logger.getLogger(EncodingManagerTest.class.getSimpleName());
+	private static final Logger logger = Logger.getContext().getLogger(EncodingManagerTest.class.getSimpleName());
 	private EncodingManager encodingManager;
 
 	@Before
