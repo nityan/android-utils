@@ -147,7 +147,7 @@ public class DateUtilsTest
 
 		String madridTime = simpleDateFormat.format(testValue.getTime());
 		
-		return simpleDateFormat.getCalendar().getTime()
+		return simpleDateFormat.getCalendar().getTime();
 	}
 
 	private Date getMoscowTime()
