@@ -1,6 +1,5 @@
 package com.nityankhanna.androidutils;
 
-import org.apache.logging.log4j.core.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,8 +13,6 @@ import java.util.TimeZone;
  */
 public class DateUtilsTest
 {
-	private static final Logger logger = Logger.getContext().getLogger(DateUtilsTest.class.getSimpleName());
-
 	@Test(expected = NullPointerException.class)
 	public void convertToLocalTime_NullData_DD_MM_YYYY()
 	{
@@ -33,9 +30,6 @@ public class DateUtilsTest
 		Date nonLocalTime = getMadridTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR);
-
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY actual: " + actual);
 
 		Assert.assertEquals(expected, actual);
 	}
@@ -57,10 +51,7 @@ public class DateUtilsTest
 		Date nonLocalTime = getTokyoTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_AM_PM);
-
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_HH_MM_SS_AA actual: " + actual);
-
+		
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -81,9 +72,6 @@ public class DateUtilsTest
 		Date nonLocalTime = getMoscowTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.DAY_MONTH_YEAR_HOUR_MINUTE_SECOND_24);
-
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_DD_MM_YYYY_KK_MM_SS actual: " + actual);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -103,10 +91,7 @@ public class DateUtilsTest
 		Date nonLocalTime = getNewZealandTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR);
-
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY actual: " + actual);
-
+		
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -127,10 +112,7 @@ public class DateUtilsTest
 		Date nonLocalTime = getTokyoTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_AM_PM);
-
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_HH_MM_SS_AA actual: " + actual);
-
+		
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -151,9 +133,8 @@ public class DateUtilsTest
 		Date nonLocalTime = getMoscowTime();
 
 		String actual = DateUtils.convertToLocalTime(nonLocalTime, DateTimeFormat.MONTH_DAY_YEAR_HOUR_MINUTE_SECOND_24);
-
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS expected: " + expected);
-		logger.info("convertToLocalTime_ValidData_MM_DD_YYYY_KK_MM_SS actual: " + actual);
+		
+		Assert.assertEquals(expected, actual);
 	}
 
 	private Date getMadridTime()
@@ -165,10 +146,8 @@ public class DateUtilsTest
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
 
 		String madridTime = simpleDateFormat.format(testValue.getTime());
-
-		logger.info("Madrid time: " + madridTime);
-
-		return simpleDateFormat.getCalendar().getTime();
+		
+		return simpleDateFormat.getCalendar().getTime()
 	}
 
 	private Date getMoscowTime()
@@ -180,8 +159,6 @@ public class DateUtilsTest
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
 		String moscowTime = simpleDateFormat.format(testValue.getTime());
-
-		logger.info("Moscow time: " + moscowTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
@@ -196,8 +173,6 @@ public class DateUtilsTest
 
 		String madridTime = simpleDateFormat.format(testValue.getTime());
 
-		logger.info("New Zealand time: " + madridTime);
-
 		return simpleDateFormat.getCalendar().getTime();
 	}
 
@@ -210,8 +185,6 @@ public class DateUtilsTest
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 
 		String tokyoTime = simpleDateFormat.format(testValue.getTime());
-
-		logger.info("Tokyo time: " + tokyoTime);
 
 		return simpleDateFormat.getCalendar().getTime();
 	}
