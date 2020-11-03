@@ -1,4 +1,4 @@
-![Build](https://github.com/nityan/android-utils/workflows/Build/badge.svg)
+![Build](https://github.com/nityan/android-utils/workflows/Build/badge.svg) ![CodeQL](https://github.com/nityan/android-utils/workflows/CodeQL/badge.svg)
 
 android-utils
 =============
